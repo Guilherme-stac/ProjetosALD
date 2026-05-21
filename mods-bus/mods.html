@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pronto Bus Mods | Admin & Showcase</title>
+    <!-- Ícones e Fontes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           SESSÃO 1: VARIÁVEIS E RESET
+           ========================================= */
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #ff0055;
+            --bg-dark: #050505;
+            --bg-panel: #121212;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: 1px solid rgba(255, 255, 255, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Segurança: Desabilitar seleção */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { pointer-events: none; /* Segurança: Bloquear arrastar */ }
+
+        /* Utilitários */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hidden { display: none !important; }
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary { background: linear-gradient(45deg, var(--secondary), var(--primary)); color: #000; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+        .btn-danger { background: var(--accent); color: white; }
+        .btn-danger:hover { background: #d40045; }
+
+        /* =========================================
+           SESSÃO 2: HEADER & NAVEGAÇÃO
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: var(--border);
+        }
+
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+
+        nav ul { display: flex; gap: 30px; }
+        nav a { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); transition: var(--transition); }
+        nav a:hover, nav a.active { color: var(--primary); }
+
+        /* =========================================
+           SESSÃO 3: HERO SECTION (INÍCIO)
+           ========================================= */
+        #hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-text {
+            position: absolute;
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(255,255,255,0.02);
+            white-space: nowrap;
+            animation: slideText 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes slideText { from { transform: translateX(-50%); } to { transform: translateX(0%); } }
+
+        .hero-content h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* =========================================
+           SESSÃO 4: SHOWCASE (LISTA DE MODS)
+           ========================================= */
+        #showcase { padding: 80px 0; min-height: 100vh; }
+
+        .section-header { margin-bottom: 40px; display: flex; justify-content: space-between; align-items: end; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 5px; }
+        .section-title span { color: var(--primary); }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .mod-card {
+            background: var(--bg-panel);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .mod-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+        .card-img { height: 180px; width: 100%; object-fit: cover; }
+        
+        .card-body { padding: 20px; }
+        .card-tag { 
+            font-size: 0.7rem; padding: 4px 8px; background: rgba(0, 242, 254, 0.1); 
+            color: var(--primary); border-radius: 4px; text-transform: uppercase; font-weight: 700;
+        }
+        .card-title { margin: 10px 0; font-size: 1.2rem; }
+        .card-desc-short { 
+            color: var(--text-muted); font-size: 0.9rem; 
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; 
+        }
+
+        /* =========================================
+           SESSÃO 5: DETALHES DO MOD (MODAL)
+           ========================================= */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #modal-overlay.open { opacity: 1; pointer-events: all; }
+
+        .modal-content {
+            background: #1a1a1a;
+            width: 90%; max-width: 1000px;
+            max-height: 90vh;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        #modal-overlay.open .modal-content { transform: scale(1); }
+
+        .modal-image { height: 100%; min-height: 400px; background: #000; }
+        .modal-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        .modal-info { padding: 40px; overflow-y: auto; position: relative; }
+        .close-modal {
+            position: absolute; top: 20px; right: 20px;
+            background: transparent; border: none; color: white;
+            font-size: 1.5rem; cursor: pointer;
+        }
+        .modal-tag { color: var(--primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; font-size: 0.8rem; }
+        .modal-title { font-size: 2.5rem; margin: 10px 0 20px 0; line-height: 1.1; }
+        .modal-desc { color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; font-size: 1rem; }
+        .modal-meta { display: flex; gap: 20px; margin-bottom: 30px; border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 15px 0; }
+        .meta-item i { color: var(--secondary); margin-right: 8px; }
+
+        /* =========================================
+           SESSÃO 6: PAINEL ADMIN
+           ========================================= */
+        #admin { padding: 80px 0; background: #0a0a0a; }
+        
+        .admin-grid {
+            display: grid; grid-template-columns: 350px 1fr; gap: 40px;
+        }
+
+        .admin-form {
+            background: var(--bg-panel); padding: 30px; border-radius: var(--radius);
+            border: var(--border); height: fit-content;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; }
+        .form-control {
+            width: 100%; padding: 12px; background: #050505; border: 1px solid #333;
+            border-radius: 6px; color: white; outline: none; transition: 0.3s;
+            font-family: inherit;
+        }
+        .form-control:focus { border-color: var(--primary); }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+
+        .admin-list { background: var(--bg-panel); border-radius: var(--radius); padding: 20px; border: var(--border); }
+        .list-header { display: grid; grid-template-columns: 50px 2fr 1fr 80px; gap: 10px; padding-bottom: 10px; border-bottom: var(--border); margin-bottom: 10px; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; }
+        .list-item { display: grid; grid-template-columns: 50px 2fr 1fr 80px; gap: 10px; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .list-item img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
+        .delete-btn { color: var(--accent); cursor: pointer; background: none; border: none; font-size: 1.1rem; transition: 0.2s; }
+        .delete-btn:hover { color: red; transform: scale(1.2); }
+
+        /* Login Simples */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .modal-content { grid-template-columns: 1fr; overflow-y: auto; max-height: 95vh; }
+            .modal-image { height: 250px; }
+            .admin-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .list-item, .list-header { grid-template-columns: 50px 1fr 50px; }
+            .list-header div:nth-child(3) { display: none; }
+            .list-item div:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <!-- NOTIFICAÇÃO DE PROTEÇÃO -->
+    <div id="toast" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--accent); padding:12px 25px; border-radius:50px; transition:0.3s; z-index:9999; font-weight:bold; display:flex; align-items:center; gap:10px; box-shadow:0 10px 20px rgba(0,0,0,0.5);">
+        <i class="fas fa-lock"></i> Conteúdo Protegido
+    </div>
+
+    <!-- TELA DE LOGIN ADMIN -->
+    <div id="login-screen" class="hidden">
+        <div style="background:var(--bg-panel); padding:40px; border-radius:15px; text-align:center; border:var(--border);">
+            <h2 style="margin-bottom:20px;">Acesso Admin</h2>
+            <input type="password" id="admin-pass" placeholder="Senha (1234)" class="form-control" style="margin-bottom:20px; text-align:center;">
+            <button onclick="checkLogin()" class="btn btn-primary">Entrar</button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container nav-content">
+            <div class="logo">PRONTO<span>MODS</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('hero')">Início</a></li>
+                    <li><a href="#" onclick="showSection('showcase')">Mods</a></li>
+                    <li><a href="#" onclick="requestAdmin()" style="color:var(--accent);"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- SESSÃO 1: HERO -->
+    <section id="hero">
+        <div class="hero-bg-text">PRONTO BUS SIMULATOR • MODS •</div>
+        <div class="hero-content">
+            <h1>Eleve sua<br><span>Simulação</span></h1>
+            <p>Acervo premium de modificações para o Pronto Bus Simulator. Modelos exclusivos, sons realistas e mapas expandidos.</p>
+            <button class="btn btn-primary" onclick="showSection('showcase')">Explorar Mods</button>
+        </div>
+    </section>
+
+    <!-- SESSÃO 2: LISTA DE MODS (SHOWCASE) -->
+    <section id="showcase" class="container">
+        <div class="section-header">
+            <div class="section-title">
+                <h2>Coleção <span>Disponível</span></h2>
+                <p style="color:var(--text-muted)">Clique em um mod para ver detalhes completos.</p>
+            </div>
+            <!-- Filtros simples -->
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-primary" style="padding: 8px 16px; font-size:0.8rem;" onclick="renderMods('all')">Todos</button>
+                <button class="btn" style="border:1px solid #333; color:#fff;" onclick="renderMods('Ônibus')">Ônibus</button>
+                <button class="btn" style="border:1px solid #333; color:#fff;" onclick="renderMods('Mapas')">Mapas</button>
+            </div>
+        </div>
+
+        <div class="mods-grid" id="mods-container">
+            <!-- Os mods serão inseridos aqui via JavaScript -->
+        </div>
+    </section>
+
+    <!-- SESSÃO 3: PAINEL ADMIN -->
+    <section id="admin" class="container hidden">
+        <div class="section-header">
+            <div class="section-title">
+                <h2>Painel <span>Administrativo</span></h2>
+                <p style="color:var(--text-muted)">Adicione e gerencie seus mods.</p>
+            </div>
+            <button class="btn btn-danger" onclick="logoutAdmin()">Sair</button>
+        </div>
+
+        <div class="admin-grid">
+            <!-- Formulário de Adição -->
+            <div class="admin-form">
+                <h3 style="margin-bottom:20px;">Adicionar Novo Mod</h3>
+                <div class="form-group">
+                    <label>Nome do Mod</label>
+                    <input type="text" id="input-title" class="form-control" placeholder="Ex: Mercedes-Benz O500">
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="input-category" class="form-control">
+                        <option value="Ônibus">Ônibus</option>
+                        <option value="Mapas">Mapas</option>
+                        <option value="Sons">Sons</option>
+                        <option value="Pinturas">Pinturas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>URL da Imagem (Direto)</label>
+                    <input type="text" id="input-image" class="form-control" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Link de Download</label>
+                    <input type="text" id="input-link" class="form-control" placeholder="https://mediafire.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Descrição Detalhada</label>
+                    <textarea id="input-desc" class="form-control" placeholder="Detalhes do motor, modelo, configurações..."></textarea>
+                </div>
+                <button onclick="addMod()" class="btn btn-primary" style="width:100%;">Salvar Mod</button>
+            </div>
+
+            <!-- Lista de Gerenciamento -->
+            <div class="admin-list">
+                <h3 style="margin-bottom:20px;">Mods Cadastrados</h3>
+                <div class="list-header">
+                    <div>Img</div>
+                    <div>Nome</div>
+                    <div>Categoria</div>
+                    <div>Ação</div>
+                </div>
+                <div id="admin-list-container">
+                    <!-- Lista gerada via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE DETALHES -->
+    <div id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-image">
+                <img id="modal-img-display" src="" alt="Mod Preview">
+            </div>
+            <div class="modal-info">
+                <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                <div class="modal-tag" id="modal-cat-display">CATEGORIA</div>
+                <h2 class="modal-title" id="modal-title-display">Nome do Mod</h2>
+                
+                <div class="modal-meta">
+                    <div class="meta-item"><i class="fas fa-file-archive"></i> Zip/Rar</div>
+                    <div class="meta-item"><i class="fas fa-check-circle"></i> Verificado</div>
+                </div>
+
+                <p class="modal-desc" id="modal-desc-display">Descrição completa aqui.</p>
+
+                <a href="#" id="modal-download-btn" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; padding: 15px; font-size:1.1rem;">
+                    <i class="fas fa-download"></i> BAIXAR AGORA
+                </a>
+                
+                <p style="margin-top:15px; font-size:0.8rem; color:#555; text-align:center;">
+                    Ao baixar, você concorda com nossos termos de uso.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ==========================================
+        // 1. DADOS INICIAIS E ESTADO
+        // ==========================================
+        
+        // Mods padrão (caso não tenha nada salvo)
+        const defaultMods = [
+            {
+                id: 1,
+                title: "Mercedes-Benz O500 RS",
+                category: "Ônibus",
+                image: "https://picsum.photos/seed/bus1/600/400",
+                desc: "Mod completo do ônibus urbano Mercedes-Benz O500 RS. Inclui interior 3D detalhado, painel digital funcional, sons reais de motor ZF e portas animadas. Pintura totalmente configurável.",
+                link: "#"
+            },
+            {
+                id: 2,
+                title: "Mapa Capital 2024",
+                category: "Mapas",
+                image: "https://picsum.photos/seed/map2/600/400",
+                desc: "Mapa expansivo de uma capital brasileira fictícia. Conta com mais de 50km de vias, BRT exclusivo, terminal rodoviário intermunicipal e tráfego de IA intenso.",
+                link: "#"
+            },
+            {
+                id: 3,
+                title: "Pack Sons Cummins",
+                category: "Sons",
+                image: "https://picsum.photos/seed/sound/600/400",
+                desc: "Substitui os sons padrão do jogo por gravações reais de motor Cummins ISB 6.7. Inclui sons de turbo, freio motor, embreagem e ar comprimido de alta fidelidade.",
+                link: "#"
+            }
+        ];
+
+        // Carregar do LocalStorage ou usar padrão
+        let mods = JSON.parse(localStorage.getItem('prontoMods')) || defaultMods;
+
+        // ==========================================
+        // 2. FUNÇÕES DE RENDERIZAÇÃO (VIEW)
+        // ==========================================
+
+        const modsContainer = document.getElementById('mods-container');
+        const adminListContainer = document.getElementById('admin-list-container');
+
+        function renderMods(filter = 'all') {
+            modsContainer.innerHTML = '';
+            
+            const filteredMods = filter === 'all' 
+                ? mods 
+                : mods.filter(m => m.category === filter);
+
+            filteredMods.forEach(mod => {
+                const card = document.createElement('div');
+                card.className = 'mod-card';
+                card.onclick = () => openModal(mod.id);
+                card.innerHTML = `
+                    <img src="${mod.image}" class="card-img" alt="${mod.title}">
+                    <div class="card-body">
+                        <span class="card-tag">${mod.category}</span>
+                        <h3 class="card-title">${mod.title}</h3>
+                        <p class="card-desc-short">${mod.desc}</p>
+                    </div>
+                `;
+                modsContainer.appendChild(card);
+            });
+        }
+
+        function renderAdminList() {
+            adminListContainer.innerHTML = '';
+            mods.forEach(mod => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <img src="${mod.image}" alt="thumb">
+                    <div style="font-weight:600; font-size:0.9rem;">${mod.title}</div>
+                    <div style="color:var(--text-muted); font-size:0.8rem;">${mod.category}</div>
+                    <button class="delete-btn" onclick="deleteMod(${mod.id})"><i class="fas fa-trash"></i></button>
+                `;
+                adminListContainer.appendChild(item);
+            });
+        }
+
+        // ==========================================
+        // 3. LÓGICA DO MODAL (DETALHES)
+        // ==========================================
+
+        const modal = document.getElementById('modal-overlay');
+        
+        function openModal(id) {
+            const mod = mods.find(m => m.id === id);
+            if(!mod) return;
+
+            document.getElementById('modal-img-display').src = mod.image;
+            document.getElementById('modal-cat-display').innerText = mod.category;
+            document.getElementById('modal-title-display').innerText = mod.title;
+            document.getElementById('modal-desc-display').innerText = mod.desc;
+            document.getElementById('modal-download-btn').href = mod.link;
+
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+        }
+
+        // Fechar modal ao clicar fora
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        // ==========================================
+        // 4. LÓGICA DO ADMIN (CRUD)
+        // ==========================================
+
+        function addMod() {
+            const title = document.getElementById('input-title').value;
+            const category = document.getElementById('input-category').value;
+            const image = document.getElementById('input-image').value || 'https://picsum.photos/seed/default/600/400';
+            const link = document.getElementById('input-link').value;
+            const desc = document.getElementById('input-desc').value;
+
+            if(!title || !desc) {
+                alert('Preencha pelo menos o nome e a descrição.');
+                return;
+            }
+
+            const newMod = {
+                id: Date.now(), // ID único baseado no tempo
+                title,
+                category,
+                image,
+                link,
+                desc
+            };
+
+            mods.unshift(newMod); // Adiciona no começo da lista
+            saveData();
+            renderMods();
+            renderAdminList();
+            
+            // Limpar form
+            document.getElementById('input-title').value = '';
+            document.getElementById('input-desc').value = '';
+            document.getElementById('input-link').value = '';
+            alert('Mod adicionado com sucesso!');
+        }
+
+        function deleteMod(id) {
+            if(confirm('Tem certeza que deseja excluir este mod?')) {
+                mods = mods.filter(m => m.id !== id);
+                saveData();
+                renderMods();
+                renderAdminList();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('prontoMods', JSON.stringify(mods));
+        }
+
+        // ==========================================
+        // 5. NAVEGAÇÃO E LOGIN
+        // ==========================================
+
+        function showSection(sectionId) {
+            // Esconder tudo
+            document.getElementById('hero').classList.add('hidden');
+            document.getElementById('showcase').classList.add('hidden');
+            document.getElementById('admin').classList.add('hidden');
+            
+            // Mostrar alvo
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // Scroll ao topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function requestAdmin() {
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === '1234') { // Senha simples para demonstração
+                document.getElementById('login-screen').classList.add('hidden');
+                showSection('admin');
+                renderAdminList();
+            } else {
+                alert('Senha incorreta!');
+            }
+        }
+
+        function logoutAdmin() {
+            showSection('hero');
+        }
+
+        // ==========================================
+        // 6. SEGURANÇA (PROTEÇÃO)
+        // ==========================================
+        const toast = document.getElementById('toast');
+        let toastTimer;
+
+        function showToast() {
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+            }, 3000);
+        }
+
+        // Bloquear botão direito
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            showToast();
+        });
+
+        // Bloquear teclas (F12, Ctrl+U, Ctrl+C, Ctrl+S)
+        document.addEventListener('keydown', e => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 's' || e.key === 'p'))
+            ) {
+                e.preventDefault();
+                showToast();
+            }
+        });
+
+        // Bloquear arrastar imagens
+        document.addEventListener('dragstart', e => {
+            if(e.target.tagName === 'IMG') {
+                e.preventDefault();
+                showToast();
+            }
+        });
+
+        // Inicializar
+        renderMods();
+
+    </script>
+</body>
+</html>
