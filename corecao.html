@@ -443,7 +443,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT UNIFICADO CORRIGIDO -->
+  <!-- SCRIPT UNIFICADO COM CONTADOR ANIMADO -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
@@ -539,6 +539,43 @@
 
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll(); 
+      }
+
+      // ===== 5. Contador Animado das Estatísticas =====
+      const statsSection = document.querySelector('.stats');
+      const statNumbers = document.querySelectorAll('.stat-number');
+      let animated = false;
+
+      const runCounters = () => {
+        statNumbers.forEach(num => {
+          const target = +num.getAttribute('data-target');
+          const suffix = num.getAttribute('data-suffix') || '';
+          let count = 0;
+          const speed = target / 40; 
+
+          const updateCount = () => {
+            count += speed;
+            if (count < target) {
+              num.textContent = Math.ceil(count) + suffix;
+              setTimeout(updateCount, 35);
+            } else {
+              num.textContent = target + suffix;
+            }
+          };
+          updateCount();
+        });
+      };
+
+      if (statsSection && statNumbers.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+              runCounters();
+              animated = true;
+            }
+          });
+        }, { threshold: 0.3 });
+        observer.observe(statsSection);
       }
 
     });
