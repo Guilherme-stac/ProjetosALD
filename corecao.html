@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guilherme Tavares — Generative AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style-guilherme-tavares.css">
+</head>
+<body>
+
+  <!-- Camadas de UI -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="noise"></div>
+
+  <!-- Navegação -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">GUILHERME<span>.AI</span></a>
+      <nav class="nav-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Stack</a>
+        <a href="#experiencia">Trajetória</a>
+        <a href="#projetos">Projetos</a>
+      </nav>
+      <a href="#contato" class="btn btn-nav magnetic">
+        <span>Contato</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="grid-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Generative AI Engineer @ 4MINDS</span>
+        </div>
+
+        <h1 class="hero-title" id="heroTitle">
+          <span class="text-stroke">Generative</span><br>
+          AI Engineer
+        </h1>
+
+        <p class="hero-sub">
+          Eu construo sistemas que pensam. Especialista em IA generativa, integro LLMs, 
+          modelos de difusão e agentes autônomos para criar produtos que extrapolam o limite do código tradicional. 
+          Contribuo para o núcleo de inovação do estúdio 4MINDS, transformando pesos de redes neurais em experiências digitais tangíveis.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#projetos" class="btn btn-primary magnetic">
+            <span>Ver projetos</span>
+            <i class="fas fa-arrow-down"></i>
+          </a>
+          <a href="#contato" class="btn btn-ghost">
+            <span>Vamos conversar</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <span>scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- SOBRE MIM -->
+    <section id="sobre" class="about">
+      <div class="section-tag">
+        <span class="tag-line"></span>
+        <span>01 — O Engenheiro</span>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-visual reveal">
+          <div class="monogram">G<span>T</span></div>
+          <div class="floating-card">
+            <i class="fas fa-microchip"></i>
+            <div>
+              <strong>Processando</strong>
+              <span id="liveStatus">Fine-tuning Llama 3...</span>
+            </div>
+          </div>
+          <div class="image-tag" id="nameScramble">Guilherme Tavares<br><span>Generative AI · 4MINDS</span></div>
+        </div>
+
+        <div class="about-content">
+          <h2 class="section-title">
+            Eu não escrevo linhas de código.<br>
+            <span class="accent">Treino sistemas que escrevem.</span>
+          </h2>
+
+          <p class="lead">
+            Meu nome é <strong>Guilherme Tavares</strong>. Sou Engenheiro de IA Generativa e contribuo para o ecossistema tecnológico da 4MINDS. 
+            Minha obsessão é o ponto exato de colisão onde algoritmos de aprendizado profundo se encontram com produtos digitais reais e escaláveis.
+          </p>
+
+          <p>
+            Na 4MINDS, minha função é dar vida aos modelos. Eu construo as pontes entre redes neurais complexas — como LLMs com bilhões de parâmetros e arquiteturas de difusão latente — e as interfaces que os usuários tocam. 
+            Seja criando pipelines robustos de RAG (Retrieval-Augmented Generation) para evitar alucinações, otimizando prompts em nível de system design, ou deployando agentes autônomos que raciocinam em múltiplos passos, eu garanto que a IA não seja só um truque de mágica, mas uma arquitetura confiável de alto impacto.
+          </p>
+
+          <p>
+            Acredito que o futuro da engenharia de software não é apenas escrever lógica imperativa, mas orquestrar a inteligência. Meu trabalho é garantir que essa orquestração seja segura, previsível e absurdamente poderosa, abstraindo a complexidade matemática das redes neurais em soluções elegantes para problemas de negócios complexos.
+          </p>
+
+          <div class="skills">
+            <span>LangChain</span>
+            <span>LlamaIndex</span>
+            <span>OpenAI API</span>
+            <span>Hugging Face</span>
+            <span>Prompt Engineering</span>
+            <span>Fine-Tuning</span>
+            <span>RAG Systems</span>
+            <span>PyTorch</span>
+            <span>Vector DBs</span>
+            <span>Python</span>
+          </div>
+
+          <div class="signature">
+            <span class="sig-name">— Guilherme T.</span>
+            <span class="sig-role">Generative AI Contributor @ 4MINDS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS / STACK -->
+    <section id="servicos" class="services">
+      <div class="section-tag">
+        <span class="tag-line"></span>
+        <span>02 — O que eu construo</span>
+      </div>
+      <h2 class="section-title">Sistemas que <span class="accent">pensam.</span></h2>
+      <p class="section-desc">
+        Atuo em todas as camadas da IA generativa, desde a inferência bruta do modelo até a orquestração complexa de agentes em produção.
+      </p>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-num">01</div>
+          <div class="service-icon"><i class="fas fa-brain"></i></div>
+          <h3>Arquitetura LLM</h3>
+          <p>Integração e orquestração de Grandes Modelos de Linguagem (GPT-4, Claude, Llama) em produtos escaláveis. Construo a infraestrutura que permite que a IA processe, entenda e gere conteúdo com baixa latência e alto throughput.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-num">02</div>
+          <div class="service-icon"><i class="fas fa-database"></i></div>
+          <h3>Sistemas RAG</h3>
+          <p>Pipelines de Retrieval-Augmented Generation para permitir que a IA consulte bases de dados privadas com precisão. Conecto bancos de dados vetoriais a LLMs, eliminando alucinações e garantindo respostas 100% fundamentadas em documentos corporativos.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-num">03</div>
+          <div class="service-icon"><i class="fas fa-robot"></i></div>
+          <h3>Agentes Autônomos</h3>
+          <p>Criação de agentes de IA que raciocinam, planejam e executam tarefas complexas através de ferramentas (tool use). De assistentes que navegam na web a robôs que interagem com APIs externas, construo sistemas que tomam decisões.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-num">04</div>
+          <div class="service-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+          <h3>Modelos de Difusão</h3>
+          <p>Geração e manipulação de imagens e áudio usando Stable Diffusion, Midjourney APIs e redes customizadas. Criação de pipelines de geração de assets visuais em massa com controle total de composição, estilo e branding.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-num">05</div>
+          <div class="service-icon"><i class="fas fa-comment-dots"></i></div>
+          <h3>Prompt Engineering</h3>
+          <p>Design de sistemas de prompt robustos, few-shot learning e otimização de context window para máxima performance. A arte e a ciência de falar com a máquina no idioma que ela entende melhor, extraindo o máximo de coerência.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-num">06</div>
+          <div class="service-icon"><i class="fas fa-server"></i></div>
+          <h3>Deploy & Otimização</h3>
+          <p>Quantização, fine-tuning (LoRA/QLoRA) e deploy de modelos open-source em infraestrutura cloud. Faço modelos pesados rodarem rápido e de forma econômica, seja em GPU dedicada ou em edge computing local.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIÊNCIA -->
+    <section id="experiencia" class="experience">
+      <div class="section-tag">
+        <span class="tag-line"></span>
+        <span>03 — Trajetória</span>
+      </div>
+
+      <h2 class="section-title center">
+        Minha <span class="accent">linha do tempo.</span>
+      </h2>
+      <p class="section-desc center">
+        A evolução do código tradicional para a orquestração de inteligência artificial profunda.
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-phase">2018 — 2021</span>
+            <h3>Desenvolvedor Back-end</h3>
+            <div class="timeline-company">Startups · SP</div>
+            <p>Construindo APIs e sistemas distribuídos em Python e Node.js. Aqui ganhei a base sólida de engenharia de software, arquitetura limpa e escalabilidade que levaria para o mundo do Machine Learning.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-phase">2021 — 2022</span>
+            <h3>Transição para Machine Learning</h3>
+            <div class="timeline-company">Freelancer · Remoto</div>
+            <p>Mergulhei em PyTorch, redes neurais e visão computacional. Comecei a treinar modelos customizados para tarefas específicas, entendendo a matemática por trás do backpropagation e da otimização de gradientes.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-phase">2022 — 2024</span>
+            <h3>Especialista em IA Generativa</h3>
+            <div class="timeline-company">Projetos diversos</div>
+            <p>Com o boom das IAs generativas, foquei 100% em LLMs e modelos de difusão. Construí chatbots corporativos, sistemas de geração de conteúdo em escala e agentes que automatizam fluxos de trabalho complexos de engenharia.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-phase">2024 — Presente</span>
+            <h3>Generative AI Engineer</h3>
+            <div class="timeline-company">4MINDS Studio</div>
+            <p>Atuo como contribuidor do núcleo de IA da 4MINDS, implementando arquiteturas complexas de IA nos projetos do estúdio e liderando a pesquisa e desenvolvimento em modelos open-source, trazendo inovação de ponta para os clientes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETOS -->
+    <section id="projetos" class="projects">
+      <div class="section-tag">
+        <span class="tag-line"></span>
+        <span>04 — Casos de Uso</span>
+      </div>
+
+      <div class="projects-header">
+        <h2 class="section-title">
+          Projetos que <br><span class="accent">pensam por si só.</span>
+        </h2>
+        <div class="project-filters">
+          <button class="filter-btn active" data-filter="all">Tudo</button>
+          <button class="filter-btn" data-filter="llm">LLM</button>
+          <button class="filter-btn" data-filter="agent">Agentes</button>
+          <button class="filter-btn" data-filter="diffusion">Difusão</button>
+        </div>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card reveal" data-category="llm">
+          <div class="project-visual">
+            <div class="project-code">RAG_BOT</div>
+            <div class="project-overlay">
+              <span class="project-link"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-cat">LLM System · 2024</span>
+            <h3>Synapse RAG</h3>
+            <p>Sistema de FAQ inteligente para saúde mental usando Pinecone e GPT-4. O modelo não tem permissão para inventar; ele estritamente recupera e sintetiza informações de milhares de documentos médicos com precisão cirúrgica.</p>
+            <div class="project-tech">
+              <span>LangChain</span><span>Pinecone</span><span>OpenAI</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-category="agent">
+          <div class="project-visual">
+            <div class="project-code">AUTO_DEV</div>
+            <div class="project-overlay">
+              <span class="project-link"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-cat">Autonomous Agent · 2024</span>
+            <h3>CodeAgent X</h3>
+            <p>Agente autônomo que analisa repositórios GitHub, encontra bugs e abre Pull Requests com correções funcionais. Usa uma arquitetura multi-agente onde um planeja, um escreve o código e outro valida os testes.</p>
+            <div class="project-tech">
+              <span>CrewAI</span><span>Python</span><span>GitHub API</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-category="diffusion">
+          <div class="project-visual">
+            <div class="project-code">STABLE_UI</div>
+            <div class="project-overlay">
+              <span class="project-link"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-cat">Image Pipeline · 2023</span>
+            <h3>Aurora Diffusion</h3>
+            <p>Pipeline de geração de assets visuais para startups, usando Stable Diffusion XL e ControlNet para consistência de marca. Permite que equipes de marketing gerem centenas de imagens alinhadas ao brand book em minutos.</p>
+            <div class="project-tech">
+              <span>Diffusers</span><span>ControlNet</span><span>PyTorch</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" data-category="llm agent">
+          <div class="project-visual">
+            <div class="project-code">VOICE_OS</div>
+            <div class="project-overlay">
+              <span class="project-link"><i class="fas fa-arrow-up-right-from-square"></i></span>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-cat">Voice Assistant · 2025</span>
+            <h3>Neo Voice OS</h3>
+            <p>Assistente de voz local com Llama 3 rodando em edge computing, capaz de controlar sistemas IoT sem nuvem. Garante privacidade total do áudio do usuário, processando tudo on-device com latência quase imperceptível.</p>
+            <div class="project-tech">
+              <span>Llama 3</span><span>Whisper</span><span>Ollama</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stats-bg">
+        <div class="big-text">GENERATIVE</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="5" data-suffix="M+">0</div>
+          <div class="stat-label">Tokens processados</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="40" data-suffix="+">0</div>
+          <div class="stat-label">Modelos integrados</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="15" data-suffix="+">0</div>
+          <div class="stat-label">Agentes em produção</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="99" data-suffix="%">0</div>
+          <div class="stat-label">Precisão em RAG</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="contact">
+      <div class="section-tag">
+        <span class="tag-line"></span>
+        <span>05 — Contato</span>
+      </div>
+      <h2 class="section-title center">
+        Vamos construir algo <span class="accent">inteligente.</span>
+      </h2>
+      <p class="section-desc center">
+        Disponível para projetos de IA, integração de LLMs, automação com agentes e consultoria em arquitetura Generativa.
+      </p>
+
+      <form class="contact-form reveal" id="contactForm">
+        <div class="form-group">
+          <label>Seu Nome</label>
+          <input type="text" class="form-input" placeholder="Como te chamo?" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-input" placeholder="Para onde mando a resposta?" required>
+        </div>
+        <div class="form-group">
+          <label>O problema</label>
+          <textarea class="form-textarea" placeholder="Que problema você quer resolver com IA?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-xl magnetic">
+          <span>Enviar requisição</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">GUILHERME<span>.AI</span></a>
+        <p>Generative AI Engineer contribuindo para o estúdio 4MINDS. Operando na fronteira entre redes neurais e produtos reais.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Stack</a>
+        <a href="#experiencia">Trajetória</a>
+        <a href="#projetos">Projetos</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="mailto:hello@4minds.studio">hello@4minds.studio</a>
+        <a href="mailto:guilherme@4minds.studio">guilherme@4minds.studio</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Redes</h4>
+        <a href="#"><i class="fab fa-github"></i> GitHub</a>
+        <a href="#"><i class="fab fa-huggingface"></i> Hugging Face</a>
+        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="#"><i class="fab fa-x-twitter"></i> X (Twitter)</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Guilherme Tavares · 4MINDS Studio.</span>
+      <span>Feito com PyTorch, café e tokens.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPT UNIFICADO CORRIGIDO -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // ===== 1. Cursor Customizado =====
+      const cursor = document.getElementById('cursor');
+      const cursorDot = document.getElementById('cursorDot');
+      let mouseX = 0, mouseY = 0;
+      let curX = 0, curY = 0;
+
+      if (window.innerWidth > 768 && cursor && cursorDot) {
+        document.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          cursorDot.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+        });
+
+        function animateCursor() {
+          curX += (mouseX - curX) * 0.18;
+          curY += (mouseY - curY) * 0.18;
+          cursor.style.transform = `translate(${curX - 18}px, ${curY - 18}px)`;
+          requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        const interactiveElements = document.querySelectorAll('a, button, .magnetic, .project-card, .timeline-content, .skills span, .form-input, .form-textarea');
+        interactiveElements.forEach(el => {
+          el.addEventListener('mouseenter', () => cursor.classList.add('cursor-grow'));
+          el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-grow'));
+        });
+      }
+
+      // ===== 2. Barra de Progresso & Nav Scroll =====
+      const progress = document.getElementById('scrollProgress');
+      const nav = document.getElementById('nav');
+
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const scrollTop = h.scrollTop || document.body.scrollTop;
+        const scrollHeight = h.scrollHeight - h.clientHeight;
+        
+        if (progress && scrollHeight > 0) {
+          const scrolled = (scrollTop / scrollHeight) * 100;
+          progress.style.width = scrolled + '%';
+        }
+
+        if (nav) {
+          if (scrollTop > 50) {
+            nav.classList.add('nav-scrolled');
+          } else {
+            nav.classList.remove('nav-scrolled');
+          }
+        }
+      });
+
+      // ===== 3. Filtro de Projetos =====
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
+
+      if (filterBtns.length > 0 && projectCards.length > 0) {
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+              const category = card.getAttribute('data-category') || '';
+              if (filterValue === 'all' || category.includes(filterValue)) {
+                card.classList.remove('hidden');
+              } else {
+                card.classList.add('hidden');
+              }
+            });
+          });
+        });
+      }
+
+      // ===== 4. Animação de Revelação ao Rolar (Scroll Reveal) =====
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if (revealElements.length > 0) {
+        const revealOnScroll = () => {
+          const triggerBottom = window.innerHeight * 0.9;
+
+          revealElements.forEach(el => {
+            const boxTop = el.getBoundingClientRect().top;
+            if (boxTop < triggerBottom) {
+              el.classList.add('revealed');
+            }
+          });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); 
+      }
+
+    });
+  </script>
+</body>
+</html>
