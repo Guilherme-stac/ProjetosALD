@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇰🇷 Descubra a Coreia — Obra-Prima Interativa</title>
+<title>🇰🇷 Descubra a Coreia — Experiência Definitiva</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700;900&family=Nanum+Brush+Script&family=Nanum+Myeongjo:wght@400;700;800&family=Playfair+Display:wght@700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700;900&family=Nanum+Brush+Script&family=Nanum+Myeongjo:wght@400;700;800&family=Playfair+Display:wght@700;900&family=Gowun+Batang:wght@400;700&display=swap');
 
-  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
 
   :root {
     --vermelho: #cd2e3a;
     --azul: #0047a0;
     --preto: #0a0a0a;
     --dourado: #d4af37;
-    --rosa-sakura: #ffb7c5;
+    --rosa: #ffb7c5;
     --creme: #fdf6e3;
     --roxo: #6a1b9a;
-    --verde-jade: #00a86b;
+    --jade: #00a86b;
     --laranja: #ff6b35;
+    --ciano: #00d4ff;
+    --sombra: rgba(0,0,0,0.5);
   }
 
   html, body { overflow-x: hidden; }
@@ -36,11 +38,11 @@
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='none' stroke='%23d4af37' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23cd2e3a'/></svg>") 16 16, auto;
   }
 
-  button, .mode-card, .diff-btn, .answer-btn, .tile {
+  button, .mode-card, .diff-btn, .answer-btn, .tile, .shop-item {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23d4af37' stroke='%23cd2e3a' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23cd2e3a'/></svg>") 16 16, pointer;
   }
 
-  /* Fundo animado */
+  /* ===== FUNDO CINEMATOGRÁFICO ===== */
   .bg-layer {
     position: fixed; inset: 0; z-index: 0;
     background: 
@@ -50,7 +52,6 @@
       linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 50%, #1a0a1a 100%);
     animation: bgPulse 8s ease-in-out infinite;
   }
-
   @keyframes bgPulse {
     0%, 100% { filter: brightness(1) hue-rotate(0deg); }
     50% { filter: brightness(1.2) hue-rotate(20deg); }
@@ -90,6 +91,24 @@
     100% { transform: translateY(110vh) rotate(720deg) translateX(120px); opacity: 0; }
   }
 
+  /* Bolhas de ar */
+  .bubble {
+    position: fixed; bottom: -50px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(212,175,55,0.1));
+    border: 1px solid rgba(212,175,55,0.3);
+    animation: rise linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+  }
+
   /* Lanternas */
   .lantern {
     position: fixed; top: -10px;
@@ -110,56 +129,65 @@
     font-size: 24px; font-weight: bold;
     text-shadow: 0 0 12px rgba(212,175,55,0.9);
   }
-  .lantern-1 { left: 4%; animation-delay: 0s; }
-  .lantern-2 { left: 13%; animation-delay: 0.5s; top: 25px; }
-  .lantern-3 { right: 4%; animation-delay: 1s; }
-  .lantern-4 { right: 13%; animation-delay: 1.5s; top: 25px; }
+  .lantern-1 { left: 3%; animation-delay: 0s; }
+  .lantern-2 { left: 11%; animation-delay: 0.5s; top: 25px; }
+  .lantern-3 { right: 3%; animation-delay: 1s; }
+  .lantern-4 { right: 11%; animation-delay: 1.5s; top: 25px; }
 
   @keyframes sway {
     0%, 100% { transform: rotate(-3deg); }
     50% { transform: rotate(3deg); }
   }
 
-  /* Controles flutuantes */
+  /* ===== CONTROLES FLUTUANTES ===== */
   .floating-controls {
     position: fixed; top: 20px; left: 20px;
-    display: flex; gap: 10px; z-index: 100;
+    display: flex; gap: 8px; z-index: 100;
+    flex-wrap: wrap;
   }
   .ctrl-btn {
-    width: 45px; height: 45px; border-radius: 50%;
+    width: 42px; height: 42px; border-radius: 50%;
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
     border: 2px solid rgba(212,175,55,0.5);
-    color: white; font-size: 1.2em; cursor: pointer;
+    color: white; font-size: 1.1em; cursor: pointer;
     transition: all 0.3s;
     display: flex; align-items: center; justify-content: center;
   }
   .ctrl-btn:hover {
     background: rgba(212,175,55,0.3);
-    transform: scale(1.1) rotate(10deg);
+    transform: scale(1.15) rotate(10deg);
     box-shadow: 0 0 20px rgba(212,175,55,0.6);
   }
+  .ctrl-btn.active {
+    background: linear-gradient(135deg, var(--vermelho), var(--azul));
+    border-color: var(--dourado);
+    box-shadow: 0 0 15px rgba(212,175,55,0.8);
+  }
 
-  /* HUD topo direita */
   .top-hud {
     position: fixed; top: 20px; right: 20px;
-    display: flex; gap: 10px; z-index: 100;
+    display: flex; gap: 8px; z-index: 100;
+    flex-wrap: wrap; max-width: 400px;
+    justify-content: flex-end;
   }
   .hud-badge {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     backdrop-filter: blur(10px);
     border: 2px solid rgba(212,175,55,0.5);
     border-radius: 30px;
-    padding: 8px 16px;
+    padding: 6px 14px;
     color: white;
     font-weight: 700;
-    font-size: 0.85em;
+    font-size: 0.8em;
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 1px;
     display: flex; align-items: center; gap: 6px;
+    transition: all 0.3s;
   }
+  .hud-badge:hover { transform: scale(1.05); border-color: var(--dourado); }
 
-  /* Container */
+  /* ===== CONTAINER PRINCIPAL ===== */
   .container {
     background: linear-gradient(135deg, rgba(253,246,227,0.98), rgba(255,255,255,0.98));
     border-radius: 24px;
@@ -167,7 +195,7 @@
       0 30px 80px rgba(0,0,0,0.7),
       0 0 0 2px rgba(212,175,55,0.4),
       0 0 80px rgba(205,46,58,0.3);
-    max-width: 780px;
+    max-width: 820px;
     width: 100%;
     padding: 45px 40px;
     text-align: center;
@@ -199,7 +227,7 @@
   h1 {
     font-family: 'Black Han Sans', sans-serif;
     color: var(--vermelho);
-    font-size: 2.3em;
+    font-size: 2.2em;
     margin-bottom: 8px;
     letter-spacing: 2px;
     text-shadow: 2px 2px 0 var(--dourado), 4px 4px 8px rgba(0,0,0,0.15);
@@ -210,12 +238,12 @@
     50% { transform: scale(1.02); }
   }
 
-  .subtitle { color: #555; margin-bottom: 8px; font-size: 1em; letter-spacing: 1px; font-weight: 500; }
+  .subtitle { color: #555; margin-bottom: 8px; font-size: 0.95em; letter-spacing: 1px; font-weight: 500; }
   .korean-subtitle {
     color: var(--azul);
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.05em;
-    margin-bottom: 22px;
+    font-size: 1em;
+    margin-bottom: 18px;
     letter-spacing: 3px;
   }
 
@@ -225,16 +253,15 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Tela inicial */
-  .start-screen h2 {
+  h2 {
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.3em; color: var(--azul);
-    margin: 18px 0 12px; letter-spacing: 1px;
+    font-size: 1.15em; color: var(--azul);
+    margin: 14px 0 10px; letter-spacing: 1px;
   }
 
   .intro-text {
-    color: #555; font-size: 0.95em; line-height: 1.6;
-    margin-bottom: 22px; padding: 0 15px;
+    color: #555; font-size: 0.92em; line-height: 1.6;
+    margin-bottom: 18px; padding: 0 15px;
   }
   .intro-text em { color: var(--vermelho); font-style: normal; font-weight: 700; }
 
@@ -242,16 +269,17 @@
   .mode-selection {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px; margin-bottom: 20px;
+    gap: 10px; margin-bottom: 15px;
   }
   .mode-card {
-    padding: 18px 12px;
+    padding: 15px 10px;
     background: linear-gradient(135deg, #fff, #fdf6e3);
     border: 2px solid rgba(0,71,160,0.3);
-    border-radius: 16px;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.3s;
     text-align: center;
+    position: relative;
   }
   .mode-card:hover {
     transform: translateY(-5px) scale(1.03);
@@ -265,23 +293,23 @@
     box-shadow: 0 10px 30px rgba(205,46,58,0.5);
     transform: scale(1.05);
   }
-  .mode-icon { font-size: 2em; margin-bottom: 6px; display: block; }
-  .mode-title { font-family: 'Black Han Sans', sans-serif; font-size: 1em; margin-bottom: 4px; letter-spacing: 1px; }
-  .mode-desc { font-size: 0.7em; opacity: 0.85; line-height: 1.25; }
+  .mode-icon { font-size: 1.8em; margin-bottom: 5px; display: block; }
+  .mode-title { font-family: 'Black Han Sans', sans-serif; font-size: 0.95em; margin-bottom: 3px; letter-spacing: 1px; }
+  .mode-desc { font-size: 0.68em; opacity: 0.85; line-height: 1.25; }
 
   /* Dificuldade */
   .difficulty-selection {
-    display: flex; justify-content: center; gap: 10px;
-    margin-bottom: 20px; flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 8px;
+    margin-bottom: 15px; flex-wrap: wrap;
   }
   .diff-btn {
-    padding: 10px 20px;
+    padding: 9px 18px;
     border: 2px solid rgba(0,71,160,0.4);
     background: white; color: var(--azul);
     border-radius: 25px; cursor: pointer;
     font-weight: 700;
     font-family: 'Noto Sans KR', sans-serif;
-    transition: all 0.3s; font-size: 0.85em;
+    transition: all 0.3s; font-size: 0.82em;
   }
   .diff-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,71,160,0.2); }
   .diff-btn.active {
@@ -291,12 +319,12 @@
   }
 
   .primary-btn {
-    padding: 18px 45px;
+    padding: 16px 42px;
     background: linear-gradient(135deg, var(--vermelho), var(--azul));
     color: white;
     border: 2px solid var(--dourado);
     border-radius: 14px;
-    font-size: 1.1em; font-weight: 700; cursor: pointer;
+    font-size: 1.05em; font-weight: 700; cursor: pointer;
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 2px;
     box-shadow: 0 10px 30px rgba(205,46,58,0.5);
@@ -317,21 +345,22 @@
   /* Stats */
   .stats {
     display: flex; justify-content: space-around;
-    margin-bottom: 18px; padding: 15px;
+    margin-bottom: 15px; padding: 12px;
     background: linear-gradient(135deg, #fff, #fdf6e3);
-    border-radius: 16px;
+    border-radius: 14px;
     border: 2px solid rgba(212,175,55,0.3);
     box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+    flex-wrap: wrap; gap: 8px;
   }
-  .stat { display: flex; flex-direction: column; align-items: center; }
+  .stat { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
   .stat-label {
-    font-size: 0.68em; color: #888;
-    text-transform: uppercase; letter-spacing: 2px;
-    font-weight: 700; margin-bottom: 4px;
+    font-size: 0.62em; color: #888;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    font-weight: 700; margin-bottom: 3px;
   }
   .stat-value {
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.5em; color: var(--azul);
+    font-size: 1.3em; color: var(--azul);
     text-shadow: 0 0 15px rgba(0,71,160,0.3);
     transition: transform 0.3s;
   }
@@ -341,11 +370,10 @@
     50% { transform: scale(1.4); color: var(--vermelho); }
   }
 
-  /* Timer */
   .timer-bar {
     height: 6px; background: rgba(0,0,0,0.08);
     border-radius: 3px; overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
   .timer-fill {
     height: 100%;
@@ -358,13 +386,12 @@
     50% { opacity: 0.5; }
   }
 
-  /* Progress */
   .progress-bar {
-    height: 12px; background: rgba(0,0,0,0.08);
+    height: 10px; background: rgba(0,0,0,0.08);
     border-radius: 10px; overflow: hidden;
     position: relative;
     border: 1px solid rgba(212,175,55,0.2);
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }
   .progress-fill {
     height: 100%;
@@ -379,10 +406,9 @@
     100% { background-position: 200% 50%; }
   }
 
-  /* Pergunta */
   .emoji-wrap {
-    font-size: 4.5em; display: inline-block;
-    margin-bottom: 15px;
+    font-size: 4em; display: inline-block;
+    margin-bottom: 12px;
     animation: emojiFloat 3s ease-in-out infinite;
     filter: drop-shadow(0 10px 20px rgba(205,46,58,0.3));
   }
@@ -392,19 +418,19 @@
   }
 
   #question {
-    font-size: 1.25em; color: var(--preto);
-    margin-bottom: 22px; min-height: 70px;
+    font-size: 1.2em; color: var(--preto);
+    margin-bottom: 18px; min-height: 65px;
     font-weight: 700; line-height: 1.5;
     animation: fadeIn 0.6s;
   }
 
-  .answers { display: grid; gap: 12px; margin-bottom: 18px; }
+  .answers { display: grid; gap: 10px; margin-bottom: 15px; }
   .answer-btn {
-    padding: 16px 22px;
+    padding: 14px 20px;
     background: linear-gradient(135deg, #ffffff, #fdf6e3);
     border: 2px solid rgba(0,71,160,0.3);
-    border-radius: 14px;
-    font-size: 1.02em; color: var(--azul);
+    border-radius: 12px;
+    font-size: 0.98em; color: var(--azul);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-weight: 600;
@@ -416,11 +442,11 @@
     text-align: left;
   }
   .answer-btn .key {
-    width: 30px; height: 30px;
+    width: 28px; height: 28px;
     background: var(--dourado); color: white;
     border-radius: 50%; display: flex;
     align-items: center; justify-content: center;
-    font-weight: 900; font-size: 0.9em;
+    font-weight: 900; font-size: 0.85em;
     flex-shrink: 0;
     font-family: 'Black Han Sans', sans-serif;
   }
@@ -468,39 +494,39 @@
   .answer-btn:disabled { cursor: not-allowed; }
 
   #feedback {
-    font-size: 1.02em; font-weight: 700;
-    min-height: 30px; margin-bottom: 15px;
-    animation: fadeIn 0.5s; padding: 10px;
+    font-size: 0.98em; font-weight: 700;
+    min-height: 28px; margin-bottom: 12px;
+    animation: fadeIn 0.5s; padding: 8px;
     border-radius: 10px;
   }
 
   .hint-box {
     background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(255,183,197,0.15));
     border: 2px dashed var(--dourado);
-    border-radius: 12px; padding: 12px 18px;
-    margin-bottom: 15px; font-size: 0.95em;
+    border-radius: 12px; padding: 10px 16px;
+    margin-bottom: 12px; font-size: 0.9em;
     color: #6a5a1a; display: none;
     animation: fadeIn 0.5s;
   }
   .hint-box.show { display: block; }
   .hint-title {
     font-family: 'Black Han Sans', sans-serif;
-    color: var(--dourado); font-size: 0.85em;
-    letter-spacing: 1px; margin-bottom: 4px;
+    color: var(--dourado); font-size: 0.8em;
+    letter-spacing: 1px; margin-bottom: 3px;
   }
 
   .btn-row {
-    display: flex; gap: 10px;
+    display: flex; gap: 8px;
     justify-content: center; flex-wrap: wrap;
   }
 
   .btn-secondary {
-    padding: 12px 22px;
+    padding: 10px 18px;
     background: rgba(212,175,55,0.15);
     color: #8a6d1a;
     border: 2px solid var(--dourado);
     border-radius: 12px;
-    font-size: 0.88em; font-weight: 700;
+    font-size: 0.82em; font-weight: 700;
     cursor: pointer;
     font-family: 'Noto Sans KR', sans-serif;
     transition: all 0.3s;
@@ -514,12 +540,12 @@
   /* Tela final */
   .final-score {
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 2.2em;
+    font-size: 2em;
     background: linear-gradient(90deg, var(--vermelho), var(--dourado), var(--azul));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 12px 0;
+    margin: 10px 0;
     animation: scoreGlow 2s ease-in-out infinite;
   }
   @keyframes scoreGlow {
@@ -528,7 +554,7 @@
   }
 
   .trophy {
-    font-size: 6em; margin: 10px 0;
+    font-size: 5em; margin: 8px 0;
     animation: trophyBounce 1.5s ease-in-out infinite;
     filter: drop-shadow(0 10px 30px rgba(212,175,55,0.6));
   }
@@ -539,32 +565,32 @@
 
   .final-stats {
     display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 10px; margin: 15px 0; padding: 15px;
+    gap: 8px; margin: 12px 0; padding: 12px;
     background: linear-gradient(135deg, #fff, #fdf6e3);
-    border-radius: 16px;
+    border-radius: 14px;
     border: 2px solid rgba(212,175,55,0.3);
   }
   .final-stat { text-align: center; }
   .final-stat-value {
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.4em; color: var(--azul);
+    font-size: 1.25em; color: var(--azul);
     display: block;
   }
   .final-stat-label {
-    font-size: 0.65em; color: #888;
+    font-size: 0.6em; color: #888;
     text-transform: uppercase;
-    letter-spacing: 1px; margin-top: 4px;
+    letter-spacing: 1px; margin-top: 3px;
   }
 
   .history-box {
-    max-height: 220px; overflow-y: auto;
-    margin: 12px 0; padding: 12px;
+    max-height: 200px; overflow-y: auto;
+    margin: 10px 0; padding: 10px;
     background: rgba(0,0,0,0.03);
     border-radius: 12px; text-align: left;
-    font-size: 0.83em;
+    font-size: 0.8em;
   }
   .history-item {
-    padding: 8px 12px; margin-bottom: 6px;
+    padding: 7px 10px; margin-bottom: 5px;
     border-radius: 8px; border-left: 4px solid;
     background: white; animation: slideIn 0.4s;
   }
@@ -575,17 +601,17 @@
   /* Conquistas */
   .achievements-grid {
     display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 8px; margin: 12px 0;
+    gap: 6px; margin: 10px 0;
   }
   .achievement {
-    padding: 10px 5px;
+    padding: 8px 4px;
     background: rgba(0,0,0,0.05);
     border-radius: 10px;
     text-align: center;
     transition: all 0.3s;
     border: 2px solid transparent;
     opacity: 0.4;
-    font-size: 0.6em;
+    font-size: 0.55em;
   }
   .achievement.unlocked {
     opacity: 1;
@@ -599,8 +625,8 @@
     60% { transform: scale(1.2) rotate(10deg); }
     100% { transform: scale(1) rotate(0); }
   }
-  .achievement-icon { font-size: 1.8em; display: block; margin-bottom: 4px; }
-  .achievement-name { font-weight: 700; color: var(--azul); letter-spacing: 0.5px; line-height: 1.1; }
+  .achievement-icon { font-size: 1.6em; display: block; margin-bottom: 3px; }
+  .achievement-name { font-weight: 700; color: var(--azul); letter-spacing: 0.3px; line-height: 1.1; }
 
   /* Modal */
   .modal {
@@ -609,36 +635,38 @@
     z-index: 200; display: flex;
     align-items: center; justify-content: center;
     padding: 20px; animation: fadeIn 0.3s;
+    overflow-y: auto;
   }
   .modal-content {
     background: linear-gradient(135deg, #fdf6e3, white);
-    border-radius: 20px; padding: 30px;
-    max-width: 450px; width: 100%;
+    border-radius: 20px; padding: 25px;
+    max-width: 550px; width: 100%;
     text-align: center;
     border: 3px solid var(--dourado);
     animation: containerIn 0.5s;
     max-height: 90vh; overflow-y: auto;
+    margin: auto;
   }
   .modal-content h3 {
     font-family: 'Black Han Sans', sans-serif;
-    color: var(--vermelho); margin-bottom: 15px;
-    font-size: 1.3em;
+    color: var(--vermelho); margin-bottom: 12px;
+    font-size: 1.2em;
   }
 
-  /* ====== JOGO DE HANGUL ====== */
+  /* ===== MINI JOGOS ===== */
   .hangul-board {
     display: flex; justify-content: center;
-    gap: 8px; margin: 20px 0;
+    gap: 6px; margin: 15px 0;
     flex-wrap: wrap;
   }
   .hangul-tile {
-    width: 60px; height: 60px;
+    width: 55px; height: 55px;
     background: linear-gradient(135deg, #fff, #fdf6e3);
     border: 2px solid var(--dourado);
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Nanum Myeongjo', serif;
-    font-size: 1.8em;
+    font-size: 1.6em;
     font-weight: 800;
     color: var(--azul);
     transition: all 0.3s;
@@ -656,15 +684,15 @@
   }
 
   .hangul-tile-btn {
-    width: 55px; height: 55px;
+    width: 50px; height: 50px;
     background: linear-gradient(135deg, var(--vermelho), #8b1a24);
     color: white; border: 2px solid var(--dourado);
     border-radius: 10px; cursor: pointer;
-    font-size: 1.5em;
+    font-size: 1.4em;
     font-family: 'Nanum Myeongjo', serif;
     font-weight: 800;
     transition: all 0.3s;
-    margin: 5px;
+    margin: 4px;
   }
   .hangul-tile-btn:hover {
     transform: scale(1.1) translateY(-3px);
@@ -673,11 +701,148 @@
 
   .hangul-options {
     display: flex; flex-wrap: wrap;
-    justify-content: center; gap: 6px;
-    margin: 15px 0;
+    justify-content: center; gap: 4px;
+    margin: 10px 0;
   }
 
-  /* ====== PAISAGEM DE PINTURA ====== */
+  /* Memória */
+  .memory-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin: 15px 0;
+    max-width: 380px; margin-left: auto; margin-right: auto;
+  }
+  .memory-card {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--azul), var(--roxo));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8em;
+    cursor: pointer;
+    transition: all 0.4s;
+    border: 2px solid var(--dourado);
+    color: transparent;
+    transform-style: preserve-3d;
+  }
+  .memory-card.flipped {
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    color: var(--preto);
+    transform: rotateY(180deg);
+  }
+  .memory-card.matched {
+    background: linear-gradient(135deg, var(--jade), #4caf50);
+    color: white;
+    animation: matchedPop 0.6s;
+  }
+  @keyframes matchedPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15) rotate(5deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* Puzzle deslizante */
+  .puzzle-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 4px; margin: 15px auto;
+    max-width: 300px;
+    background: var(--preto);
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .puzzle-tile {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--vermelho), var(--azul));
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Black Han Sans', sans-serif;
+    font-weight: 900;
+  }
+  .puzzle-tile:hover { transform: scale(0.95); }
+  .puzzle-tile.empty { background: transparent; cursor: default; }
+
+  /* Loja */
+  .shop-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin: 15px 0;
+  }
+  .shop-item {
+    padding: 12px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border: 2px solid rgba(0,71,160,0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .shop-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--dourado);
+    box-shadow: 0 8px 20px rgba(0,71,160,0.3);
+  }
+  .shop-item.owned {
+    background: linear-gradient(135deg, var(--jade), #4caf50);
+    color: white;
+    border-color: var(--dourado);
+  }
+  .shop-icon { font-size: 2em; margin-bottom: 6px; display: block; }
+  .shop-name { font-family: 'Black Han Sans'; font-size: 0.9em; margin-bottom: 3px; }
+  .shop-price { font-weight: 700; color: var(--dourado); font-size: 0.85em; }
+  .shop-item.owned .shop-price { color: white; }
+
+  /* Cartas colecionáveis */
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin: 15px 0;
+  }
+  .collect-card {
+    aspect-ratio: 0.7;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border: 2px solid var(--dourado);
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 6px;
+    font-size: 0.55em;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .collect-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.1), transparent);
+    pointer-events: none;
+  }
+  .collect-card.locked {
+    filter: grayscale(1) brightness(0.7);
+    opacity: 0.6;
+  }
+  .collect-card:hover { transform: scale(1.05) rotate(2deg); }
+  .collect-card .cc-emoji { font-size: 2em; margin-bottom: 3px; }
+  .collect-card .cc-name { font-weight: 700; color: var(--azul); font-size: 1em; }
+  .collect-card .cc-rarity {
+    font-size: 0.7em; color: var(--dourado);
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  /* Caligrafia */
+  .calligraphy-canvas {
+    border: 4px solid var(--dourado);
+    border-radius: 12px;
+    background: #fdf6e3;
+    cursor: crosshair;
+    touch-action: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 100%;
+  }
+
   .paint-canvas {
     border: 4px solid var(--dourado);
     border-radius: 12px;
@@ -689,12 +854,12 @@
   }
 
   .palette {
-    display: flex; gap: 8px;
+    display: flex; gap: 6px;
     justify-content: center;
-    margin: 15px 0; flex-wrap: wrap;
+    margin: 10px 0; flex-wrap: wrap;
   }
   .color-swatch {
-    width: 40px; height: 40px;
+    width: 36px; height: 36px;
     border-radius: 50%;
     cursor: pointer;
     border: 3px solid white;
@@ -708,7 +873,7 @@
     box-shadow: 0 0 15px currentColor;
   }
 
-  /* Efeitos visuais */
+  /* Efeitos */
   .confetti {
     position: fixed; width: 10px; height: 10px;
     z-index: 999; pointer-events: none;
@@ -719,7 +884,6 @@
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
   }
 
-  /* Fogos de artifício */
   .firework {
     position: fixed; z-index: 998; pointer-events: none;
     width: 4px; height: 4px;
@@ -736,14 +900,13 @@
     100% { transform: scale(2) rotate(180deg) translateY(-30px); opacity: 0; }
   }
 
-  /* Badge flutuante */
   .fighting-badge {
     position: fixed; bottom: 20px; right: 20px;
     background: linear-gradient(135deg, var(--vermelho), var(--azul));
     color: white; padding: 10px 18px;
     border-radius: 30px;
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 0.9em;
+    font-size: 0.85em;
     border: 2px solid var(--dourado);
     box-shadow: 0 5px 20px rgba(205,46,58,0.5);
     z-index: 10;
@@ -755,14 +918,13 @@
     50% { transform: scale(1.08); }
   }
 
-  /* Indicador de jogador */
   .turn-indicator {
-    padding: 10px 20px;
+    padding: 8px 18px;
     background: linear-gradient(135deg, var(--azul), var(--roxo));
     color: white; border-radius: 30px;
     font-family: 'Black Han Sans', sans-serif;
-    letter-spacing: 1px; font-size: 0.9em;
-    margin-bottom: 15px; display: inline-block;
+    letter-spacing: 1px; font-size: 0.85em;
+    margin-bottom: 12px; display: inline-block;
     animation: turnPulse 2s infinite;
     box-shadow: 0 5px 20px rgba(106,27,154,0.5);
   }
@@ -771,7 +933,7 @@
     50% { transform: scale(1.05); }
   }
 
-  /* Narração cinematográfica */
+  /* Narração */
   .narration-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.95);
@@ -803,16 +965,16 @@
     letter-spacing: 2px; animation: fadeIn 1s;
   }
 
-  /* Painel de capítulos */
+  /* Capítulos */
   .chapter-panel {
     display: flex; justify-content: center;
-    gap: 8px; margin-bottom: 15px;
+    gap: 6px; margin-bottom: 12px;
     flex-wrap: wrap;
   }
   .chapter-badge {
-    padding: 6px 14px;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-size: 0.72em;
+    font-size: 0.68em;
     font-family: 'Black Han Sans', sans-serif;
     letter-spacing: 1px;
     border: 2px solid rgba(0,0,0,0.1);
@@ -824,18 +986,18 @@
     transform: scale(1.1);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   }
-
   .chapter-1 { background: linear-gradient(135deg, #ff6b35, #ffb74d); color: white; }
   .chapter-2 { background: linear-gradient(135deg, #cd2e3a, #ff6b81); color: white; }
   .chapter-3 { background: linear-gradient(135deg, #00a86b, #4caf50); color: white; }
   .chapter-4 { background: linear-gradient(135deg, #0047a0, #6a1b9a); color: white; }
+  .chapter-5 { background: linear-gradient(135deg, #d4af37, #ffd700); color: var(--preto); }
 
-  /* Modal de conquista */
+  /* Popup conquista */
   .achievement-popup {
     position: fixed; top: 100px; right: 20px;
     background: linear-gradient(135deg, var(--dourado), #ffd700);
     color: var(--preto);
-    padding: 15px 22px;
+    padding: 12px 20px;
     border-radius: 14px;
     border: 3px solid var(--preto);
     box-shadow: 0 10px 30px rgba(212,175,55,0.7);
@@ -843,7 +1005,7 @@
     animation: achievementSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), achievementFade 3s ease-in-out 0.6s forwards;
     font-family: 'Black Han Sans', sans-serif;
     display: flex; align-items: center; gap: 12px;
-    max-width: 320px;
+    max-width: 340px;
   }
   @keyframes achievementSlide {
     0% { transform: translateX(500px); }
@@ -854,7 +1016,7 @@
     100% { opacity: 0; transform: translateX(500px); }
   }
   .achievement-popup .icon {
-    font-size: 2em;
+    font-size: 1.8em;
     animation: iconSpin 0.8s;
   }
   @keyframes iconSpin {
@@ -862,65 +1024,189 @@
     100% { transform: rotate(360deg) scale(1); }
   }
 
-  /* Ranking */
+  /* Leaderboard */
   .leaderboard {
-    margin: 15px 0;
-    padding: 15px;
+    margin: 12px 0;
+    padding: 12px;
     background: linear-gradient(135deg, #fff, #fdf6e3);
-    border-radius: 16px;
+    border-radius: 14px;
     border: 2px solid rgba(212,175,55,0.3);
     text-align: left;
   }
   .leaderboard-row {
     display: flex; justify-content: space-between;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     background: rgba(0,0,0,0.02);
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
   .leaderboard-row.top-1 {
     background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
     font-weight: 700;
   }
 
-  /* Modal Hangul intro */
-  .hangul-intro {
-    font-family: 'Nanum Myeongjo', serif;
+  /* ====== CENA DE ABERTURA CINEMATOGRÁFICA ====== */
+  .cinematic {
+    position: fixed; inset: 0;
+    background: #000; z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; color: white;
+    overflow: hidden;
+    animation: fadeIn 1s;
+  }
+  .cinema-scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    animation: cinemaScene 4s ease-in-out forwards;
+  }
+  @keyframes cinemaScene {
+    0% { opacity: 0; transform: scale(1.5); filter: blur(20px); }
+    20%, 80% { opacity: 1; transform: scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: scale(0.9); filter: blur(10px); }
+  }
+  .cinema-text {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 4em;
+    background: linear-gradient(90deg, var(--vermelho), var(--dourado), var(--azul));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
-    margin-bottom: 15px;
-    color: var(--azul);
+    line-height: 1.2;
+    padding: 20px;
+    text-shadow: 0 0 40px rgba(212,175,55,0.5);
   }
-  .hangul-big {
-    font-size: 5em;
-    display: block;
-    margin: 10px 0;
-    color: var(--vermelho);
-    text-shadow: 0 0 30px rgba(205,46,58,0.5);
-    animation: hangulFloat 3s ease-in-out infinite;
+  .cinema-sub {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1em;
+    letter-spacing: 4px;
+    margin-top: 20px;
+    font-family: 'Gowun Batang', serif;
   }
-  @keyframes hangulFloat {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-10px) rotate(2deg); }
+  .cinema-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.15;
+    animation: dotsMove 20s linear infinite;
+  }
+  @keyframes dotsMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  .cinema-skip {
+    position: absolute; bottom: 30px; right: 30px;
+    padding: 10px 22px;
+    background: rgba(212,175,55,0.2);
+    color: white;
+    border: 2px solid var(--dourado);
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Black Han Sans', sans-serif;
+    letter-spacing: 1px;
+    font-size: 0.9em;
+    z-index: 310;
+    transition: all 0.3s;
+  }
+  .cinema-skip:hover {
+    background: var(--dourado);
+    transform: scale(1.05);
   }
 
-  /* Responsivo */
-  @media (max-width: 700px) {
-    .container { padding: 30px 20px; }
-    h1 { font-size: 1.6em; }
-    #question { font-size: 1.05em; }
-    .lantern { width: 28px; height: 50px; }
-    .lantern::after { font-size: 14px; }
-    .fighting-badge { font-size: 0.72em; padding: 8px 14px; }
-    .mode-selection { grid-template-columns: 1fr 1fr; }
-    .final-stats { grid-template-columns: 1fr 1fr; }
-    .answer-btn { padding: 14px 16px; font-size: 0.95em; }
-    .narration-text { font-size: 1.8em; }
-    .achievements-grid { grid-template-columns: repeat(4, 1fr); }
-    .top-hud { flex-direction: column; gap: 5px; }
+  /* Boss Fight */
+  .boss-header {
+    padding: 15px;
+    background: linear-gradient(135deg, var(--preto), #2a0a0a);
+    border-radius: 14px;
+    margin-bottom: 15px;
+    color: white;
+    border: 3px solid var(--vermelho);
+    box-shadow: 0 0 40px rgba(205,46,58,0.5);
+  }
+  .boss-name {
+    font-family: 'Black Han Sans';
+    font-size: 1.3em;
+    letter-spacing: 2px;
+    color: #ff6b81;
+    text-shadow: 0 0 20px rgba(205,46,58,0.8);
+  }
+  .boss-hp-bar {
+    height: 16px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+    border: 2px solid var(--vermelho);
+  }
+  .boss-hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8b1a24, var(--vermelho), #ff6b81);
+    transition: width 0.6s;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.3);
+  }
+  .boss-emoji {
+    font-size: 3.5em;
+    animation: bossFloat 2s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes bossFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
+  }
+
+  /* Loja */
+  .shop-balance {
+    font-family: 'Black Han Sans';
+    font-size: 1.3em;
+    color: var(--dourado);
+    margin-bottom: 12px;
+    text-shadow: 0 0 15px rgba(212,175,55,0.5);
+  }
+
+  /* Cartas */
+  .cards-badge {
+    background: linear-gradient(135deg, var(--dourado), #ffd700);
+    color: var(--preto);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-family: 'Black Han Sans';
+    font-size: 0.7em;
+    letter-spacing: 1px;
+  }
+
+  /* Efeito parallax no container */
+  .parallax-tilt {
+    transition: transform 0.1s ease-out;
   }
 
   .hidden { display: none !important; }
+
+  /* Responsivo */
+  @media (max-width: 700px) {
+    .container { padding: 25px 18px; }
+    h1 { font-size: 1.5em; }
+    #question { font-size: 1em; }
+    .lantern { width: 25px; height: 45px; }
+    .lantern::after { font-size: 12px; }
+    .fighting-badge { font-size: 0.65em; padding: 6px 12px; bottom: 10px; right: 10px; }
+    .mode-selection { grid-template-columns: 1fr 1fr; }
+    .final-stats { grid-template-columns: 1fr 1fr; }
+    .answer-btn { padding: 12px 14px; font-size: 0.9em; }
+    .narration-text { font-size: 1.8em; }
+    .achievements-grid { grid-template-columns: repeat(4, 1fr); }
+    .top-hud { flex-direction: column; gap: 4px; top: 10px; right: 10px; }
+    .floating-controls { top: 10px; left: 10px; }
+    .ctrl-btn { width: 36px; height: 36px; font-size: 0.95em; }
+    .hud-badge { font-size: 0.7em; padding: 5px 10px; }
+    .cinema-text { font-size: 2.4em; }
+    .shop-grid { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: repeat(3, 1fr); }
+    .hangul-tile { width: 45px; height: 45px; font-size: 1.3em; }
+    .hangul-tile-btn { width: 42px; height: 42px; font-size: 1.2em; }
+  }
 </style>
 </head>
 <body>
@@ -934,27 +1220,33 @@
 <div class="lantern lantern-3"></div>
 <div class="lantern lantern-4"></div>
 
+<!-- Controles -->
 <div class="floating-controls">
   <button class="ctrl-btn" id="sound-toggle" title="Som">🔊</button>
   <button class="ctrl-btn" id="music-toggle" title="Música">🎵</button>
+  <button class="ctrl-btn" id="sfx-toggle" title="Instrumento">🎼</button>
   <button class="ctrl-btn" id="fullscreen-toggle" title="Tela cheia">⛶</button>
+  <button class="ctrl-btn" id="credits-btn" title="Créditos">ℹ️</button>
 </div>
 
+<!-- HUD -->
 <div class="top-hud">
-  <div class="hud-badge" id="hud-level">✨ NÍVEL 1</div>
+  <div class="hud-badge" id="hud-level">✨ Nv 1</div>
   <div class="hud-badge" id="hud-coins">🪙 0</div>
+  <div class="hud-badge" id="hud-cards">🃏 0/12</div>
+  <div class="hud-badge" id="hud-achievements">🏆 0/20</div>
 </div>
 
-<div class="container">
+<div class="container parallax-tilt" id="main-container">
   <div class="flag-bar"></div>
 
-  <!-- ====== TELA INICIAL ====== -->
-  <div id="start-screen" class="screen start-screen">
+  <!-- TELA INICIAL -->
+  <div id="start-screen" class="screen">
     <h1>🇰🇷 Descubra a Coreia! 🇰🇷</h1>
-    <p class="subtitle">Uma jornada artística pela cultura coreana</p>
-    <p class="korean-subtitle">한국 문화 예술 퀴즈</p>
+    <p class="subtitle">A Experiência Interativa Definitiva da Cultura Coreana</p>
+    <p class="korean-subtitle">한국 문화 대모험</p>
 
-    <h2>🎮 Modo de Jogo</h2>
+    <h2>🎮 Escolha o Modo</h2>
     <div class="mode-selection">
       <div class="mode-card selected" data-mode="solo">
         <span class="mode-icon">🎯</span>
@@ -971,29 +1263,61 @@
         <div class="mode-title">MARATONA</div>
         <div class="mode-desc">Todas as perguntas</div>
       </div>
+      <div class="mode-card" data-mode="boss">
+        <span class="mode-icon">👹</span>
+        <div class="mode-title">CHEFÃO</div>
+        <div class="mode-desc">Batalha épica</div>
+      </div>
+      <div class="mode-card" data-mode="tempo">
+        <span class="mode-icon">⏱️</span>
+        <div class="mode-title">CONTRARRELOG</div>
+        <div class="mode-desc">60s corridos</div>
+      </div>
+      <div class="mode-card" data-mode="caos">
+        <span class="mode-icon">🌀</span>
+        <div class="mode-title">CAOS</div>
+        <div class="mode-desc">Perguntas misturadas</div>
+      </div>
     </div>
 
     <h2>⚡ Dificuldade</h2>
     <div class="difficulty-selection">
-      <button class="diff-btn active" data-diff="facil">🌱 Fácil (20s)</button>
-      <button class="diff-btn" data-diff="medio">⚡ Médio (15s)</button>
-      <button class="diff-btn" data-diff="dificil">🔥 Difícil (10s)</button>
-      <button class="diff-btn" data-diff="lenda">💀 Lenda (7s)</button>
+      <button class="diff-btn active" data-diff="facil">🌱 Fácil</button>
+      <button class="diff-btn" data-diff="medio">⚡ Médio</button>
+      <button class="diff-btn" data-diff="dificil">🔥 Difícil</button>
+      <button class="diff-btn" data-diff="lenda">💀 Lenda</button>
+      <button class="diff-btn" data-diff="impossivel">☠️ IMPOSSÍVEL</button>
     </div>
 
     <p class="intro-text">
-      Uma jornada interativa com <em>música</em>, <em>minijogo de Hangul</em>, 
-      <em>pintura tradicional coreana</em>, <em>conquistas</em> e muito mais!
-      <br><br>
-      🏆 <strong>4 Capítulos Temáticos:</strong> Gastronomia • K-Pop & Arte • Tradições • História
+      Uma jornada <em>única e artística</em> pela Coreia! 
+      <br>
+      ✨ Inclui: música tradicional, mini jogos, artefatos colecionáveis, pintura, caligrafia, memória, quebra-cabeça, loja, chefão, IA narradora e MUITO mais!
     </p>
 
-    <button class="primary-btn" id="start-btn">🎬 COMEÇAR A JORNADA</button>
+    <div class="btn-row" style="margin-bottom: 12px;">
+      <button class="btn-secondary" id="daily-reward">🎁 Presente Diário</button>
+      <button class="btn-secondary" id="shop-btn">🛒 Loja</button>
+      <button class="btn-secondary" id="cards-btn">🃏 Coleção</button>
+      <button class="btn-secondary" id="stats-btn">📊 Estatísticas</button>
+    </div>
+
+    <button class="primary-btn" id="start-btn">🎬 COMEÇAR A JORNADA ÉPICA</button>
   </div>
 
-  <!-- ====== JOGO ====== -->
+  <!-- JOGO -->
   <div id="game-area" class="screen hidden">
     <div class="turn-indicator hidden" id="turn-indicator">🎯 Vez do Jogador 1</div>
+
+    <div id="boss-area" class="hidden">
+      <div class="boss-header">
+        <div class="boss-emoji" id="boss-emoji">👹</div>
+        <div class="boss-name" id="boss-name">Dokkaebi - O Goblin Coreano</div>
+        <div class="boss-hp-bar">
+          <div class="boss-hp-fill" id="boss-hp" style="width:100%"></div>
+        </div>
+      </div>
+    </div>
 
     <div class="chapter-panel" id="chapter-panel"></div>
 
@@ -1018,6 +1342,10 @@
         <span class="stat-label">Streak</span>
         <span class="stat-value" id="streak">0🔥</span>
       </div>
+      <div class="stat">
+        <span class="stat-label">Karma</span>
+        <span class="stat-value" id="karma">50</span>
+      </div>
     </div>
 
     <div class="timer-bar">
@@ -1033,19 +1361,21 @@
     <div id="feedback"></div>
 
     <div class="btn-row">
-      <button class="btn-secondary" id="hint-btn">💡 Dica (-5pts)</button>
+      <button class="btn-secondary" id="hint-btn">💡 Dica</button>
       <button class="btn-secondary" id="skip-btn">⏭️ Pular</button>
-      <button class="btn-secondary" id="fifty-btn">50/50 (-10pts)</button>
-      <button class="primary-btn hidden" id="next-btn" style="padding: 12px 30px; font-size: 1em;">Próxima → 다음</button>
+      <button class="btn-secondary" id="fifty-btn">50/50</button>
+      <button class="btn-secondary" id="freeze-btn">🧊 Congelar</button>
+      <button class="btn-secondary" id="double-btn">💰 2x</button>
+      <button class="primary-btn hidden" id="next-btn" style="padding: 10px 26px; font-size: 0.95em;">Próxima → 다음</button>
     </div>
   </div>
 
-  <!-- ====== TELA FINAL ====== -->
+  <!-- FINAL -->
   <div id="end-screen" class="screen hidden">
     <div class="trophy" id="trophy">🏆</div>
-    <h2 id="end-title" style="color:var(--azul); font-family:'Black Han Sans',sans-serif; font-size:1.7em;"></h2>
+    <h2 id="end-title" style="font-size:1.6em;"></h2>
     <p class="final-score" id="final-score"></p>
-    <p id="end-message" style="color:#666; margin-bottom: 15px; font-size:1em; line-height:1.5;"></p>
+    <p id="end-message" style="color:#666; margin-bottom: 12px; font-size:0.95em; line-height:1.5;"></p>
 
     <div class="final-stats">
       <div class="final-stat">
@@ -1066,40 +1396,45 @@
       </div>
     </div>
 
-    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 15px 0 8px; font-size: 1em; letter-spacing: 1px;">🏅 CONQUISTAS DESBLOQUEADAS</h3>
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 12px 0 6px; font-size: 0.95em; letter-spacing: 1px;">🏅 CONQUISTAS</h3>
     <div class="achievements-grid" id="achievements-grid"></div>
 
-    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 15px 0 8px; font-size: 1em; letter-spacing: 1px;">🏆 RANKING LOCAL</h3>
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 12px 0 6px; font-size: 0.95em; letter-spacing: 1px;">🏆 RANKING LOCAL</h3>
     <div class="leaderboard" id="leaderboard"></div>
 
-    <div id="podium" class="hidden" style="margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #fdf6e3, #fff); border-radius: 16px; border: 2px solid var(--dourado);"></div>
+    <div id="podium" class="hidden" style="margin: 12px 0; padding: 12px; background: linear-gradient(135deg, #fdf6e3, #fff); border-radius: 14px; border: 2px solid var(--dourado);"></div>
 
-    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 10px 0; font-size: 1em; letter-spacing: 1px;">📜 REVISÃO</h3>
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 8px 0; font-size: 0.95em; letter-spacing: 1px;">📜 REVISÃO</h3>
     <div class="history-box" id="history"></div>
 
-    <div class="btn-row" style="margin-top: 15px;">
-      <button class="primary-btn" id="restart-btn" style="padding: 14px 28px; font-size: 0.95em;">🔄 Jogar</button>
-      <button class="btn-secondary" id="hangul-btn">🇰🇷 Mini Hangul</button>
+    <div class="btn-row" style="margin-top: 12px;">
+      <button class="primary-btn" id="restart-btn" style="padding: 12px 22px; font-size: 0.9em;">🔄 Jogar</button>
+      <button class="btn-secondary" id="hangul-btn">🇰🇷 Hangul</button>
+      <button class="btn-secondary" id="memory-btn">🧠 Memória</button>
+      <button class="btn-secondary" id="puzzle-btn">🧩 Puzzle</button>
       <button class="btn-secondary" id="paint-btn">🎨 Pintar</button>
+      <button class="btn-secondary" id="calligraphy-btn">✍️ Caligrafia</button>
+      <button class="btn-secondary" id="music-quiz-btn">🎼 Quiz Musical</button>
       <button class="btn-secondary" id="share-btn">📤 Enviar</button>
       <button class="btn-secondary" id="home-btn">🏠 Início</button>
     </div>
   </div>
 </div>
 
-<div class="fighting-badge">화이팅! 💪</div>
+<div class="fighting-badge" id="fighting-badge">화이팅! 💪</div>
 
 <script>
 // ==================== AMBIENTE ====================
 function createStars() {
   const c = document.getElementById('stars');
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 120; i++) {
     const s = document.createElement('div');
     s.className = 'star';
     s.style.left = Math.random() * 100 + '%';
     s.style.top = Math.random() * 100 + '%';
     s.style.animationDelay = Math.random() * 3 + 's';
     s.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    s.style.width = s.style.height = (Math.random() * 2 + 1) + 'px';
     c.appendChild(s);
   }
 }
@@ -1107,8 +1442,8 @@ createStars();
 
 function createSakura() {
   const c = document.getElementById('sakura');
-  const petals = ['🌸', '🌸', '🌸', '🌺', '💮', '🌸'];
-  for (let i = 0; i < 35; i++) {
+  const petals = ['🌸', '🌸', '🌸', '🌺', '💮', '🌸', '🏵️'];
+  for (let i = 0; i < 40; i++) {
     const p = document.createElement('div');
     p.className = 'sakura';
     p.textContent = petals[Math.floor(Math.random() * petals.length)];
@@ -1121,22 +1456,36 @@ function createSakura() {
 }
 createSakura();
 
-// ==================== ÁUDIO ====================
+function createBubbles() {
+  for (let i = 0; i < 15; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    b.style.left = Math.random() * 100 + '%';
+    b.style.animationDuration = (Math.random() * 15 + 15) + 's';
+    b.style.animationDelay = Math.random() * 20 + 's';
+    b.style.width = b.style.height = (Math.random() * 30 + 10) + 'px';
+    document.body.appendChild(b);
+  }
+}
+createBubbles();
+
+// ==================== ÁUDIO AVANÇADO ====================
 let audioCtx;
-let soundOn = true, musicOn = true, musicInterval;
+let soundOn = true, musicOn = true, sfxStyle = 'sine', musicInterval;
 
 function initAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 
-function playTone(freq, duration, type = 'sine', vol = 0.15) {
+function playTone(freq, duration, type = null, vol = 0.15) {
   if (!soundOn) return;
   try {
     initAudio();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.type = type; osc.frequency.value = freq;
+    osc.type = type || sfxStyle;
+    osc.frequency.value = freq;
     osc.connect(gain); gain.connect(audioCtx.destination);
     gain.gain.setValueAtTime(vol, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
@@ -1166,18 +1515,30 @@ const playVictory = () => {
     setTimeout(() => playTone(f, 0.35, 'sine', 0.15), i * 150);
   });
 };
+const playEpicFail = () => {
+  [400, 350, 300, 250, 200].forEach((f, i) => {
+    setTimeout(() => playTone(f, 0.3, 'sawtooth', 0.12), i * 150);
+  });
+};
+
+const musicTracks = [
+  { name: 'Arpejo Coreano', scale: [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00], pattern: [0, 2, 4, 5, 7, 9, 7, 5, 4, 2, 4, 2] },
+  { name: 'Meditação', scale: [220, 246.94, 261.63, 329.63, 349.23, 440, 493.88, 523.25], pattern: [0, 2, 4, 6, 4, 2, 0, 2, 4, 6, 7, 6, 4, 2] },
+  { name: 'Festa', scale: [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.5], pattern: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1] },
+  { name: 'Épico', scale: [196, 246.94, 293.66, 392, 493.88, 587.33, 783.99], pattern: [0, 3, 5, 6, 5, 3, 1, 3, 5, 6] }
+];
+let currentTrack = 0;
 
 function startMusic() {
   if (!musicOn) return;
   try {
     initAudio();
-    const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
-    const pattern = [0, 2, 4, 5, 7, 9, 7, 5, 4, 2, 4, 2];
+    const track = musicTracks[currentTrack];
     let idx = 0;
     musicInterval = setInterval(() => {
       if (!musicOn || !audioCtx) return;
       try {
-        const note = scale[pattern[idx % pattern.length]];
+        const note = track.scale[track.pattern[idx % track.pattern.length]];
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
@@ -1202,56 +1563,64 @@ function speak(text, lang = 'ko-KR') {
   speechSynthesis.speak(u);
 }
 
-// ==================== PERGUNTAS POR CAPÍTULO ====================
+// ==================== PERGUNTAS ====================
 const chaptersData = [
   {
     name: 'Gastronomia', korName: '음식', emoji: '🍜', cssClass: 'chapter-1',
     questions: [
       { emoji: "🍜", q: "Qual é o prato coreano feito com repolho fermentado e apimentado?",
         answers: ["Kimchi", "Sushi", "Bibimbap", "Ramen"], correct: 0,
-        hint: "É servido como acompanhamento em quase todas as refeições coreanas.",
-        fact: "O kimchi tem mais de 200 variedades diferentes!" },
-      { emoji: "🍚", q: "Qual prato é uma tigela de arroz com legumes, carne e ovo, servido com molho gochujang?",
+        hint: "É servido como acompanhamento em quase todas as refeições.",
+        fact: "Existem mais de 200 tipos de kimchi!" },
+      { emoji: "🍚", q: "Qual prato é arroz com legumes, carne e ovo, com gochujang?",
         answers: ["Bibimbap", "Japchae", "Tteokbokki", "Kimbap"], correct: 0,
-        hint: "O nome significa literalmente 'arroz misturado'.",
-        fact: "O bibimbap de Jeonju é considerado o mais tradicional!" },
+        hint: "Significa literalmente 'arroz misturado'.",
+        fact: "O bibimbap de Jeonju é o mais tradicional!" },
       { emoji: "🍢", q: "Qual prato é feito de bolinhos de arroz em molho picante?",
         answers: ["Tteokbokki", "Kimbap", "Japchae", "Mandu"], correct: 0,
-        hint: "É o lanche de rua mais popular da Coreia!",
-        fact: "O tteokbokki surgiu como prato real na Dinastia Joseon." },
+        hint: "É o lanche de rua mais popular!",
+        fact: "Surgiu como prato real na Dinastia Joseon." },
       { emoji: "🥟", q: "Como se chamam os dumplings coreanos?",
         answers: ["Gyoza", "Mandu", "Wonton", "Baozi"], correct: 1,
-        hint: "Podem ser cozidos no vapor, fritos ou em sopa.",
-        fact: "O mandu kimchi é a versão mais famosa!" },
+        hint: "Podem ser cozidos, fritos ou em sopa.",
+        fact: "O mandu kimchi é o mais famoso!" },
       { emoji: "🍲", q: "Qual é a famosa sopa coreana de kimchi com tofu e porco?",
         answers: ["Kimchi Jjigae", "Miso Soup", "Ramen", "Sundubu"], correct: 0,
-        hint: "É cozido em panela de barro chamada ttukbaegi.",
-        fact: "É considerada um prato comfort food no inverno!" }
+        hint: "É cozida em panela de barro ttukbaegi.",
+        fact: "Comfort food clássico do inverno!" },
+      { emoji: "🥩", q: "Como se chama o churrasco coreano grelhado na mesa?",
+        answers: ["Yakiniku", "Bulgogi", "Teppanyaki", "Sukiyaki"], correct: 1,
+        hint: "O nome significa 'carne no fogo'.",
+        fact: "Bulgogi é marinado em molho de soja e pera!" }
     ]
   },
   {
     name: 'K-Pop & Arte', korName: '예술', emoji: '🎵', cssClass: 'chapter-2',
     questions: [
-      { emoji: "🎵", q: "Como se chama o gênero pop coreano que conquistou o mundo?",
+      { emoji: "🎵", q: "Como se chama o gênero pop coreano mundialmente famoso?",
         answers: ["J-Pop", "C-Pop", "K-Pop", "Trot"], correct: 2,
-        hint: "BTS, BLACKPINK e TWICE são ícones.",
-        fact: "O K-Pop surgiu nos anos 90 com o grupo Seo Taiji and Boys!" },
+        hint: "BTS, BLACKPINK, TWICE são ícones.",
+        fact: "Surgiu nos anos 90 com Seo Taiji and Boys!" },
       { emoji: "🎭", q: "Como se chama o teatro tradicional coreano com máscaras?",
         answers: ["Kabuki", "Talchum", "Noh", "Pansori"], correct: 1,
-        hint: "Era usado para satirizar a nobreza.",
-        fact: "O Talchum é Patrimônio Cultural Imaterial da UNESCO!" },
-      { emoji: "🎼", q: "Como se chama a narrativa musical coreana, contada por um só cantor?",
+        hint: "Satirizava a nobreza.",
+        fact: "Patrimônio Cultural Imaterial da UNESCO!" },
+      { emoji: "🎼", q: "Como se chama a narrativa musical coreana de um só cantor?",
         answers: ["K-Pop", "Pansori", "Trot", "Samulnori"], correct: 1,
-        hint: "Uma performance que pode durar até 8 horas!",
-        fact: "Pansori significa 'som do lugar onde as pessoas se reúnem'." },
+        hint: "Pode durar até 8 horas!",
+        fact: "Significa 'som do lugar onde as pessoas se reúnem'." },
       { emoji: "🎨", q: "Como se chama a tradicional arte coreana de dobradura de papel?",
         answers: ["Origami", "Jong-ie Jopgi", "Hanji", "Kkochggo"], correct: 2,
-        hint: "O papel tradicional coreano é famoso por sua resistência.",
-        fact: "O Hanji é feito de amoreira e pode durar mais de 1000 anos!" },
-      { emoji: "🎤", q: "Qual grupo de K-Pop foi o primeiro a se apresentar na ONU?",
+        hint: "O papel tradicional é famoso por resistência.",
+        fact: "O Hanji pode durar mais de 1000 anos!" },
+      { emoji: "🎤", q: "Qual grupo de K-Pop discursou na ONU?",
         answers: ["EXO", "BTS", "BLACKPINK", "TWICE"], correct: 1,
-        hint: "Eles têm um fandom chamado ARMY.",
-        fact: "O BTS discursou na ONU em 2018 e 2020!" }
+        hint: "Têm um fandom chamado ARMY.",
+        fact: "Discursaram na ONU em 2018 e 2020!" },
+      { emoji: "🖌️", q: "Como se chama a pintura tradicional coreana?",
+        answers: ["Ukiyo-e", "Minhwa", "Guohua", "Nihonga"], correct: 1,
+        hint: "Significa 'pintura do povo'.",
+        fact: "Minhwa costuma retratar animais e símbolos de sorte!" }
     ]
   },
   {
@@ -1259,24 +1628,28 @@ const chaptersData = [
     questions: [
       { emoji: "🙇", q: "Qual é a forma tradicional de cumprimentar na Coreia?",
         answers: ["Aperto de mão", "Reverência (jeol)", "Abraço", "Beijo no rosto"], correct: 1,
-        hint: "A profundidade da inclinação indica o nível de respeito.",
-        fact: "Diz-se '안녕하세요' (Annyeonghaseyo) ao cumprimentar!" },
+        hint: "A profundidade indica respeito.",
+        fact: "Diz-se '안녕하세요' (Annyeonghaseyo)!" },
       { emoji: "👘", q: "Como se chama a vestimenta tradicional coreana?",
         answers: ["Kimono", "Hanbok", "Qipao", "Ao Dai"], correct: 1,
-        hint: "Possui cores vibrantes e é usada em ocasiões especiais.",
-        fact: "Existem hanboks específicos para cada estação do ano!" },
+        hint: "Possui cores vibrantes.",
+        fact: "Existem hanboks para cada estação!" },
       { emoji: "🎊", q: "Qual é o nome do Ano Novo Lunar coreano?",
         answers: ["Tet", "Seollal", "Chuseok", "Dano"], correct: 1,
-        hint: "É uma das datas mais importantes da Coreia.",
-        fact: "Durante o Seollal, os coreanos fazem reverência aos mais velhos!" },
+        hint: "Uma das datas mais importantes.",
+        fact: "Fazem reverência aos mais velhos!" },
       { emoji: "🌕", q: "Qual é o festival coreano de ação de graças?",
         answers: ["Seollal", "Chuseok", "Daeboreum", "Dano"], correct: 1,
-        hint: "Celebrado no 15º dia do 8º mês lunar.",
-        fact: "No Chuseok, comem-se songpyeon (bolinhos de arroz em forma de meia-lua)!" },
+        hint: "15º dia do 8º mês lunar.",
+        fact: "Comem songpyeon (bolinhos em forma de meia-lua)!" },
       { emoji: "🎂", q: "Qual idade todos os coreanos completam juntos no Ano Novo Lunar?",
         answers: ["Idade real", "Não comemoram", "Todos ficam 1 ano mais velhos", "18 anos"], correct: 2,
         hint: "Isso se chama 'idade coreana'.",
-        fact: "Em 2023, a Coreia aboliu o sistema de idade coreana!" }
+        fact: "Em 2023, a Coreia aboliu essa tradição!" },
+      { emoji: "🏮", q: "Qual é o festival de lanternas de Buddha na Coreia?",
+        answers: ["Yeondeunghoe", "Chuseok", "Seollal", "Dano"], correct: 0,
+        hint: "Ilumina templos com lanternas coloridas.",
+        fact: "Patrimônio da UNESCO desde 2020!" }
     ]
   },
   {
@@ -1284,26 +1657,75 @@ const chaptersData = [
     questions: [
       { emoji: "🏯", q: "Qual é a capital da Coreia do Sul?",
         answers: ["Busan", "Seul", "Pyongyang", "Tóquio"], correct: 1,
-        hint: "Significa literalmente 'capital' em coreano.",
-        fact: "Seul tem mais de 25 milhões de habitantes na região metropolitana!" },
-      { emoji: "✍️", q: "Como se chama o alfabeto coreano criado no século XV?",
+        hint: "Significa 'capital' em coreano.",
+        fact: "Seul tem mais de 25 milhões na região metropolitana!" },
+      { emoji: "✍️", q: "Como se chama o alfabeto coreano criado no séc. XV?",
         answers: ["Kanji", "Hiragana", "Hangul", "Pinyin"], correct: 2,
-        hint: "Foi criado pelo Rei Sejong, o Grande.",
-        fact: "O Hangul é um dos sistemas de escrita mais científicos!" },
+        hint: "Criado pelo Rei Sejong.",
+        fact: "É um dos sistemas mais científicos!" },
       { emoji: "👑", q: "Qual rei coreano criou o alfabeto Hangul?",
         answers: ["Sejong, o Grande", "Taejo", "Yeongjo", "Jeongjo"], correct: 0,
-        hint: "Ele governou durante a Dinastia Joseon.",
-        fact: "O Rei Sejong é considerado o maior rei da história coreana!" },
+        hint: "Governou durante Joseon.",
+        fact: "É considerado o maior rei da história!" },
       { emoji: "🥋", q: "Qual arte marcial é originária da Coreia?",
         answers: ["Judô", "Kung Fu", "Taekwondo", "Karate"], correct: 2,
-        hint: "É esporte olímpico desde 2000.",
-        fact: "O Taekwondo tem mais de 70 milhões de praticantes!" },
+        hint: "Esporte olímpico desde 2000.",
+        fact: "Tem mais de 70 milhões de praticantes!" },
       { emoji: "🏛️", q: "Qual dinastia governou a Coreia por mais de 500 anos?",
         answers: ["Goryeo", "Joseon", "Silla", "Baekje"], correct: 1,
-        hint: "Foi fundada em 1392.",
-        fact: "A Dinastia Joseon durou de 1392 a 1910!" }
+        hint: "Fundada em 1392.",
+        fact: "Durou de 1392 a 1910!" },
+      { emoji: "⚔️", q: "Qual famoso almirante coreano criou os 'barcos tartaruga'?",
+        answers: ["Yi Sun-sin", "Wang Geon", "Sejong", "Jeongjo"], correct: 0,
+        hint: "Herói contra invasões japonesas.",
+        fact: "Seus barcos venceram batalhas navais impossíveis!" }
+    ]
+  },
+  {
+    name: 'Modernidade', korName: '현대', emoji: '🌆', cssClass: 'chapter-5',
+    questions: [
+      { emoji: "📱", q: "Qual empresa coreana fabrica os celulares Galaxy?",
+        answers: ["LG", "Samsung", "Xiaomi", "Huawei"], correct: 1,
+        hint: "É a maior fabricante de celulares do mundo.",
+        fact: "Samsung significa 'três estrelas' em coreano!" },
+      { emoji: "🚗", q: "Qual montadora coreana fez o carro 'Sonata'?",
+        answers: ["Kia", "Hyundai", "Daewoo", "SsangYong"], correct: 1,
+        hint: "Nome significa 'moderno' em coreano.",
+        fact: "Hyundai é a 4ª maior montadora do mundo!" },
+      { emoji: "🎮", q: "Qual é o jogo coreano de sobrevivência mais famoso?",
+        answers: ["Free Fire", "Round 6", "PubG", "Minecraft"], correct: 1,
+        hint: "Série da Netflix de 2021.",
+        fact: "Título original: '오징어 게임'!" },
+      { emoji: "🌐", q: "Qual é o aplicativo de mensagens mais usado na Coreia?",
+        answers: ["WhatsApp", "KakaoTalk", "WeChat", "Line"], correct: 1,
+        hint: "Tem o nome de uma fruta tropical.",
+        fact: "Mais de 90% dos coreanos usam KakaoTalk!" },
+      { emoji: "🎬", q: "Qual filme coreano ganhou o Oscar de Melhor Filme em 2020?",
+        answers: ["Oldboy", "Parasita", "Train to Busan", "The Handmaiden"], correct: 1,
+        hint: "Dirigido por Bong Joon-ho.",
+        fact: "Foi o primeiro filme não-inglês a ganhar o Oscar!" },
+      { emoji: "🎮", q: "Qual é o famoso jogo online coreano de 2000?",
+        answers: ["MapleStory", "Ragnarok", "Lineage", "Sudden Attack"], correct: 2,
+        hint: "Popularizou MMOs na Ásia.",
+        fact: "Lineage foi um dos primeiros MMORPGs lucrativos!" }
     ]
   }
+];
+
+// ==================== CARTAS COLECIONÁVEIS ====================
+const collectibleCards = [
+  { id: 'kimchi', emoji: '🥬', name: 'Kimchi', rarity: 'Comum' },
+  { id: 'hanbok', emoji: '👘', name: 'Hanbok', rarity: 'Comum' },
+  { id: 'gayageum', emoji: '🎻', name: 'Gayageum', rarity: 'Raro' },
+  { id: 'hangul', emoji: '한', name: 'Hangul', rarity: 'Raro' },
+  { id: 'ttakji', emoji: '🎴', name: 'Ttakji', rarity: 'Comum' },
+  { id: 'buk', emoji: '🥁', name: 'Buk', rarity: 'Comum' },
+  { id: 'hanji', emoji: '📜', name: 'Hanji', rarity: 'Raro' },
+  { id: 'cheongja', emoji: '🏺', name: 'Cheongja', rarity: 'Épico' },
+  { id: 'dokkaebi', emoji: '👹', name: 'Dokkaebi', rarity: 'Épico' },
+  { id: 'bulgogi', emoji: '🥩', name: 'Bulgogi', rarity: 'Comum' },
+  { id: 'sakura', emoji: '🌸', name: 'Sakura', rarity: 'Comum' },
+  { id: 'taegeuk', emoji: '☯️', name: 'Taegeuk', rarity: 'Lendário' }
 ];
 
 // ==================== CONQUISTAS ====================
@@ -1312,47 +1734,78 @@ const achievementsList = [
   { id: 'streak5', icon: '🔥', name: 'Em Chamas', desc: '5 acertos seguidos' },
   { id: 'streak10', icon: '⚡', name: 'Imparável', desc: '10 acertos seguidos' },
   { id: 'perfect', icon: '👑', name: 'Perfeito', desc: '100% de acertos' },
-  { id: 'fast', icon: '⚡', name: 'Velocista', desc: 'Responder em < 3s' },
-  { id: 'no-hint', icon: '🎯', name: 'Sem Ajuda', desc: 'Ganhar sem usar dicas' },
-  { id: 'chapter1', icon: '🍜', name: 'Chef', desc: 'Completar cap. Gastronomia' },
-  { id: 'chapter2', icon: '🎵', name: 'Artista', desc: 'Completar cap. K-Pop & Arte' },
-  { id: 'chapter3', icon: '🎎', name: 'Tradicional', desc: 'Completar cap. Tradições' },
-  { id: 'chapter4', icon: '🏯', name: 'Historiador', desc: 'Completar cap. História' },
-  { id: 'hangul', icon: '한', name: 'Hangul Master', desc: 'Completar o mini jogo' },
+  { id: 'fast', icon: '💨', name: 'Velocista', desc: 'Responder em < 3s' },
+  { id: 'no-hint', icon: '🎯', name: 'Sem Ajuda', desc: 'Ganhar sem dicas' },
+  { id: 'chapter1', icon: '🍜', name: 'Chef', desc: 'Completar Gastronomia' },
+  { id: 'chapter2', icon: '🎵', name: 'Artista', desc: 'Completar K-Pop & Arte' },
+  { id: 'chapter3', icon: '🎎', name: 'Tradicional', desc: 'Completar Tradições' },
+  { id: 'chapter4', icon: '🏯', name: 'Historiador', desc: 'Completar História' },
+  { id: 'chapter5', icon: '🌆', name: 'Moderno', desc: 'Completar Modernidade' },
+  { id: 'hangul', icon: '한', name: 'Hangul Master', desc: 'Completar mini jogo' },
+  { id: 'memory', icon: '🧠', name: 'Memória', desc: 'Completar jogo da memória' },
+  { id: 'puzzle', icon: '🧩', name: 'Puzzle', desc: 'Completar puzzle' },
   { id: 'painter', icon: '🎨', name: 'Pintor', desc: 'Criar uma pintura' },
-  { id: 'share', icon: '📤', name: 'Divulgador', desc: 'Compartilhar resultado' },
+  { id: 'calligrapher', icon: '✍️', name: 'Calígrafo', desc: 'Escrever Hangul' },
+  { id: 'share', icon: '📤', name: 'Divulgador', desc: 'Compartilhar' },
   { id: 'duo', icon: '👥', name: 'Amigos', desc: 'Jogar em 2 players' },
-  { id: 'marathon', icon: '🏃', name: 'Maratonista', desc: 'Jogar modo maratona' },
-  { id: 'fastest', icon: '💨', name: 'Relâmpago', desc: '10s ou menos por pergunta' },
-  { id: 'coin100', icon: '🪙', name: 'Rico', desc: '100 moedas acumuladas' },
-  { id: 'level5', icon: '✨', name: 'Nível 5', desc: 'Alcançar nível 5' },
-  { id: 'comeback', icon: '🔄', name: 'Virada', desc: 'Recuperar após 3 erros' },
-  { id: 'explorer', icon: '🧭', name: 'Explorador', desc: 'Jogar todos os modos' }
+  { id: 'boss', icon: '👹', name: 'Caçador', desc: 'Derrotar o chefão' },
+  { id: 'collector', icon: '🃏', name: 'Colecionador', desc: 'Coletar 12 cartas' },
+  { id: 'coin500', icon: '💰', name: 'Milionário', desc: '500 moedas' },
+  { id: 'level10', icon: '🎖️', name: 'Veterano', desc: 'Nível 10' },
+  { id: 'music-quiz', icon: '🎼', name: 'Músico', desc: 'Quiz musical' },
+  { id: 'chaos', icon: '🌀', name: 'Caótico', desc: 'Jogar modo caos' },
+  { id: 'time-attack', icon: '⏱️', name: 'Corredor', desc: 'Modo contrarrelógio' }
 ];
 
 let unlockedAchievements = new Set();
-let coins = 0;
+let coins = 100;
 let playerLevel = 1;
 let playerXP = 0;
+let collectedCards = new Set();
+let unlockedTracks = new Set([0]);
+
+// Carrega save
+try {
+  const save = JSON.parse(localStorage.getItem('korea_supreme') || '{}');
+  if (save.coins) coins = save.coins;
+  if (save.level) playerLevel = save.level;
+  if (save.xp) playerXP = save.xp;
+  if (save.achievements) unlockedAchievements = new Set(save.achievements);
+  if (save.cards) collectedCards = new Set(save.cards);
+  if (save.tracks) unlockedTracks = new Set(save.tracks);
+} catch(e) {}
+
+function saveGame() {
+  try {
+    localStorage.setItem('korea_supreme', JSON.stringify({
+      coins, level: playerLevel, xp: playerXP,
+      achievements: [...unlockedAchievements],
+      cards: [...collectedCards],
+      tracks: [...unlockedTracks]
+    }));
+  } catch(e) {}
+}
 
 function showAchievement(ach) {
   if (unlockedAchievements.has(ach.id)) return;
   unlockedAchievements.add(ach.id);
   playUnlock();
-  burstConfetti(30);
+  burstConfetti(40);
+  saveGame();
 
   const popup = document.createElement('div');
   popup.className = 'achievement-popup';
   popup.innerHTML = `
     <span class="icon">${ach.icon}</span>
     <div>
-      <div style="font-size: 0.7em; opacity: 0.8;">CONQUISTA!</div>
-      <div>${ach.name}</div>
-      <div style="font-size: 0.65em; font-weight: 400; opacity: 0.7;">${ach.desc}</div>
+      <div style="font-size: 0.68em; opacity: 0.8;">CONQUISTA!</div>
+      <div style="font-size: 1.05em;">${ach.name}</div>
+      <div style="font-size: 0.62em; font-weight: 400; opacity: 0.7;">${ach.desc}</div>
     </div>
   `;
   document.body.appendChild(popup);
   setTimeout(() => popup.remove(), 4000);
+  updateHUD();
 }
 
 function checkAchievement(id) {
@@ -1369,35 +1822,20 @@ let timePerQuestion = 20, timeLeft = 20, timerInterval;
 let totalTime = 0, gameStartTime;
 let answerHistory = [], hintUsed = false;
 let currentPlayer = 1, player1Score = 0, player2Score = 0;
-let usedFifty = false, wrongCount = 0;
+let usedFifty = false, usedFreeze = false, usedDouble = false, wrongCount = 0;
 let chaptersCompleted = new Set();
+let karma = 50;
+let bossHP = 100, bossMaxHP = 100;
+let bossIndex = 0;
+let timeAttackLeft = 60;
+let isFrozen = false;
+let doublePoints = false;
 
-// Elementos
-const startScreen = document.getElementById('start-screen');
-const gameArea = document.getElementById('game-area');
-const endScreen = document.getElementById('end-screen');
-const questionEl = document.getElementById('question');
-const answersEl = document.getElementById('answers');
-const feedbackEl = document.getElementById('feedback');
-const nextBtn = document.getElementById('next-btn');
-const scoreEl = document.getElementById('score');
-const hitsEl = document.getElementById('hits');
-const streakEl = document.getElementById('streak');
-const qNumberEl = document.getElementById('q-number');
-const progressEl = document.getElementById('progress');
-const timerEl = document.getElementById('timer');
-const hintBox = document.getElementById('hint-box');
-const hintText = document.getElementById('hint-text');
-const hintBtn = document.getElementById('hint-btn');
-const skipBtn = document.getElementById('skip-btn');
-const fiftyBtn = document.getElementById('fifty-btn');
-const turnIndicator = document.getElementById('turn-indicator');
-const scoreLabel = document.getElementById('score-label');
-const chapterPanel = document.getElementById('chapter-panel');
-const hudLevel = document.getElementById('hud-level');
-const hudCoins = document.getElementById('hud-coins');
+const $ = id => document.getElementById(id);
+const startScreen = $('start-screen');
+const gameArea = $('game-area');
+const endScreen = $('end-screen');
 
-// ==================== NAVEGAÇÃO ====================
 function showScreen(screen) {
   [startScreen, gameArea, endScreen].forEach(s => s.classList.add('hidden'));
   screen.classList.remove('hidden');
@@ -1405,12 +1843,14 @@ function showScreen(screen) {
 }
 
 function updateHUD() {
-  hudLevel.textContent = `✨ NÍVEL ${playerLevel}`;
-  hudCoins.textContent = `🪙 ${coins}`;
+  $('hud-level').textContent = `✨ Nv ${playerLevel}`;
+  $('hud-coins').textContent = `🪙 ${coins}`;
+  $('hud-cards').textContent = `🃏 ${collectedCards.size}/${collectibleCards.length}`;
+  $('hud-achievements').textContent = `🏆 ${unlockedAchievements.size}/${achievementsList.length}`;
 }
 updateHUD();
 
-// ==================== EVENTOS INICIAIS ====================
+// ==================== EVENTOS ====================
 document.querySelectorAll('.mode-card').forEach(card => {
   card.onclick = () => {
     document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
@@ -1425,13 +1865,13 @@ document.querySelectorAll('.diff-btn').forEach(btn => {
     document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     difficulty = btn.dataset.diff;
-    timePerQuestion = difficulty === 'facil' ? 20 : difficulty === 'medio' ? 15 : difficulty === 'dificil' ? 10 : 7;
+    timePerQuestion = { facil: 20, medio: 15, dificil: 10, lenda: 7, impossivel: 5 }[difficulty];
     playClick();
   };
 });
 
 // ==================== NARRAÇÃO ====================
-function showNarration(text, sub, duration = 2500) {
+function showNarration(text, sub, duration = 2200) {
   return new Promise(resolve => {
     const o = document.createElement('div');
     o.className = 'narration-overlay';
@@ -1445,45 +1885,115 @@ function showNarration(text, sub, duration = 2500) {
   });
 }
 
-// ==================== INICIAR JOGO ====================
-document.getElementById('start-btn').onclick = async () => {
+// ==================== CENA CINEMATOGRÁFICA ====================
+async function playCinematic() {
+  return new Promise(resolve => {
+    const cinematic = document.createElement('div');
+    cinematic.className = 'cinematic';
+    const scenes = [
+      { text: '안녕하세요', sub: 'Olá — bem-vindo à Coreia' },
+      { text: '아름다운 나라', sub: 'Uma terra de beleza' },
+      { text: '문화의 나라', sub: 'Uma nação de cultura' },
+      { text: '준비되셨나요?', sub: 'Você está pronto?' }
+    ];
+
+    let sceneIdx = 0;
+    function nextScene() {
+      if (sceneIdx >= scenes.length) {
+        cinematic.style.transition = 'opacity 0.8s';
+        cinematic.style.opacity = '0';
+        setTimeout(() => { cinematic.remove(); resolve(); }, 800);
+        return;
+      }
+      const scene = scenes[sceneIdx];
+      cinematic.innerHTML = `
+        <div class="cinema-dots"></div>
+        <div class="cinema-scene" style="animation-delay: 0s;">
+          <div class="cinema-text">${scene.text}</div>
+          <div class="cinema-sub">${scene.sub}</div>
+        </div>
+        <button class="cinema-skip" id="cinema-skip">Pular ⏭</button>
+      `;
+      document.getElementById('cinema-skip').onclick = () => {
+        cinematic.remove(); resolve();
+      };
+      setTimeout(() => {
+        sceneIdx++;
+        nextScene();
+      }, 3200);
+    }
+    document.body.appendChild(cinematic);
+    nextScene();
+  });
+}
+
+// ==================== BOSS ====================
+const bosses = [
+  { name: 'Dokkaebi - O Goblin', emoji: '👹' },
+  { name: 'Gumiho - A Raposa de 9 Caudas', emoji: '🦊' },
+  { name: 'Yong - O Dragão Celestial', emoji: '🐉' },
+  { name: 'Bulgasari - O Devorador', emoji: '👾' }
+];
+
+// ==================== INICIAR ====================
+$('start-btn').onclick = async () => {
   initAudio();
   playClick();
   if (musicOn) startMusic();
   speak('안녕하세요', 'ko-KR');
 
-  // Capítulos em sequência
+  await playCinematic();
   await showNarration('환영합니다!', 'Bem-vindo(a) à Coreia!', 2000);
 
-  // Prepara as perguntas por capítulo
+  // Prepara perguntas
   questions = [];
   chaptersData.forEach((ch, chIdx) => {
-    const count = gameMode === 'maratona' ? ch.questions.length : Math.min(3, ch.questions.length);
+    let count = 3;
+    if (gameMode === 'maratona' || gameMode === 'caos') count = ch.questions.length;
+    if (gameMode === 'boss') count = 2;
     const shuffled = [...ch.questions].sort(() => Math.random() - 0.5).slice(0, count);
-    shuffled.forEach(q => {
-      questions.push({ ...q, chapter: chIdx });
-    });
+    shuffled.forEach(q => questions.push({ ...q, chapter: chIdx }));
   });
-  questions.sort(() => Math.random() - 0.5);
+
+  if (gameMode === 'caos') questions.sort(() => Math.random() - 0.5);
+  else questions.sort((a, b) => a.chapter - b.chapter);
 
   currentQuestion = 0;
   score = 0; hits = 0; streak = 0; bestStreak = 0;
   answerHistory = []; totalTime = 0;
   currentPlayer = 1; player1Score = 0; player2Score = 0;
   chaptersCompleted = new Set();
-  wrongCount = 0;
+  wrongCount = 0; karma = 50;
+  bossHP = 100; bossMaxHP = 100; bossIndex = 0;
+  timeAttackLeft = 60;
+  isFrozen = false; doublePoints = false;
   gameStartTime = Date.now();
 
   if (gameMode === 'duo') {
-    turnIndicator.classList.remove('hidden');
+    $('turn-indicator').classList.remove('hidden');
     updateTurnIndicator();
-    scoreLabel.textContent = 'P1 / P2';
+    $('score-label').textContent = 'P1 / P2';
     checkAchievement('duo');
   } else {
-    turnIndicator.classList.add('hidden');
-    scoreLabel.textContent = 'Pontos';
+    $('turn-indicator').classList.add('hidden');
+    $('score-label').textContent = 'Pontos';
   }
+
+  if (gameMode === 'boss') {
+    $('boss-area').classList.remove('hidden');
+    const b = bosses[Math.floor(Math.random() * bosses.length)];
+    $('boss-name').textContent = b.name;
+    $('boss-emoji').textContent = b.emoji;
+    $('boss-hp').style.width = '100%';
+    questions = questions.slice(0, 10);
+    checkAchievement('boss');
+  } else {
+    $('boss-area').classList.add('hidden');
+  }
+
   if (gameMode === 'maratona') checkAchievement('marathon');
+  if (gameMode === 'caos') checkAchievement('chaos');
+  if (gameMode === 'tempo') checkAchievement('time-attack');
 
   showScreen(gameArea);
   renderChapterPanel();
@@ -1491,20 +2001,22 @@ document.getElementById('start-btn').onclick = async () => {
 };
 
 function renderChapterPanel() {
-  chapterPanel.innerHTML = '';
+  const cp = $('chapter-panel');
+  cp.innerHTML = '';
   chaptersData.forEach((ch, i) => {
     const b = document.createElement('div');
     b.className = `chapter-badge ${ch.cssClass}`;
     const current = questions[currentQuestion]?.chapter;
     if (i === current) b.classList.add('active');
     b.textContent = `${ch.emoji} ${ch.name}`;
-    chapterPanel.appendChild(b);
+    cp.appendChild(b);
   });
 }
 
 function updateTurnIndicator() {
-  turnIndicator.textContent = `🎯 Vez do Jogador ${currentPlayer} ${currentPlayer === 1 ? '🔴' : '🔵'}`;
-  turnIndicator.style.background = currentPlayer === 1
+  const ti = $('turn-indicator');
+  ti.textContent = `🎯 Vez do Jogador ${currentPlayer} ${currentPlayer === 1 ? '🔴' : '🔵'}`;
+  ti.style.background = currentPlayer === 1
     ? 'linear-gradient(135deg, var(--vermelho), #8b1a24)'
     : 'linear-gradient(135deg, var(--azul), var(--roxo))';
 }
@@ -1512,20 +2024,24 @@ function updateTurnIndicator() {
 // ==================== CARREGAR PERGUNTA ====================
 function loadQuestion() {
   answered = false;
-  hintUsed = false;
-  usedFifty = false;
-  hintBox.classList.remove('show');
-  hintBtn.disabled = false;
-  skipBtn.disabled = false;
-  fiftyBtn.disabled = false;
+  hintUsed = false; usedFifty = false; usedFreeze = false; usedDouble = false;
+  isFrozen = false; doublePoints = false;
+  $('hint-box').classList.remove('show');
+  $('hint-btn').disabled = false;
+  $('skip-btn').disabled = false;
+  $('fifty-btn').disabled = false;
+  $('freeze-btn').disabled = false;
+  $('double-btn').disabled = false;
 
   const q = questions[currentQuestion];
-  questionEl.innerHTML = `<span class="emoji-wrap">${q.emoji}</span><br>${q.q}`;
-  qNumberEl.textContent = `${currentQuestion + 1}/${questions.length}`;
-  progressEl.style.width = `${(currentQuestion / questions.length) * 100}%`;
-  feedbackEl.textContent = '';
-  nextBtn.classList.add('hidden');
+  $('question').innerHTML = `<span class="emoji-wrap">${q.emoji}</span><br>${q.q}`;
+  $('q-number').textContent = `${currentQuestion + 1}/${questions.length}`;
+  $('progress').style.width = `${(currentQuestion / questions.length) * 100}%`;
+  $('feedback').textContent = '';
+  $('next-btn').classList.add('hidden');
+  $('karma').textContent = karma;
 
+  const answersEl = $('answers');
   answersEl.innerHTML = '';
   const keys = ['1', '2', '3', '4'];
   q.answers.forEach((ans, i) => {
@@ -1540,19 +2056,30 @@ function loadQuestion() {
   startTimer();
 }
 
-// ==================== CRONÔMETRO ====================
+// ==================== TIMER ====================
 function startTimer() {
   clearInterval(timerInterval);
   timeLeft = timePerQuestion;
-  timerEl.style.width = '100%';
-  timerEl.classList.remove('danger');
+  $('timer').style.width = '100%';
+  $('timer').classList.remove('danger');
 
   timerInterval = setInterval(() => {
+    if (isFrozen) return;
     timeLeft -= 0.1;
     const pct = (timeLeft / timePerQuestion) * 100;
-    timerEl.style.width = Math.max(0, pct) + '%';
+    $('timer').style.width = Math.max(0, pct) + '%';
+
+    if (gameMode === 'tempo') {
+      timeAttackLeft -= 0.1;
+      if (timeAttackLeft <= 0) {
+        clearInterval(timerInterval);
+        if (!answered) endGame();
+        return;
+      }
+    }
+
     if (timeLeft <= 5) {
-      timerEl.classList.add('danger');
+      $('timer').classList.add('danger');
       if (Math.floor(timeLeft * 10) % 10 === 0) playTick();
     }
     if (timeLeft <= 0) {
@@ -1572,18 +2099,21 @@ function timeOut() {
   buttons.forEach(b => b.disabled = true);
   buttons[q.correct].classList.add('correct');
 
-  streak = 0; wrongCount++;
-  streakEl.textContent = '0🔥';
-  feedbackEl.innerHTML = `⏰ <span style="color:var(--vermelho)">Tempo esgotado! A resposta era: ${q.answers[q.correct]}</span>`;
+  streak = 0; wrongCount++; karma = Math.max(0, karma - 10);
+  $('streak').textContent = '0🔥';
+  $('karma').textContent = karma;
+  $('feedback').innerHTML = `⏰ <span style="color:var(--vermelho)">Tempo esgotado! Resposta: ${q.answers[q.correct]}</span>`;
   playWrong();
+
+  if (gameMode === 'boss') damageBoss(false);
 
   answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: 'Tempo esgotado', ok: false, fact: q.fact, chapter: q.chapter });
 
   if (gameMode === 'duo') handleDuoAnswer(false);
-  nextBtn.classList.remove('hidden');
+  $('next-btn').classList.remove('hidden');
 }
 
-// ==================== RESPONDER ====================
+// ==================== RESPOSTA ====================
 function selectAnswer(index, btn) {
   if (answered) return;
   answered = true;
@@ -1592,62 +2122,84 @@ function selectAnswer(index, btn) {
   const q = questions[currentQuestion];
   const buttons = document.querySelectorAll('.answer-btn');
   buttons.forEach(b => b.disabled = true);
-  hintBtn.disabled = true; skipBtn.disabled = true; fiftyBtn.disabled = true;
+  $('hint-btn').disabled = true; $('skip-btn').disabled = true;
+  $('fifty-btn').disabled = true; $('freeze-btn').disabled = true; $('double-btn').disabled = true;
 
   const timeBonus = Math.floor(timeLeft * 2);
   const wasFast = (timePerQuestion - timeLeft) < 3;
 
   if (index === q.correct) {
     btn.classList.add('correct');
-    const points = 10 + timeBonus + (hintUsed ? -5 : 0) + (usedFifty ? -10 : 0);
+    let points = 10 + timeBonus + (hintUsed ? -5 : 0) + (usedFifty ? -10 : 0);
+    if (doublePoints) points *= 2;
+    points = Math.max(1, points);
     score += points; hits++; streak++;
     if (streak > bestStreak) bestStreak = streak;
+    karma = Math.min(100, karma + 5);
 
-    // Moedas e XP
-    coins += Math.floor(points / 2);
+    const coinGain = Math.floor(points / 2);
+    coins += coinGain;
     playerXP += points;
     while (playerXP >= 100) { playerXP -= 100; playerLevel++; }
 
-    scoreEl.textContent = score;
-    hitsEl.textContent = hits;
-    streakEl.textContent = streak + '🔥';
-    scoreEl.classList.add('bump');
-    setTimeout(() => scoreEl.classList.remove('bump'), 500);
+    $('score').textContent = score;
+    $('hits').textContent = hits;
+    $('streak').textContent = streak + '🔥';
+    $('karma').textContent = karma;
+    $('score').classList.add('bump');
+    setTimeout(() => $('score').classList.remove('bump'), 500);
     updateHUD();
+    saveGame();
 
     const bonusText = timeBonus > 0 ? ` (+${timeBonus} bônus!)` : '';
-    feedbackEl.innerHTML = `✅ <span style="color:#4caf50">정답! Correto! +${points} pontos${bonusText}</span>`;
+    const doubleText = doublePoints ? ' 💰2x' : '';
+    $('feedback').innerHTML = `✅ <span style="color:#4caf50">정답! Correto! +${points} pts (+${coinGain}🪙)${bonusText}${doubleText}</span>`;
     playCorrect();
     burstConfetti(35);
     speak('정답', 'ko-KR');
 
-    // Conquistas
     checkAchievement('first');
     if (streak >= 5) checkAchievement('streak5');
     if (streak >= 10) checkAchievement('streak10');
     if (wasFast) checkAchievement('fast');
-    if (coins >= 100) checkAchievement('coin100');
-    if (playerLevel >= 5) checkAchievement('level5');
-    if (wrongCount >= 3) checkAchievement('comeback');
+    if (coins >= 500) checkAchievement('coin500');
+    if (playerLevel >= 10) checkAchievement('level10');
+
+    // Chance de drop de carta
+    if (Math.random() < 0.4) {
+      const locked = collectibleCards.filter(c => !collectedCards.has(c.id));
+      if (locked.length) {
+        const card = locked[Math.floor(Math.random() * locked.length)];
+        collectedCards.add(card.id);
+        saveGame();
+        setTimeout(() => {
+          $('feedback').innerHTML += `<br><small style="color:var(--dourado); font-weight:700;">🃏 Carta coletada: ${card.emoji} ${card.name} (${card.rarity})!</small>`;
+        }, 800);
+        burstConfetti(20);
+        if (collectedCards.size === collectibleCards.length) checkAchievement('collector');
+      }
+    }
 
     answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: q.answers[index], ok: true, fact: q.fact, chapter: q.chapter });
 
+    if (gameMode === 'boss') damageBoss(true);
     if (gameMode === 'duo') handleDuoAnswer(true);
   } else {
     btn.classList.add('wrong');
     buttons[q.correct].classList.add('correct');
-    streak = 0; wrongCount++;
-    streakEl.textContent = '0🔥';
-    feedbackEl.innerHTML = `❌ <span style="color:var(--vermelho)">틀렸어요! A resposta era: ${q.answers[q.correct]}</span>`;
+    streak = 0; wrongCount++; karma = Math.max(0, karma - 10);
+    $('streak').textContent = '0🔥';
+    $('karma').textContent = karma;
+    $('feedback').innerHTML = `❌ <span style="color:var(--vermelho)">틀렸어요! Resposta: ${q.answers[q.correct]}</span>`;
     playWrong();
     speak('땡', 'ko-KR');
 
+    if (gameMode === 'boss') damageBoss(false);
     answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: q.answers[index], ok: false, fact: q.fact, chapter: q.chapter });
-
     if (gameMode === 'duo') handleDuoAnswer(false);
   }
 
-  // Marca capítulo completo
+  // Capítulo completo
   const chapterIdx = q.chapter;
   const chapterQs = questions.filter(x => x.chapter === chapterIdx);
   const chapterAnswered = answerHistory.filter(x => x.chapter === chapterIdx);
@@ -1657,10 +2209,24 @@ function selectAnswer(index, btn) {
   }
 
   setTimeout(() => {
-    feedbackEl.innerHTML += `<br><small style="color:#888; font-weight:400; font-style:italic;">💡 ${q.fact}</small>`;
+    $('feedback').innerHTML += `<br><small style="color:#888; font-weight:400; font-style:italic;">💡 ${q.fact}</small>`;
   }, 400);
 
-  nextBtn.classList.remove('hidden');
+  $('next-btn').classList.remove('hidden');
+}
+
+function damageBoss(hit) {
+  if (hit) bossHP = Math.max(0, bossHP - 10);
+  else bossHP = Math.min(bossMaxHP, bossHP + 5);
+  $('boss-hp').style.width = bossHP + '%';
+  if (bossHP <= 0) {
+    setTimeout(() => {
+      $('feedback').innerHTML = '🎉 <span style="color:#4caf50">CHEFÃO DERROTADO! 대박!</span>';
+      burstConfetti(200);
+      burstFireworks(10);
+      speak('승리', 'ko-KR');
+    }, 500);
+  }
 }
 
 function handleDuoAnswer(correct) {
@@ -1671,7 +2237,7 @@ function handleDuoAnswer(correct) {
 }
 
 // ==================== PRÓXIMA ====================
-nextBtn.onclick = () => {
+$('next-btn').onclick = () => {
   playClick();
   currentQuestion++;
   if (currentQuestion < questions.length) {
@@ -1682,17 +2248,17 @@ nextBtn.onclick = () => {
   }
 };
 
-// ==================== DICA / PULAR / 50-50 ====================
-hintBtn.onclick = () => {
+// ==================== PODERES ====================
+$('hint-btn').onclick = () => {
   if (answered || hintUsed) return;
   hintUsed = true;
-  hintBtn.disabled = true;
-  hintText.textContent = questions[currentQuestion].hint;
-  hintBox.classList.add('show');
+  $('hint-btn').disabled = true;
+  $('hint-text').textContent = questions[currentQuestion].hint;
+  $('hint-box').classList.add('show');
   playClick();
 };
 
-skipBtn.onclick = () => {
+$('skip-btn').onclick = () => {
   if (answered) return;
   answered = true;
   stopTimer();
@@ -1700,21 +2266,21 @@ skipBtn.onclick = () => {
   const buttons = document.querySelectorAll('.answer-btn');
   buttons.forEach(b => b.disabled = true);
   buttons[q.correct].classList.add('correct');
-  streak = 0; wrongCount++;
-  streakEl.textContent = '0🔥';
-  feedbackEl.innerHTML = `⏭️ <span style="color:#888">Pulou! A resposta era: ${q.answers[q.correct]}</span>`;
+  streak = 0; wrongCount++; karma = Math.max(0, karma - 5);
+  $('streak').textContent = '0🔥';
+  $('feedback').innerHTML = `⏭️ <span style="color:#888">Pulou! Resposta: ${q.answers[q.correct]}</span>`;
   playClick();
   answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: 'Pulou', ok: false, fact: q.fact, chapter: q.chapter });
-  nextBtn.classList.remove('hidden');
+  $('next-btn').classList.remove('hidden');
 };
 
-fiftyBtn.onclick = () => {
+$('fifty-btn').onclick = () => {
   if (answered || usedFifty) return;
   usedFifty = true;
-  fiftyBtn.disabled = true;
+  $('fifty-btn').disabled = true;
   const q = questions[currentQuestion];
   const buttons = document.querySelectorAll('.answer-btn');
-  const wrongIdx = buttons.length ? [...Array(buttons.length).keys()].filter(i => i !== q.correct).sort(() => Math.random() - 0.5).slice(0, 2) : [];
+  const wrongIdx = [...Array(buttons.length).keys()].filter(i => i !== q.correct).sort(() => Math.random() - 0.5).slice(0, 2);
   wrongIdx.forEach(i => {
     buttons[i].disabled = true;
     buttons[i].style.opacity = '0.3';
@@ -1723,7 +2289,26 @@ fiftyBtn.onclick = () => {
   playClick();
 };
 
-// ==================== CONFETES ====================
+$('freeze-btn').onclick = () => {
+  if (answered || usedFreeze) return;
+  usedFreeze = true;
+  $('freeze-btn').disabled = true;
+  isFrozen = true;
+  playTone(300, 0.5);
+  setTimeout(() => { isFrozen = false; }, 5000);
+  $('feedback').innerHTML = '🧊 <span style="color:var(--ciano)">Tempo congelado por 5 segundos!</span>';
+};
+
+$('double-btn').onclick = () => {
+  if (answered || usedDouble) return;
+  usedDouble = true;
+  $('double-btn').disabled = true;
+  doublePoints = true;
+  playTone(600, 0.3);
+  $('feedback').innerHTML = '💰 <span style="color:var(--dourado)">Próxima resposta vale DOBRO!</span>';
+};
+
+// ==================== EFEITOS ====================
 function burstConfetti(count) {
   const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#ffb7c5', '#ffffff', '#6a1b9a', '#00a86b'];
   for (let i = 0; i < count; i++) {
@@ -1741,29 +2326,29 @@ function burstConfetti(count) {
 }
 
 function burstFireworks(count) {
-  const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#ffb7c5', '#ffffff', '#6a1b9a', '#00a86b', '#ff6b35'];
+  const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#ffb7c5', '#ffffff', '#6a1b9a', '#00a86b', '#ff6b35', '#00d4ff'];
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
       const x = Math.random() * window.innerWidth;
       const y = Math.random() * window.innerHeight * 0.6;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < 25; j++) {
         const f = document.createElement('div');
         f.className = 'firework';
         f.style.left = x + 'px';
         f.style.top = y + 'px';
         f.style.background = color;
         f.style.boxShadow = `0 0 10px ${color}`;
-        const angle = (Math.PI * 2 * j) / 20;
-        const dist = 80 + Math.random() * 80;
+        const angle = (Math.PI * 2 * j) / 25;
+        const dist = 80 + Math.random() * 100;
         const dx = Math.cos(angle) * dist;
         const dy = Math.sin(angle) * dist;
         f.animate([
           { transform: 'translate(0, 0) scale(1)', opacity: 1 },
           { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
-        ], { duration: 1200, easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)' });
+        ], { duration: 1400, easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)' });
         document.body.appendChild(f);
-        setTimeout(() => f.remove(), 1300);
+        setTimeout(() => f.remove(), 1500);
       }
     }, i * 150);
   }
@@ -1775,30 +2360,30 @@ async function endGame() {
   totalTime = Math.floor((Date.now() - gameStartTime) / 1000);
   showScreen(endScreen);
   playVictory();
-  burstFireworks(5);
+  burstFireworks(6);
 
-  const percent = (hits / questions.length) * 100;
+  const percent = (hits / Math.max(1, answerHistory.length)) * 100;
   let trophy, title, msg;
 
-  if (hits === questions.length) {
+  if (hits === questions.length || (gameMode === 'boss' && bossHP <= 0)) {
     trophy = '👑';
     title = '완벽해요! (Perfeito!)';
     msg = 'Você é um verdadeiro mestre da cultura coreana! 대박!';
-    burstConfetti(250);
-    burstFireworks(10);
+    burstConfetti(300);
+    burstFireworks(15);
     checkAchievement('perfect');
     speak('완벽해요', 'ko-KR');
   } else if (percent >= 70) {
     trophy = '🥇';
     title = '잘했어요! (Muito bem!)';
-    msg = 'Você conhece bastante sobre a Coreia! Continue explorando!';
-    burstConfetti(150);
+    msg = 'Você conhece bastante sobre a Coreia!';
+    burstConfetti(180);
     speak('잘했어요', 'ko-KR');
   } else if (percent >= 40) {
     trophy = '🥈';
     title = '괜찮아요! (Está ok!)';
-    msg = 'Bom começo! Assista um dorama ou ouça K-Pop!';
-    burstConfetti(80);
+    msg = 'Bom começo! Continue explorando!';
+    burstConfetti(90);
   } else {
     trophy = '📚';
     title = '화이팅! (Força!)';
@@ -1807,36 +2392,33 @@ async function endGame() {
   }
 
   if (!hintUsed) checkAchievement('no-hint');
-  if (playerLevel >= 5) checkAchievement('level5');
 
-  document.getElementById('trophy').textContent = trophy;
-  document.getElementById('end-title').textContent = title;
-  document.getElementById('end-message').textContent = msg;
-  document.getElementById('final-score').textContent = `${score} pontos`;
-  document.getElementById('final-hits').textContent = hits;
-  document.getElementById('final-wrong').textContent = questions.length - hits;
-  document.getElementById('final-time').textContent = totalTime + 's';
-  document.getElementById('final-streak').textContent = bestStreak;
+  $('trophy').textContent = trophy;
+  $('end-title').textContent = title;
+  $('end-message').textContent = msg;
+  $('final-score').textContent = `${score} pontos`;
+  $('final-hits').textContent = hits;
+  $('final-wrong').textContent = Math.max(0, answerHistory.length - hits);
+  $('final-time').textContent = totalTime + 's';
+  $('final-streak').textContent = bestStreak;
 
-  // Pódio modo duo
-  const podium = document.getElementById('podium');
+  // Pódio
+  const podium = $('podium');
   if (gameMode === 'duo') {
     podium.classList.remove('hidden');
-    let pc = '<h3 style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 12px; letter-spacing: 1px;">🏆 PÓDIO FINAL</h3>';
+    let pc = '<h3 style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 10px; letter-spacing: 1px;">🏆 PÓDIO FINAL</h3>';
     if (player1Score > player2Score) {
-      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🥇</span><br><strong>Jogador 1 venceu!</strong><br>${player1Score} x ${player2Score}</div>`;
-      burstConfetti(150);
+      pc += `<div style="font-size: 1.1em;"><span style="font-size: 2.2em;">🥇</span><br><strong>Jogador 1 venceu!</strong><br>${player1Score} x ${player2Score}</div>`;
     } else if (player2Score > player1Score) {
-      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🥇</span><br><strong>Jogador 2 venceu!</strong><br>${player2Score} x ${player1Score}</div>`;
-      burstConfetti(150);
+      pc += `<div style="font-size: 1.1em;"><span style="font-size: 2.2em;">🥇</span><br><strong>Jogador 2 venceu!</strong><br>${player2Score} x ${player1Score}</div>`;
     } else {
-      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🤝</span><br><strong>Empate!</strong><br>${player1Score} x ${player2Score}</div>`;
+      pc += `<div style="font-size: 1.1em;"><span style="font-size: 2.2em;">🤝</span><br><strong>Empate!</strong><br>${player1Score} x ${player2Score}</div>`;
     }
     podium.innerHTML = pc;
   } else podium.classList.add('hidden');
 
   // Conquistas
-  const ag = document.getElementById('achievements-grid');
+  const ag = $('achievements-grid');
   ag.innerHTML = '';
   achievementsList.forEach(a => {
     const div = document.createElement('div');
@@ -1847,23 +2429,23 @@ async function endGame() {
   });
 
   // Histórico
-  const hEl = document.getElementById('history');
+  const hEl = $('history');
   hEl.innerHTML = '';
   answerHistory.forEach((item, i) => {
     const div = document.createElement('div');
     div.className = 'history-item ' + (item.ok ? 'ok' : 'fail');
     div.innerHTML = `
       <strong>${i + 1}. ${item.q}</strong>
-      ${item.ok ? '✅' : '❌'} Sua resposta: <em>${item.chosen}</em>
+      ${item.ok ? '✅' : '❌'} Sua: <em>${item.chosen}</em>
       ${!item.ok ? `<br>✔️ Correta: <strong>${item.correct}</strong>` : ''}
       <br><small style="color:#888; font-style:italic;">💡 ${item.fact}</small>
     `;
     hEl.appendChild(div);
   });
 
-  // Ranking local
   saveScore(score, hits, questions.length);
   renderLeaderboard();
+  saveGame();
 }
 
 // ==================== RANKING ====================
@@ -1877,80 +2459,76 @@ function saveScore(sc, ht, total) {
 }
 
 function renderLeaderboard() {
-  const lb = document.getElementById('leaderboard');
+  const lb = $('leaderboard');
   try {
     const scores = JSON.parse(localStorage.getItem('korea_scores') || '[]');
     if (!scores.length) { lb.innerHTML = '<em style="color:#888">Sem pontuações ainda</em>'; return; }
-    lb.innerHTML = '<h4 style="color: var(--azul); font-family: Black Han Sans; margin-bottom: 8px;">🏆 Top 5 Pontuações</h4>' +
+    lb.innerHTML = '<h4 style="color: var(--azul); font-family: Black Han Sans; margin-bottom: 6px;">🏆 Top 5</h4>' +
       scores.map((s, i) => `
         <div class="leaderboard-row ${i === 0 ? 'top-1' : ''}">
           <span>${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + 'º'} ${s.date}</span>
           <span><strong>${s.score}</strong> pts (${s.hits}/${s.total})</span>
         </div>
       `).join('');
-  } catch(e) { lb.innerHTML = ''; }
+  } catch(e) {}
 }
 
 // ==================== BOTÕES FINAIS ====================
-document.getElementById('restart-btn').onclick = () => { playClick(); document.getElementById('start-btn').click(); };
-document.getElementById('home-btn').onclick = () => { playClick(); showScreen(startScreen); };
+$('restart-btn').onclick = () => { playClick(); $('start-btn').click(); };
+$('home-btn').onclick = () => { playClick(); showScreen(startScreen); };
 
-document.getElementById('share-btn').onclick = () => {
+$('share-btn').onclick = () => {
   playClick();
   checkAchievement('share');
-  const percent = Math.round((hits / questions.length) * 100);
-  const text = `🇰🇷 Fiz ${score} pontos no "Descubra a Coreia"! 🌸
-Acertos: ${hits}/${questions.length} (${percent}%)
-Streak: ${bestStreak}🔥
-Moedas: 🪙 ${coins} | Nível: ${playerLevel}
-Conquistas: ${unlockedAchievements.size}/${achievementsList.length}
-Você consegue me superar? 🏆`;
+  const percent = Math.round((hits / Math.max(1, answerHistory.length)) * 100);
+  const text = `🇰🇷 Fiz ${score} pts no "Descubra a Coreia"! 🌸
+Acertos: ${hits}/${answerHistory.length} (${percent}%)
+Streak: ${bestStreak}🔥 | Karma: ${karma}
+🪙 Moedas: ${coins} | ✨ Nível: ${playerLevel}
+🃏 Cartas: ${collectedCards.size}/${collectibleCards.length}
+🏆 Conquistas: ${unlockedAchievements.size}/${achievementsList.length}
+Você consegue me superar? 🎯`;
 
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
     <div class="modal-content">
       <h3>📤 Compartilhe!</h3>
-      <div style="background:white; padding:20px; border-radius:12px; border:2px dashed var(--dourado); font-size:0.9em; line-height:1.6; margin-bottom:20px; text-align:left; color:#333;">
+      <div style="background:white; padding:16px; border-radius:12px; border:2px dashed var(--dourado); font-size:0.85em; line-height:1.6; margin-bottom:16px; text-align:left; color:#333;">
         ${text.replace(/\n/g, '<br>')}
       </div>
       <div class="btn-row">
-        <button class="primary-btn" id="copy-btn" style="padding:10px 20px; font-size:0.95em;">📋 Copiar</button>
+        <button class="primary-btn" id="copy-btn" style="padding:10px 20px; font-size:0.9em;">📋 Copiar</button>
         <button class="btn-secondary" id="close-modal">Fechar</button>
       </div>
     </div>
   `;
   document.body.appendChild(modal);
-  document.getElementById('copy-btn').onclick = () => {
+  $('copy-btn').onclick = () => {
     navigator.clipboard.writeText(text).then(() => {
-      document.getElementById('copy-btn').textContent = '✅ Copiado!';
+      $('copy-btn').textContent = '✅ Copiado!';
     });
   };
-  document.getElementById('close-modal').onclick = () => modal.remove();
+  $('close-modal').onclick = () => modal.remove();
   modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
 };
 
 // ==================== MINI JOGO HANGUL ====================
-document.getElementById('hangul-btn').onclick = () => {
-  playClick();
-  openHangulGame();
-};
+$('hangul-btn').onclick = () => { playClick(); openHangulGame(); };
 
 function openHangulGame() {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
-    <div class="modal-content" style="max-width:500px;">
+    <div class="modal-content">
       <h3>🇰🇷 Mini Jogo de Hangul</h3>
-      <div class="hangul-intro">
-        <em>Monte a palavra coreana!</em>
-      </div>
-      <div id="hangul-goal" style="font-family: 'Nanum Myeongjo'; font-size: 1.3em; color: var(--azul); margin-bottom: 15px;"></div>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;"><em>Monte a palavra coreana!</em></p>
+      <div id="hangul-goal" style="font-family: 'Nanum Myeongjo'; font-size: 1.15em; color: var(--azul); margin-bottom: 12px;"></div>
       <div class="hangul-board" id="hangul-board"></div>
       <div class="hangul-options" id="hangul-options"></div>
-      <div id="hangul-feedback" style="min-height:30px; margin: 12px 0; font-weight:700;"></div>
+      <div id="hangul-feedback" style="min-height:28px; margin: 10px 0; font-weight:700;"></div>
       <div class="btn-row">
-        <button class="btn-secondary" id="hangul-skip">🔀 Nova Palavra</button>
+        <button class="btn-secondary" id="hangul-skip">🔀 Nova</button>
         <button class="btn-secondary" id="hangul-close">Fechar</button>
       </div>
     </div>
@@ -1958,28 +2536,28 @@ function openHangulGame() {
   document.body.appendChild(modal);
 
   const words = [
-    { hangul: '김치', roman: 'Kimchi', desc: 'Prato apimentado coreano', emoji: '🍜' },
-    { hangul: '서울', roman: 'Seul', desc: 'Capital da Coreia', emoji: '🏯' },
+    { hangul: '김치', roman: 'Kimchi', desc: 'Prato apimentado', emoji: '🍜' },
+    { hangul: '서울', roman: 'Seul', desc: 'Capital', emoji: '🏯' },
     { hangul: '사랑', roman: 'Sarang', desc: 'Amor', emoji: '❤️' },
     { hangul: '친구', roman: 'Chingu', desc: 'Amigo', emoji: '👥' },
     { hangul: '한국', roman: 'Hanguk', desc: 'Coreia', emoji: '🇰🇷' },
     { hangul: '음악', roman: 'Eumak', desc: 'Música', emoji: '🎵' },
     { hangul: '꽃', roman: 'Kkot', desc: 'Flor', emoji: '🌸' },
-    { hangul: '하늘', roman: 'Haneul', desc: 'Céu', emoji: '☁️' }
+    { hangul: '하늘', roman: 'Haneul', desc: 'Céu', emoji: '☁️' },
+    { hangul: '바다', roman: 'Bada', desc: 'Mar', emoji: '🌊' },
+    { hangul: '별', roman: 'Byeol', desc: 'Estrela', emoji: '⭐' }
   ];
 
-  let currentWord, currentProgress, usedLetters;
+  let currentWord, currentProgress;
 
   function newWord() {
     currentWord = words[Math.floor(Math.random() * words.length)];
     const chars = currentWord.hangul.split('');
     currentProgress = [];
-    usedLetters = [];
 
-    const goal = document.getElementById('hangul-goal');
-    goal.innerHTML = `${currentWord.emoji} <strong>${currentWord.roman}</strong> — ${currentWord.desc}`;
+    $('hangul-goal').innerHTML = `${currentWord.emoji} <strong>${currentWord.roman}</strong> — ${currentWord.desc}`;
 
-    const board = document.getElementById('hangul-board');
+    const board = $('hangul-board');
     board.innerHTML = '';
     chars.forEach(() => {
       const t = document.createElement('div');
@@ -1987,12 +2565,10 @@ function openHangulGame() {
       board.appendChild(t);
     });
 
-    const options = document.getElementById('hangul-options');
+    const options = $('hangul-options');
     options.innerHTML = '';
-    const shuffled = [...chars, ...chars].sort(() => Math.random() - 0.5);
-    // Garante chars únicos e suficiente
-    const available = [...new Set(chars)];
-    const distractors = ['가', '나', '다', '라', '마', '바', '사', '아', '자', '차'].filter(c => !chars.includes(c)).slice(0, 2);
+    const distractors = ['가', '나', '다', '라', '마', '바', '사', '아', '자', '차', '카', '타', '파', '하']
+      .filter(c => !chars.includes(c)).slice(0, 2);
     const allOptions = [...chars, ...distractors].sort(() => Math.random() - 0.5);
 
     allOptions.forEach(c => {
@@ -2003,7 +2579,7 @@ function openHangulGame() {
       options.appendChild(b);
     });
 
-    document.getElementById('hangul-feedback').textContent = '';
+    $('hangul-feedback').textContent = '';
   }
 
   function tryLetter(c, btn) {
@@ -2017,15 +2593,16 @@ function openHangulGame() {
       btn.style.opacity = '0.3';
       playTone(600 + currentProgress.length * 100, 0.15);
       if (currentProgress.length === currentWord.hangul.length) {
-        document.getElementById('hangul-feedback').innerHTML = '🎉 <span style="color:#4caf50">Parabéns! Palavra completa!</span>';
+        $('hangul-feedback').innerHTML = '🎉 <span style="color:#4caf50">Parabéns!</span>';
         playCorrect();
         burstConfetti(50);
         speak(currentWord.hangul, 'ko-KR');
         checkAchievement('hangul');
+        coins += 15; saveGame(); updateHUD();
         setTimeout(newWord, 2000);
       }
     } else {
-      document.getElementById('hangul-feedback').innerHTML = '❌ <span style="color:var(--vermelho)">Tente outra letra!</span>';
+      $('hangul-feedback').innerHTML = '❌ <span style="color:var(--vermelho)">Tente outra!</span>';
       playWrong();
       btn.style.animation = 'wrongShake 0.5s';
       setTimeout(() => btn.style.animation = '', 500);
@@ -2033,28 +2610,207 @@ function openHangulGame() {
   }
 
   newWord();
-
-  document.getElementById('hangul-skip').onclick = () => { playClick(); newWord(); };
-  document.getElementById('hangul-close').onclick = () => modal.remove();
+  $('hangul-skip').onclick = () => { playClick(); newWord(); };
+  $('hangul-close').onclick = () => modal.remove();
   modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
 }
 
-// ==================== PINTURA TRADICIONAL ====================
-document.getElementById('paint-btn').onclick = () => {
-  playClick();
-  openPaintGame();
-};
+// ==================== JOGO DA MEMÓRIA ====================
+$('memory-btn').onclick = () => { playClick(); openMemoryGame(); };
+
+function openMemoryGame() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>🧠 Jogo da Memória Coreano</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;">Encontre os pares de símbolos!</p>
+      <div id="memory-info" style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 10px;">Movimentos: 0 | Pares: 0/8</div>
+      <div class="memory-grid" id="memory-grid"></div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-secondary" id="memory-reset">🔄 Reiniciar</button>
+        <button class="btn-secondary" id="memory-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const symbols = ['🌸', '🍜', '🎵', '🏯', '👘', '🥋', '🎭', '☯️'];
+  let cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+  let flipped = [];
+  let matched = 0;
+  let moves = 0;
+  let canFlip = true;
+
+  function render() {
+    const g = $('memory-grid');
+    g.innerHTML = '';
+    cards.forEach((sym, i) => {
+      const c = document.createElement('div');
+      c.className = 'memory-card';
+      c.textContent = sym;
+      c.onclick = () => flipCard(i, c);
+      g.appendChild(c);
+    });
+    $('memory-info').textContent = `Movimentos: ${moves} | Pares: ${matched}/8`;
+  }
+
+  function flipCard(i, el) {
+    if (!canFlip || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+    el.classList.add('flipped');
+    playClick();
+    flipped.push({ i, el });
+    if (flipped.length === 2) {
+      moves++;
+      canFlip = false;
+      const [a, b] = flipped;
+      if (cards[a.i] === cards[b.i]) {
+        a.el.classList.add('matched');
+        b.el.classList.add('matched');
+        matched++;
+        playCorrect();
+        burstConfetti(15);
+        flipped = [];
+        canFlip = true;
+        $('memory-info').textContent = `Movimentos: ${moves} | Pares: ${matched}/8`;
+        if (matched === 8) {
+          setTimeout(() => {
+            burstConfetti(150);
+            burstFireworks(5);
+            playVictory();
+            checkAchievement('memory');
+            coins += 50; saveGame(); updateHUD();
+            $('memory-info').innerHTML = `🎉 <span style="color:#4caf50">Parabéns! Você venceu em ${moves} movimentos!</span>`;
+          }, 500);
+        }
+      } else {
+        setTimeout(() => {
+          a.el.classList.remove('flipped');
+          b.el.classList.remove('flipped');
+          flipped = [];
+          canFlip = true;
+        }, 900);
+        playWrong();
+      }
+    }
+  }
+
+  function reset() {
+    cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+    flipped = []; matched = 0; moves = 0; canFlip = true;
+    render();
+  }
+
+  render();
+  $('memory-reset').onclick = () => { playClick(); reset(); };
+  $('memory-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== PUZZLE DESLIZANTE ====================
+$('puzzle-btn').onclick = () => { playClick(); openPuzzleGame(); };
+
+function openPuzzleGame() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>🧩 Quebra-Cabeça Coreano</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;">Ordene os números de 1 a 8!</p>
+      <div id="puzzle-info" style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 10px;">Movimentos: 0</div>
+      <div class="puzzle-grid" id="puzzle-grid"></div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-secondary" id="puzzle-reset">🔄 Reiniciar</button>
+        <button class="btn-secondary" id="puzzle-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  let tiles = [];
+  let moves = 0;
+  let solved = false;
+
+  function shuffle() {
+    tiles = [1,2,3,4,5,6,7,8,0];
+    do {
+      tiles.sort(() => Math.random() - 0.5);
+    } while (!isSolvable(tiles) || isSolved());
+  }
+
+  function isSolvable(arr) {
+    let inversions = 0;
+    const filtered = arr.filter(x => x !== 0);
+    for (let i = 0; i < filtered.length; i++) {
+      for (let j = i + 1; j < filtered.length; j++) {
+        if (filtered[i] > filtered[j]) inversions++;
+      }
+    }
+    return inversions % 2 === 0;
+  }
+
+  function isSolved() {
+    for (let i = 0; i < 8; i++) if (tiles[i] !== i + 1) return false;
+    return tiles[8] === 0;
+  }
+
+  function render() {
+    const g = $('puzzle-grid');
+    g.innerHTML = '';
+    tiles.forEach((t, i) => {
+      const el = document.createElement('div');
+      el.className = 'puzzle-tile' + (t === 0 ? ' empty' : '');
+      el.textContent = t === 0 ? '' : t;
+      if (t !== 0) el.onclick = () => moveTile(i);
+      g.appendChild(el);
+    });
+    $('puzzle-info').textContent = `Movimentos: ${moves}`;
+  }
+
+  function moveTile(i) {
+    if (solved) return;
+    const emptyIdx = tiles.indexOf(0);
+    const [r1, c1] = [Math.floor(i / 3), i % 3];
+    const [r2, c2] = [Math.floor(emptyIdx / 3), emptyIdx % 3];
+    if (Math.abs(r1 - r2) + Math.abs(c1 - c2) === 1) {
+      [tiles[i], tiles[emptyIdx]] = [tiles[emptyIdx], tiles[i]];
+      moves++;
+      playClick();
+      render();
+      if (isSolved()) {
+        solved = true;
+        setTimeout(() => {
+          burstConfetti(150);
+          burstFireworks(5);
+          playVictory();
+          checkAchievement('puzzle');
+          coins += 60; saveGame(); updateHUD();
+          $('puzzle-info').innerHTML = `🎉 <span style="color:#4caf50">Resolvido em ${moves} movimentos!</span>`;
+        }, 300);
+      }
+    }
+  }
+
+  shuffle();
+  render();
+  $('puzzle-reset').onclick = () => { playClick(); moves = 0; solved = false; shuffle(); render(); };
+  $('puzzle-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== PINTURA ====================
+$('paint-btn').onclick = () => { playClick(); openPaintGame(); };
 
 function openPaintGame() {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
-    <div class="modal-content" style="max-width:600px;">
-      <h3>🎨 Pintura Tradicional Coreana</h3>
-      <p style="color:#666; font-size:0.9em; margin-bottom:12px;">Crie sua obra-prima inspirada na arte coreana!</p>
-      <canvas class="paint-canvas" id="paint-canvas" width="500" height="300"></canvas>
+    <div class="modal-content">
+      <h3>🎨 Pintura Tradicional</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:10px;">Crie sua obra inspirada na arte coreana!</p>
+      <canvas class="paint-canvas" id="paint-canvas" width="500" height="280"></canvas>
       <div class="palette" id="palette"></div>
-      <div class="btn-row" style="margin-top:12px;">
+      <div class="btn-row" style="margin-top:10px;">
         <button class="btn-secondary" id="paint-clear">🗑️ Limpar</button>
         <button class="btn-secondary" id="paint-stamp">🌸 Carimbo</button>
         <button class="btn-secondary" id="paint-save">💾 Salvar</button>
@@ -2064,12 +2820,11 @@ function openPaintGame() {
   `;
   document.body.appendChild(modal);
 
-  const canvas = document.getElementById('paint-canvas');
+  const canvas = $('paint-canvas');
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = '#fdf6e3';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   ctx.lineWidth = 4;
 
   let painting = false;
@@ -2079,10 +2834,7 @@ function openPaintGame() {
     const r = canvas.getBoundingClientRect();
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
-    return {
-      x: (cx - r.left) * (canvas.width / r.width),
-      y: (cy - r.top) * (canvas.height / r.height)
-    };
+    return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) };
   }
 
   canvas.addEventListener('pointerdown', e => { painting = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
@@ -2092,7 +2844,7 @@ function openPaintGame() {
     ctx.strokeStyle = currentColor;
     ctx.lineTo(p.x, p.y);
     ctx.stroke();
-    if (Math.random() > 0.85) {
+    if (Math.random() > 0.9) {
       const s = document.createElement('div');
       s.className = 'sparkle';
       s.textContent = '✨';
@@ -2102,75 +2854,445 @@ function openPaintGame() {
       setTimeout(() => s.remove(), 800);
     }
   });
-  canvas.addEventListener('pointerup', () => { painting = false; });
-  canvas.addEventListener('pointerleave', () => { painting = false; });
+  canvas.addEventListener('pointerup', () => painting = false);
+  canvas.addEventListener('pointerleave', () => painting = false);
 
   const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#00a86b', '#6a1b9a', '#ff6b35', '#ffb7c5', '#000000'];
-  const paletteEl = document.getElementById('palette');
+  const p = $('palette');
   colors.forEach(c => {
     const sw = document.createElement('div');
     sw.className = 'color-swatch' + (c === currentColor ? ' active' : '');
-    sw.style.background = c;
-    sw.style.color = c;
+    sw.style.background = c; sw.style.color = c;
     sw.onclick = () => {
       document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
       sw.classList.add('active');
       currentColor = c;
       playClick();
     };
-    paletteEl.appendChild(sw);
+    p.appendChild(sw);
   });
 
-  document.getElementById('paint-clear').onclick = () => {
-    ctx.fillStyle = '#fdf6e3';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    playClick();
-  };
-
-  document.getElementById('paint-stamp').onclick = () => {
-    // Carimba uma flor de cerejeira
+  $('paint-clear').onclick = () => { ctx.fillStyle = '#fdf6e3'; ctx.fillRect(0, 0, canvas.width, canvas.height); playClick(); };
+  $('paint-stamp').onclick = () => {
     const x = Math.random() * (canvas.width - 60) + 30;
     const y = Math.random() * (canvas.height - 60) + 30;
-    ctx.font = '40px serif';
-    ctx.textAlign = 'center';
+    ctx.font = '40px serif'; ctx.textAlign = 'center';
     ctx.fillText('🌸', x, y);
-    playCorrect();
-    burstConfetti(20);
+    playCorrect(); burstConfetti(20);
   };
-
-  document.getElementById('paint-save').onclick = () => {
+  $('paint-save').onclick = () => {
     const link = document.createElement('a');
     link.download = 'minha-arte-coreana.png';
     link.href = canvas.toDataURL();
     link.click();
     checkAchievement('painter');
+    coins += 30; saveGame(); updateHUD();
     playUnlock();
   };
-
-  document.getElementById('paint-close').onclick = () => {
-    checkAchievement('painter');
-    modal.remove();
-  };
+  $('paint-close').onclick = () => { checkAchievement('painter'); modal.remove(); };
   modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
 }
 
+// ==================== CALIGRAFIA ====================
+$('calligraphy-btn').onclick = () => { playClick(); openCalligraphy(); };
+
+function openCalligraphy() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>✍️ Caligrafia Coreana</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:10px;">Trace os caracteres Hangul com o pincel!</p>
+      <div style="font-family: 'Nanum Myeongjo'; font-size: 2.5em; color: var(--azul); margin-bottom: 10px;" id="calli-target">한</div>
+      <canvas class="calligraphy-canvas" id="calli-canvas" width="400" height="400"></canvas>
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn-secondary" id="calli-clear">🗑️ Limpar</button>
+        <button class="btn-secondary" id="calli-next">🔀 Próximo</button>
+        <button class="btn-secondary" id="calli-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const chars = ['한', '글', '사', '랑', '꽃', '별', '달', '해', '산', '물'];
+  let currentChar = chars[Math.floor(Math.random() * chars.length)];
+  $('calli-target').textContent = currentChar;
+
+  const canvas = $('calli-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function drawGuide() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(212,175,55,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Linhas guia
+    ctx.strokeStyle = 'rgba(212,175,55,0.3)';
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width/2, 0); ctx.lineTo(canvas.width/2, canvas.height);
+    ctx.moveTo(0, canvas.height/2); ctx.lineTo(canvas.width, canvas.height/2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // Caractere de fundo
+    ctx.font = '280px "Nanum Myeongjo"';
+    ctx.fillStyle = 'rgba(0,71,160,0.08)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(currentChar, canvas.width/2, canvas.height/2);
+  }
+  drawGuide();
+
+  let painting = false;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 8;
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) };
+  }
+
+  canvas.addEventListener('pointerdown', e => { painting = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('pointermove', e => {
+    if (!painting) return;
+    const p = getPos(e);
+    ctx.strokeStyle = '#0a0a0a';
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  });
+  canvas.addEventListener('pointerup', () => {
+    painting = false;
+    if (!window._calliChecked) {
+      window._calliChecked = true;
+      checkAchievement('calligrapher');
+      coins += 25; saveGame(); updateHUD();
+    }
+  });
+  canvas.addEventListener('pointerleave', () => painting = false);
+
+  $('calli-clear').onclick = () => { playClick(); drawGuide(); };
+  $('calli-next').onclick = () => {
+    playClick();
+    currentChar = chars[Math.floor(Math.random() * chars.length)];
+    $('calli-target').textContent = currentChar;
+    drawGuide();
+  };
+  $('calli-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== QUIZ MUSICAL ====================
+$('music-quiz-btn').onclick = () => { playClick(); openMusicQuiz(); };
+
+function openMusicQuiz() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>🎼 Quiz Musical Coreano</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;">Ouça a nota e identifique a escala!</p>
+      <div style="font-size: 3em; margin: 15px 0;">🎵</div>
+      <div id="music-question" style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 15px;"></div>
+      <div class="btn-row" id="music-options" style="flex-direction: column; gap: 8px;"></div>
+      <div id="music-feedback" style="min-height:28px; margin: 12px 0; font-weight:700;"></div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="music-play">▶️ Tocar de Novo</button>
+        <button class="btn-secondary" id="music-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const scales = [
+    { name: 'Coreana Pentatônica', notes: [261.63, 293.66, 329.63, 392.00, 440.00] },
+    { name: 'Maior Ocidental', notes: [261.63, 293.66, 329.63, 349.23, 392.00] },
+    { name: 'Menor Triste', notes: [220, 246.94, 261.63, 293.66, 329.63] },
+    { name: 'Japonesa In', notes: [261.63, 277.18, 329.63, 415.30, 440.00] }
+  ];
+
+  let current, correctIdx, score = 0, round = 0;
+  const totalRounds = 5;
+
+  function newRound() {
+    if (round >= totalRounds) {
+      $('music-question').innerHTML = `🎉 <span style="color:#4caf50">Quiz Completo! Acertos: ${score}/${totalRounds}</span>`;
+      $('music-options').innerHTML = '';
+      checkAchievement('music-quiz');
+      coins += 40; saveGame(); updateHUD();
+      burstConfetti(80);
+      return;
+    }
+    round++;
+    correctIdx = Math.floor(Math.random() * scales.length);
+    current = scales[correctIdx];
+    $('music-question').textContent = `Rodada ${round}/${totalRounds}: Qual escala é esta?`;
+
+    const opts = $('music-options');
+    opts.innerHTML = '';
+    scales.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.className = 'btn-secondary';
+      b.style.width = '100%';
+      b.style.padding = '12px';
+      b.textContent = s.name;
+      b.onclick = () => answer(i);
+      opts.appendChild(b);
+    });
+    $('music-feedback').textContent = '';
+    playMelody();
+  }
+
+  function playMelody() {
+    current.notes.forEach((f, i) => {
+      setTimeout(() => playTone(f, 0.5, 'sine', 0.12), i * 400);
+    });
+  }
+
+  function answer(idx) {
+    if (idx === correctIdx) {
+      $('music-feedback').innerHTML = '✅ <span style="color:#4caf50">Correto!</span>';
+      score++; playCorrect();
+    } else {
+      $('music-feedback').innerHTML = `❌ <span style="color:var(--vermelho)">Era: ${scales[correctIdx].name}</span>`;
+      playWrong();
+    }
+    setTimeout(newRound, 1400);
+  }
+
+  $('music-play').onclick = () => { playClick(); playMelody(); };
+  $('music-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  newRound();
+}
+
+// ==================== LOJA ====================
+$('shop-btn').onclick = () => { playClick(); openShop(); };
+
+function openShop() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>🛒 Loja Coreana</h3>
+      <div class="shop-balance">🪙 ${coins} moedas</div>
+      <div class="shop-grid" id="shop-grid"></div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-secondary" id="shop-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const items = [
+    { id: 'life', icon: '❤️', name: 'Vida Extra', price: 50, desc: 'Pular pergunta sem perder pontos' },
+    { id: 'double', icon: '💰', name: 'Pontos 2x', price: 80, desc: 'Próxima resposta vale dobro' },
+    { id: 'freeze', icon: '🧊', name: 'Congelar Tempo', price: 60, desc: '+5 segundos' },
+    { id: 'theme-red', icon: '🔴', name: 'Tema Vermelho', price: 100, desc: 'Muda o tema do site' },
+    { id: 'theme-blue', icon: '🔵', name: 'Tema Azul', price: 100, desc: 'Muda o tema do site' },
+    { id: 'theme-gold', icon: '🟡', name: 'Tema Dourado', price: 200, desc: 'Tema premium dourado' },
+    { id: 'music1', icon: '🎵', name: 'Faixa Meditação', price: 150, desc: 'Música relaxante' },
+    { id: 'music2', icon: '🎵', name: 'Faixa Festa', price: 150, desc: 'Música animada' },
+    { id: 'music3', icon: '🎵', name: 'Faixa Épica', price: 200, desc: 'Música heroica' }
+  ];
+
+  function renderShop() {
+    const g = $('shop-grid');
+    g.innerHTML = '';
+    items.forEach(item => {
+      const el = document.createElement('div');
+      const owned = item.id.startsWith('music') && unlockedTracks.has(parseInt(item.id.replace('music', '')));
+      el.className = 'shop-item' + (owned ? ' owned' : '');
+      el.innerHTML = `
+        <span class="shop-icon">${item.icon}</span>
+        <div class="shop-name">${item.name}</div>
+        <div style="font-size:0.7em; color:#888; margin-bottom:4px;">${item.desc}</div>
+        <div class="shop-price">${owned ? '✓ Comprado' : `🪙 ${item.price}`}</div>
+      `;
+      el.onclick = () => buyItem(item, owned);
+      g.appendChild(el);
+    });
+    modal.querySelector('.shop-balance').textContent = `🪙 ${coins} moedas`;
+  }
+
+  function buyItem(item, owned) {
+    if (owned) return;
+    if (coins < item.price) {
+      playWrong();
+      alert('Moedas insuficientes!');
+      return;
+    }
+    coins -= item.price;
+    if (item.id.startsWith('music')) {
+      const idx = parseInt(item.id.replace('music', ''));
+      unlockedTracks.add(idx);
+    } else if (item.id === 'theme-red') {
+      document.documentElement.style.setProperty('--vermelho', '#ff0000');
+    } else if (item.id === 'theme-blue') {
+      document.documentElement.style.setProperty('--azul', '#00bcd4');
+    } else if (item.id === 'theme-gold') {
+      document.documentElement.style.setProperty('--dourado', '#ffd700');
+      document.documentElement.style.setProperty('--vermelho', '#b8860b');
+    }
+    saveGame(); updateHUD();
+    playUnlock(); burstConfetti(30);
+    renderShop();
+  }
+
+  renderShop();
+  $('shop-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== COLEÇÃO DE CARTAS ====================
+$('cards-btn').onclick = () => { playClick(); openCards(); };
+
+function openCards() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>🃏 Coleção de Artefatos</h3>
+      <p style="color:#666; font-size:0.85em; margin-bottom:12px;">${collectedCards.size}/${collectibleCards.length} coletadas</p>
+      <div class="cards-grid" id="cards-grid"></div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-secondary" id="cards-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const g = $('cards-grid');
+  collectibleCards.forEach(card => {
+    const el = document.createElement('div');
+    const owned = collectedCards.has(card.id);
+    el.className = 'collect-card' + (owned ? '' : ' locked');
+    el.innerHTML = `
+      <div class="cc-emoji">${owned ? card.emoji : '❓'}</div>
+      <div class="cc-name">${owned ? card.name : '???'}</div>
+      <div class="cc-rarity">${owned ? card.rarity : '—'}</div>
+    `;
+    if (owned) el.onclick = () => { playClick(); };
+    g.appendChild(el);
+  });
+
+  $('cards-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== ESTATÍSTICAS ====================
+$('stats-btn').onclick = () => {
+  playClick();
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  let scores = [];
+  try { scores = JSON.parse(localStorage.getItem('korea_scores') || '[]'); } catch(e) {}
+  const totalScore = scores.reduce((a, b) => a + b.score, 0);
+  const avgScore = scores.length ? Math.floor(totalScore / scores.length) : 0;
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>📊 Estatísticas</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; text-align: left;">
+        <div class="hud-badge" style="justify-content: center;">✨ Nível: ${playerLevel}</div>
+        <div class="hud-badge" style="justify-content: center;">🪙 Moedas: ${coins}</div>
+        <div class="hud-badge" style="justify-content: center;">🏆 Conquistas: ${unlockedAchievements.size}</div>
+        <div class="hud-badge" style="justify-content: center;">🃏 Cartas: ${collectedCards.size}</div>
+        <div class="hud-badge" style="justify-content: center;">🎮 Partidas: ${scores.length}</div>
+        <div class="hud-badge" style="justify-content: center;">📈 Média: ${avgScore}</div>
+        <div class="hud-badge" style="justify-content: center;">🥇 Recorde: ${scores[0]?.score || 0}</div>
+        <div class="hud-badge" style="justify-content: center;">🎵 Faixas: ${unlockedTracks.size}/4</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="stats-close">Fechar</button>
+        <button class="btn-secondary" id="stats-reset">🗑️ Zerar Tudo</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  $('stats-close').onclick = () => modal.remove();
+  $('stats-reset').onclick = () => {
+    if (confirm('Zerar TODOS os dados?')) {
+      localStorage.removeItem('korea_supreme');
+      localStorage.removeItem('korea_scores');
+      location.reload();
+    }
+  };
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+};
+
+// ==================== PRESENTE DIÁRIO ====================
+$('daily-reward').onclick = () => {
+  playClick();
+  const today = new Date().toDateString();
+  const last = localStorage.getItem('korea_daily');
+  if (last === today) {
+    alert('Você já pegou o presente hoje! Volte amanhã! 🌸');
+    return;
+  }
+  localStorage.setItem('korea_daily', today);
+  const reward = 50 + Math.floor(Math.random() * 50);
+  coins += reward;
+  saveGame(); updateHUD();
+  burstConfetti(60);
+  playUnlock();
+  speak('축하합니다', 'ko-KR');
+  alert(`🎁 Você ganhou ${reward} moedas!`);
+};
+
+// ==================== CRÉDITOS ====================
+$('credits-btn').onclick = () => {
+  playClick();
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>ℹ️ Sobre o Jogo</h3>
+      <p style="font-size:0.9em; line-height:1.6; color:#555; text-align:left;">
+        <strong>🇰🇷 Descubra a Coreia — Experiência Definitiva</strong><br><br>
+        <em>Uma homenagem à rica cultura coreana</em><br><br>
+        ✨ <strong>Recursos:</strong><br>
+        • 30+ perguntas em 5 capítulos<br>
+        • 6 modos de jogo<br>
+        • 25 conquistas<br>
+        • 12 cartas colecionáveis<br>
+        • 4 mini jogos<br>
+        • Pintura, caligrafia, música<br>
+        • Sistema de níveis e moedas<br><br>
+        🎨 <em>Feito com carinho para impressionar</em><br>
+        🇰🇷 화이팅! 감사합니다 🇰🇷
+      </p>
+      <div class="btn-row" style="margin-top:15px;">
+        <button class="btn-secondary" id="credits-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  $('credits-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+};
+
 // ==================== CONTROLES ====================
-document.getElementById('sound-toggle').onclick = (e) => {
+$('sound-toggle').onclick = (e) => {
   soundOn = !soundOn;
   e.currentTarget.textContent = soundOn ? '🔊' : '🔇';
   if (!soundOn && 'speechSynthesis' in window) speechSynthesis.cancel();
 };
-document.getElementById('music-toggle').onclick = (e) => {
+$('music-toggle').onclick = (e) => {
   musicOn = !musicOn;
   e.currentTarget.textContent = musicOn ? '🎵' : '🔕';
   if (musicOn) startMusic(); else stopMusic();
 };
-document.getElementById('fullscreen-toggle').onclick = () => {
+$('sfx-toggle').onclick = (e) => {
+  sfxStyle = sfxStyle === 'sine' ? 'square' : sfxStyle === 'square' ? 'triangle' : sfxStyle === 'triangle' ? 'sawtooth' : 'sine';
+  e.currentTarget.textContent = { sine: '🎼', square: '🎹', triangle: '🎻', sawtooth: '🎺' }[sfxStyle];
+  playTone(600, 0.2);
+};
+$('fullscreen-toggle').onclick = () => {
   if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
   else document.exitFullscreen?.();
 };
 
-// ==================== ATALHOS DE TECLADO ====================
+// ==================== ATALHOS ====================
 document.addEventListener('keydown', (e) => {
   if (gameArea.classList.contains('hidden')) return;
   if (['1', '2', '3', '4'].includes(e.key)) {
@@ -2178,10 +3300,40 @@ document.addEventListener('keydown', (e) => {
     const idx = parseInt(e.key) - 1;
     if (btns[idx] && !btns[idx].disabled) btns[idx].click();
   }
-  if (e.key === 'Enter' && !nextBtn.classList.contains('hidden')) nextBtn.click();
-  if (e.key.toLowerCase() === 'h' && !hintBtn.disabled) hintBtn.click();
-  if (e.key.toLowerCase() === 'f' && !fiftyBtn.disabled) fiftyBtn.click();
+  if (e.key === 'Enter' && !$('next-btn').classList.contains('hidden')) $('next-btn').click();
+  if (e.key.toLowerCase() === 'h' && !$('hint-btn').disabled) $('hint-btn').click();
+  if (e.key.toLowerCase() === 'f' && !$('fifty-btn').disabled) $('fifty-btn').click();
 });
+
+// ==================== PARALLAX ====================
+const mainContainer = $('main-container');
+document.addEventListener('mousemove', (e) => {
+  if (window.innerWidth < 800) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 6;
+  const y = (e.clientY / window.innerHeight - 0.5) * 6;
+  mainContainer.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+});
+
+// ==================== CLIQUE SPARKLES ====================
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.modal, .cinematic')) return;
+  if (Math.random() > 0.7) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = ['✨', '⭐', '🌟', '💫'][Math.floor(Math.random() * 4)];
+    s.style.left = e.clientX + 'px';
+    s.style.top = e.clientY + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  }
+});
+
+// Update inicial
+updateHUD();
+renderLeaderboard();
+
+console.log('🇰🇷 Descubra a Coreia — Experiência Definitiva carregada!');
+console.log('💡 Dica: use 1-4 para responder, H para dica, F para 50/50, Enter para próxima');
 </script>
 </body>
 </html>
