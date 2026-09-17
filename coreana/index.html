@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇰🇷 Descubra a Coreia — Obra-Prima Interativa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700;900&family=Nanum+Brush+Script&family=Nanum+Myeongjo:wght@400;700;800&family=Playfair+Display:wght@700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+  :root {
+    --vermelho: #cd2e3a;
+    --azul: #0047a0;
+    --preto: #0a0a0a;
+    --dourado: #d4af37;
+    --rosa-sakura: #ffb7c5;
+    --creme: #fdf6e3;
+    --roxo: #6a1b9a;
+    --verde-jade: #00a86b;
+    --laranja: #ff6b35;
+  }
+
+  html, body { overflow-x: hidden; }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    color: var(--preto);
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='none' stroke='%23d4af37' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23cd2e3a'/></svg>") 16 16, auto;
+  }
+
+  button, .mode-card, .diff-btn, .answer-btn, .tile {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23d4af37' stroke='%23cd2e3a' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='%23cd2e3a'/></svg>") 16 16, pointer;
+  }
+
+  /* Fundo animado */
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(205,46,58,0.3) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(0,71,160,0.3) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(212,175,55,0.12) 0%, transparent 50%),
+      linear-gradient(135deg, #1a0a0a 0%, #0a0a1a 50%, #1a0a1a 100%);
+    animation: bgPulse 8s ease-in-out infinite;
+  }
+
+  @keyframes bgPulse {
+    0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+    50% { filter: brightness(1.2) hue-rotate(20deg); }
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: 
+      repeating-linear-gradient(45deg, transparent 0, transparent 40px, rgba(212,175,55,0.05) 40px, rgba(212,175,55,0.05) 42px),
+      repeating-linear-gradient(-45deg, transparent 0, transparent 40px, rgba(212,175,55,0.05) 40px, rgba(212,175,55,0.05) 42px);
+    pointer-events: none; z-index: 1;
+  }
+
+  .stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .star {
+    position: absolute; width: 2px; height: 2px;
+    background: white; border-radius: 50%;
+    animation: twinkle 3s infinite;
+    box-shadow: 0 0 6px rgba(255,255,255,0.8);
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  .sakura-container { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+  .sakura {
+    position: absolute; top: -50px;
+    animation: fall linear infinite;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 5px rgba(255,183,197,0.5));
+  }
+  @keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg) translateX(0); opacity: 0; }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(720deg) translateX(120px); opacity: 0; }
+  }
+
+  /* Lanternas */
+  .lantern {
+    position: fixed; top: -10px;
+    width: 45px; height: 75px;
+    background: linear-gradient(180deg, var(--vermelho), #8b1a24);
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 40px rgba(205,46,58,0.8), inset 0 0 25px rgba(255,200,100,0.4);
+    z-index: 3; animation: sway 3s ease-in-out infinite;
+  }
+  .lantern::before {
+    content: ''; position: absolute; top: -25px; left: 50%;
+    transform: translateX(-50%); width: 2px; height: 25px;
+    background: var(--dourado);
+  }
+  .lantern::after {
+    content: '福'; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); color: var(--dourado);
+    font-size: 24px; font-weight: bold;
+    text-shadow: 0 0 12px rgba(212,175,55,0.9);
+  }
+  .lantern-1 { left: 4%; animation-delay: 0s; }
+  .lantern-2 { left: 13%; animation-delay: 0.5s; top: 25px; }
+  .lantern-3 { right: 4%; animation-delay: 1s; }
+  .lantern-4 { right: 13%; animation-delay: 1.5s; top: 25px; }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  /* Controles flutuantes */
+  .floating-controls {
+    position: fixed; top: 20px; left: 20px;
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .ctrl-btn {
+    width: 45px; height: 45px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(212,175,55,0.5);
+    color: white; font-size: 1.2em; cursor: pointer;
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ctrl-btn:hover {
+    background: rgba(212,175,55,0.3);
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 0 20px rgba(212,175,55,0.6);
+  }
+
+  /* HUD topo direita */
+  .top-hud {
+    position: fixed; top: 20px; right: 20px;
+    display: flex; gap: 10px; z-index: 100;
+  }
+  .hud-badge {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(212,175,55,0.5);
+    border-radius: 30px;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85em;
+    font-family: 'Black Han Sans', sans-serif;
+    letter-spacing: 1px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Container */
+  .container {
+    background: linear-gradient(135deg, rgba(253,246,227,0.98), rgba(255,255,255,0.98));
+    border-radius: 24px;
+    box-shadow: 
+      0 30px 80px rgba(0,0,0,0.7),
+      0 0 0 2px rgba(212,175,55,0.4),
+      0 0 80px rgba(205,46,58,0.3);
+    max-width: 780px;
+    width: 100%;
+    padding: 45px 40px;
+    text-align: center;
+    position: relative; z-index: 5;
+    overflow: hidden;
+    animation: containerIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    perspective: 1500px;
+  }
+  @keyframes containerIn {
+    0% { transform: scale(0.8) translateY(50px) rotateX(30deg); opacity: 0; }
+    100% { transform: scale(1) translateY(0) rotateX(0); opacity: 1; }
+  }
+
+  .flag-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: linear-gradient(90deg, 
+      var(--vermelho) 0%, var(--vermelho) 33%, 
+      #000 33%, #000 34%,
+      var(--azul) 34%, var(--azul) 66%,
+      #000 66%, #000 67%,
+      var(--vermelho) 67%, var(--vermelho) 100%);
+    animation: flagShine 3s ease-in-out infinite;
+  }
+  @keyframes flagShine {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  h1 {
+    font-family: 'Black Han Sans', sans-serif;
+    color: var(--vermelho);
+    font-size: 2.3em;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 var(--dourado), 4px 4px 8px rgba(0,0,0,0.15);
+    animation: titlePulse 3s ease-in-out infinite;
+  }
+  @keyframes titlePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  .subtitle { color: #555; margin-bottom: 8px; font-size: 1em; letter-spacing: 1px; font-weight: 500; }
+  .korean-subtitle {
+    color: var(--azul);
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.05em;
+    margin-bottom: 22px;
+    letter-spacing: 3px;
+  }
+
+  .screen { animation: fadeIn 0.6s; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Tela inicial */
+  .start-screen h2 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.3em; color: var(--azul);
+    margin: 18px 0 12px; letter-spacing: 1px;
+  }
+
+  .intro-text {
+    color: #555; font-size: 0.95em; line-height: 1.6;
+    margin-bottom: 22px; padding: 0 15px;
+  }
+  .intro-text em { color: var(--vermelho); font-style: normal; font-weight: 700; }
+
+  /* Modos */
+  .mode-selection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-bottom: 20px;
+  }
+  .mode-card {
+    padding: 18px 12px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border: 2px solid rgba(0,71,160,0.3);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .mode-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    border-color: var(--dourado);
+    box-shadow: 0 10px 30px rgba(0,71,160,0.3);
+  }
+  .mode-card.selected {
+    background: linear-gradient(135deg, var(--azul), var(--vermelho));
+    border-color: var(--dourado);
+    color: white;
+    box-shadow: 0 10px 30px rgba(205,46,58,0.5);
+    transform: scale(1.05);
+  }
+  .mode-icon { font-size: 2em; margin-bottom: 6px; display: block; }
+  .mode-title { font-family: 'Black Han Sans', sans-serif; font-size: 1em; margin-bottom: 4px; letter-spacing: 1px; }
+  .mode-desc { font-size: 0.7em; opacity: 0.85; line-height: 1.25; }
+
+  /* Dificuldade */
+  .difficulty-selection {
+    display: flex; justify-content: center; gap: 10px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .diff-btn {
+    padding: 10px 20px;
+    border: 2px solid rgba(0,71,160,0.4);
+    background: white; color: var(--azul);
+    border-radius: 25px; cursor: pointer;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.3s; font-size: 0.85em;
+  }
+  .diff-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,71,160,0.2); }
+  .diff-btn.active {
+    background: linear-gradient(135deg, var(--vermelho), var(--azul));
+    color: white; border-color: var(--dourado);
+    box-shadow: 0 5px 20px rgba(205,46,58,0.5);
+  }
+
+  .primary-btn {
+    padding: 18px 45px;
+    background: linear-gradient(135deg, var(--vermelho), var(--azul));
+    color: white;
+    border: 2px solid var(--dourado);
+    border-radius: 14px;
+    font-size: 1.1em; font-weight: 700; cursor: pointer;
+    font-family: 'Black Han Sans', sans-serif;
+    letter-spacing: 2px;
+    box-shadow: 0 10px 30px rgba(205,46,58,0.5);
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .primary-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%); transition: transform 0.6s;
+  }
+  .primary-btn:hover {
+    transform: scale(1.06) translateY(-3px);
+    box-shadow: 0 15px 45px rgba(0,71,160,0.7);
+  }
+  .primary-btn:hover::after { transform: translateX(100%); }
+
+  /* Stats */
+  .stats {
+    display: flex; justify-content: space-around;
+    margin-bottom: 18px; padding: 15px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border-radius: 16px;
+    border: 2px solid rgba(212,175,55,0.3);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .stat { display: flex; flex-direction: column; align-items: center; }
+  .stat-label {
+    font-size: 0.68em; color: #888;
+    text-transform: uppercase; letter-spacing: 2px;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .stat-value {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.5em; color: var(--azul);
+    text-shadow: 0 0 15px rgba(0,71,160,0.3);
+    transition: transform 0.3s;
+  }
+  .stat-value.bump { animation: bump 0.5s; }
+  @keyframes bump {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.4); color: var(--vermelho); }
+  }
+
+  /* Timer */
+  .timer-bar {
+    height: 6px; background: rgba(0,0,0,0.08);
+    border-radius: 3px; overflow: hidden;
+    margin-bottom: 15px;
+  }
+  .timer-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50, #ffc107, #cd2e3a);
+    transition: width 1s linear; border-radius: 3px;
+  }
+  .timer-fill.danger { animation: timerPulse 0.5s infinite; }
+  @keyframes timerPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Progress */
+  .progress-bar {
+    height: 12px; background: rgba(0,0,0,0.08);
+    border-radius: 10px; overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(212,175,55,0.2);
+    margin-bottom: 22px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--vermelho), var(--dourado), var(--azul));
+    background-size: 200% 100%;
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 10px;
+    animation: shimmer 2s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Pergunta */
+  .emoji-wrap {
+    font-size: 4.5em; display: inline-block;
+    margin-bottom: 15px;
+    animation: emojiFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(205,46,58,0.3));
+  }
+  @keyframes emojiFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  #question {
+    font-size: 1.25em; color: var(--preto);
+    margin-bottom: 22px; min-height: 70px;
+    font-weight: 700; line-height: 1.5;
+    animation: fadeIn 0.6s;
+  }
+
+  .answers { display: grid; gap: 12px; margin-bottom: 18px; }
+  .answer-btn {
+    padding: 16px 22px;
+    background: linear-gradient(135deg, #ffffff, #fdf6e3);
+    border: 2px solid rgba(0,71,160,0.3);
+    border-radius: 14px;
+    font-size: 1.02em; color: var(--azul);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-weight: 600;
+    font-family: 'Noto Sans KR', sans-serif;
+    position: relative; overflow: hidden;
+    animation: slideIn 0.5s backwards;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 12px;
+    text-align: left;
+  }
+  .answer-btn .key {
+    width: 30px; height: 30px;
+    background: var(--dourado); color: white;
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.9em;
+    flex-shrink: 0;
+    font-family: 'Black Han Sans', sans-serif;
+  }
+  .answer-btn:nth-child(1) { animation-delay: 0.1s; }
+  .answer-btn:nth-child(2) { animation-delay: 0.2s; }
+  .answer-btn:nth-child(3) { animation-delay: 0.3s; }
+  .answer-btn:nth-child(4) { animation-delay: 0.4s; }
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateX(-30px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  .answer-btn:hover:not(:disabled) {
+    background: var(--azul); color: white;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,71,160,0.4);
+    border-color: var(--dourado);
+  }
+  .answer-btn:hover:not(:disabled) .key { background: white; color: var(--azul); }
+  .answer-btn.correct {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    border-color: #4caf50; color: white;
+    animation: correctPop 0.6s;
+    box-shadow: 0 0 30px rgba(76,175,80,0.6);
+  }
+  .answer-btn.correct .key { background: white; color: #2e7d32; }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08) rotate(1deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .answer-btn.wrong {
+    background: linear-gradient(135deg, var(--vermelho), #8b1a24);
+    border-color: var(--vermelho); color: white;
+    animation: wrongShake 0.5s;
+    box-shadow: 0 0 30px rgba(205,46,58,0.6);
+  }
+  .answer-btn.wrong .key { background: white; color: var(--vermelho); }
+  @keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+  .answer-btn:disabled { cursor: not-allowed; }
+
+  #feedback {
+    font-size: 1.02em; font-weight: 700;
+    min-height: 30px; margin-bottom: 15px;
+    animation: fadeIn 0.5s; padding: 10px;
+    border-radius: 10px;
+  }
+
+  .hint-box {
+    background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(255,183,197,0.15));
+    border: 2px dashed var(--dourado);
+    border-radius: 12px; padding: 12px 18px;
+    margin-bottom: 15px; font-size: 0.95em;
+    color: #6a5a1a; display: none;
+    animation: fadeIn 0.5s;
+  }
+  .hint-box.show { display: block; }
+  .hint-title {
+    font-family: 'Black Han Sans', sans-serif;
+    color: var(--dourado); font-size: 0.85em;
+    letter-spacing: 1px; margin-bottom: 4px;
+  }
+
+  .btn-row {
+    display: flex; gap: 10px;
+    justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    padding: 12px 22px;
+    background: rgba(212,175,55,0.15);
+    color: #8a6d1a;
+    border: 2px solid var(--dourado);
+    border-radius: 12px;
+    font-size: 0.88em; font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    background: var(--dourado); color: white;
+    transform: translateY(-2px);
+  }
+  .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* Tela final */
+  .final-score {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 2.2em;
+    background: linear-gradient(90deg, var(--vermelho), var(--dourado), var(--azul));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 12px 0;
+    animation: scoreGlow 2s ease-in-out infinite;
+  }
+  @keyframes scoreGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(212,175,55,0.5)); }
+    50% { filter: drop-shadow(0 0 25px rgba(212,175,55,0.9)); }
+  }
+
+  .trophy {
+    font-size: 6em; margin: 10px 0;
+    animation: trophyBounce 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 10px 30px rgba(212,175,55,0.6));
+  }
+  @keyframes trophyBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.1); }
+  }
+
+  .final-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin: 15px 0; padding: 15px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border-radius: 16px;
+    border: 2px solid rgba(212,175,55,0.3);
+  }
+  .final-stat { text-align: center; }
+  .final-stat-value {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.4em; color: var(--azul);
+    display: block;
+  }
+  .final-stat-label {
+    font-size: 0.65em; color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px; margin-top: 4px;
+  }
+
+  .history-box {
+    max-height: 220px; overflow-y: auto;
+    margin: 12px 0; padding: 12px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 12px; text-align: left;
+    font-size: 0.83em;
+  }
+  .history-item {
+    padding: 8px 12px; margin-bottom: 6px;
+    border-radius: 8px; border-left: 4px solid;
+    background: white; animation: slideIn 0.4s;
+  }
+  .history-item.ok { border-color: #4caf50; background: rgba(76,175,80,0.08); }
+  .history-item.fail { border-color: var(--vermelho); background: rgba(205,46,58,0.08); }
+  .history-item strong { color: var(--azul); display: block; margin-bottom: 2px; }
+
+  /* Conquistas */
+  .achievements-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 8px; margin: 12px 0;
+  }
+  .achievement {
+    padding: 10px 5px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    opacity: 0.4;
+    font-size: 0.6em;
+  }
+  .achievement.unlocked {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(205,46,58,0.1));
+    border-color: var(--dourado);
+    animation: unlockPulse 0.8s;
+    box-shadow: 0 0 15px rgba(212,175,55,0.5);
+  }
+  @keyframes unlockPulse {
+    0% { transform: scale(0.5) rotate(-15deg); }
+    60% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .achievement-icon { font-size: 1.8em; display: block; margin-bottom: 4px; }
+  .achievement-name { font-weight: 700; color: var(--azul); letter-spacing: 0.5px; line-height: 1.1; }
+
+  /* Modal */
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200; display: flex;
+    align-items: center; justify-content: center;
+    padding: 20px; animation: fadeIn 0.3s;
+  }
+  .modal-content {
+    background: linear-gradient(135deg, #fdf6e3, white);
+    border-radius: 20px; padding: 30px;
+    max-width: 450px; width: 100%;
+    text-align: center;
+    border: 3px solid var(--dourado);
+    animation: containerIn 0.5s;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-content h3 {
+    font-family: 'Black Han Sans', sans-serif;
+    color: var(--vermelho); margin-bottom: 15px;
+    font-size: 1.3em;
+  }
+
+  /* ====== JOGO DE HANGUL ====== */
+  .hangul-board {
+    display: flex; justify-content: center;
+    gap: 8px; margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .hangul-tile {
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border: 2px solid var(--dourado);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--azul);
+    transition: all 0.3s;
+    animation: tileIn 0.5s backwards;
+  }
+  .hangul-tile.filled {
+    background: linear-gradient(135deg, var(--azul), var(--roxo));
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0,71,160,0.6);
+  }
+  @keyframes tileIn {
+    0% { transform: scale(0) rotate(180deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  .hangul-tile-btn {
+    width: 55px; height: 55px;
+    background: linear-gradient(135deg, var(--vermelho), #8b1a24);
+    color: white; border: 2px solid var(--dourado);
+    border-radius: 10px; cursor: pointer;
+    font-size: 1.5em;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: 800;
+    transition: all 0.3s;
+    margin: 5px;
+  }
+  .hangul-tile-btn:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 20px rgba(205,46,58,0.5);
+  }
+
+  .hangul-options {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 6px;
+    margin: 15px 0;
+  }
+
+  /* ====== PAISAGEM DE PINTURA ====== */
+  .paint-canvas {
+    border: 4px solid var(--dourado);
+    border-radius: 12px;
+    background: #fdf6e3;
+    cursor: crosshair;
+    touch-action: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 100%;
+  }
+
+  .palette {
+    display: flex; gap: 8px;
+    justify-content: center;
+    margin: 15px 0; flex-wrap: wrap;
+  }
+  .color-swatch {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active {
+    border-color: var(--preto);
+    transform: scale(1.2);
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  /* Efeitos visuais */
+  .confetti {
+    position: fixed; width: 10px; height: 10px;
+    z-index: 999; pointer-events: none;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Fogos de artifício */
+  .firework {
+    position: fixed; z-index: 998; pointer-events: none;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+  }
+
+  .sparkle {
+    position: fixed; z-index: 997; pointer-events: none;
+    font-size: 20px;
+    animation: sparkleAnim 0.8s ease-out forwards;
+  }
+  @keyframes sparkleAnim {
+    0% { transform: scale(0) rotate(0); opacity: 1; }
+    100% { transform: scale(2) rotate(180deg) translateY(-30px); opacity: 0; }
+  }
+
+  /* Badge flutuante */
+  .fighting-badge {
+    position: fixed; bottom: 20px; right: 20px;
+    background: linear-gradient(135deg, var(--vermelho), var(--azul));
+    color: white; padding: 10px 18px;
+    border-radius: 30px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 0.9em;
+    border: 2px solid var(--dourado);
+    box-shadow: 0 5px 20px rgba(205,46,58,0.5);
+    z-index: 10;
+    animation: badgePulse 2s infinite;
+    letter-spacing: 1px;
+  }
+  @keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  /* Indicador de jogador */
+  .turn-indicator {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--azul), var(--roxo));
+    color: white; border-radius: 30px;
+    font-family: 'Black Han Sans', sans-serif;
+    letter-spacing: 1px; font-size: 0.9em;
+    margin-bottom: 15px; display: inline-block;
+    animation: turnPulse 2s infinite;
+    box-shadow: 0 5px 20px rgba(106,27,154,0.5);
+  }
+  @keyframes turnPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Narração cinematográfica */
+  .narration-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 100; display: flex;
+    align-items: center; justify-content: center;
+    flex-direction: column; color: white;
+    text-align: center; padding: 30px;
+    animation: fadeIn 0.5s;
+  }
+  .narration-text {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 3em;
+    background: linear-gradient(90deg, var(--vermelho), var(--dourado), var(--azul));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: narrationFade 2.5s ease-in-out;
+    line-height: 1.3;
+  }
+  @keyframes narrationFade {
+    0% { opacity: 0; transform: scale(0.7) rotateY(90deg); }
+    30% { opacity: 1; transform: scale(1) rotateY(0); }
+    70% { opacity: 1; transform: scale(1) rotateY(0); }
+    100% { opacity: 0; transform: scale(1.1) rotateY(0); }
+  }
+  .narration-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 1em; margin-top: 15px;
+    letter-spacing: 2px; animation: fadeIn 1s;
+  }
+
+  /* Painel de capítulos */
+  .chapter-panel {
+    display: flex; justify-content: center;
+    gap: 8px; margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  .chapter-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.72em;
+    font-family: 'Black Han Sans', sans-serif;
+    letter-spacing: 1px;
+    border: 2px solid rgba(0,0,0,0.1);
+    opacity: 0.4;
+    transition: all 0.3s;
+  }
+  .chapter-badge.active {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  .chapter-1 { background: linear-gradient(135deg, #ff6b35, #ffb74d); color: white; }
+  .chapter-2 { background: linear-gradient(135deg, #cd2e3a, #ff6b81); color: white; }
+  .chapter-3 { background: linear-gradient(135deg, #00a86b, #4caf50); color: white; }
+  .chapter-4 { background: linear-gradient(135deg, #0047a0, #6a1b9a); color: white; }
+
+  /* Modal de conquista */
+  .achievement-popup {
+    position: fixed; top: 100px; right: 20px;
+    background: linear-gradient(135deg, var(--dourado), #ffd700);
+    color: var(--preto);
+    padding: 15px 22px;
+    border-radius: 14px;
+    border: 3px solid var(--preto);
+    box-shadow: 0 10px 30px rgba(212,175,55,0.7);
+    z-index: 500;
+    animation: achievementSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), achievementFade 3s ease-in-out 0.6s forwards;
+    font-family: 'Black Han Sans', sans-serif;
+    display: flex; align-items: center; gap: 12px;
+    max-width: 320px;
+  }
+  @keyframes achievementSlide {
+    0% { transform: translateX(500px); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes achievementFade {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(500px); }
+  }
+  .achievement-popup .icon {
+    font-size: 2em;
+    animation: iconSpin 0.8s;
+  }
+  @keyframes iconSpin {
+    0% { transform: rotate(0) scale(0); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  /* Ranking */
+  .leaderboard {
+    margin: 15px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #fff, #fdf6e3);
+    border-radius: 16px;
+    border: 2px solid rgba(212,175,55,0.3);
+    text-align: left;
+  }
+  .leaderboard-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    background: rgba(0,0,0,0.02);
+    font-size: 0.9em;
+  }
+  .leaderboard-row.top-1 {
+    background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+    font-weight: 700;
+  }
+
+  /* Modal Hangul intro */
+  .hangul-intro {
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--azul);
+  }
+  .hangul-big {
+    font-size: 5em;
+    display: block;
+    margin: 10px 0;
+    color: var(--vermelho);
+    text-shadow: 0 0 30px rgba(205,46,58,0.5);
+    animation: hangulFloat 3s ease-in-out infinite;
+  }
+  @keyframes hangulFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+
+  /* Responsivo */
+  @media (max-width: 700px) {
+    .container { padding: 30px 20px; }
+    h1 { font-size: 1.6em; }
+    #question { font-size: 1.05em; }
+    .lantern { width: 28px; height: 50px; }
+    .lantern::after { font-size: 14px; }
+    .fighting-badge { font-size: 0.72em; padding: 8px 14px; }
+    .mode-selection { grid-template-columns: 1fr 1fr; }
+    .final-stats { grid-template-columns: 1fr 1fr; }
+    .answer-btn { padding: 14px 16px; font-size: 0.95em; }
+    .narration-text { font-size: 1.8em; }
+    .achievements-grid { grid-template-columns: repeat(4, 1fr); }
+    .top-hud { flex-direction: column; gap: 5px; }
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="stars" id="stars"></div>
+<div class="sakura-container" id="sakura"></div>
+
+<div class="lantern lantern-1"></div>
+<div class="lantern lantern-2"></div>
+<div class="lantern lantern-3"></div>
+<div class="lantern lantern-4"></div>
+
+<div class="floating-controls">
+  <button class="ctrl-btn" id="sound-toggle" title="Som">🔊</button>
+  <button class="ctrl-btn" id="music-toggle" title="Música">🎵</button>
+  <button class="ctrl-btn" id="fullscreen-toggle" title="Tela cheia">⛶</button>
+</div>
+
+<div class="top-hud">
+  <div class="hud-badge" id="hud-level">✨ NÍVEL 1</div>
+  <div class="hud-badge" id="hud-coins">🪙 0</div>
+</div>
+
+<div class="container">
+  <div class="flag-bar"></div>
+
+  <!-- ====== TELA INICIAL ====== -->
+  <div id="start-screen" class="screen start-screen">
+    <h1>🇰🇷 Descubra a Coreia! 🇰🇷</h1>
+    <p class="subtitle">Uma jornada artística pela cultura coreana</p>
+    <p class="korean-subtitle">한국 문화 예술 퀴즈</p>
+
+    <h2>🎮 Modo de Jogo</h2>
+    <div class="mode-selection">
+      <div class="mode-card selected" data-mode="solo">
+        <span class="mode-icon">🎯</span>
+        <div class="mode-title">SOLO</div>
+        <div class="mode-desc">Pontuação máxima</div>
+      </div>
+      <div class="mode-card" data-mode="duo">
+        <span class="mode-icon">👥</span>
+        <div class="mode-title">2 PLAYERS</div>
+        <div class="mode-desc">Turnos alternados</div>
+      </div>
+      <div class="mode-card" data-mode="maratona">
+        <span class="mode-icon">🏃</span>
+        <div class="mode-title">MARATONA</div>
+        <div class="mode-desc">Todas as perguntas</div>
+      </div>
+    </div>
+
+    <h2>⚡ Dificuldade</h2>
+    <div class="difficulty-selection">
+      <button class="diff-btn active" data-diff="facil">🌱 Fácil (20s)</button>
+      <button class="diff-btn" data-diff="medio">⚡ Médio (15s)</button>
+      <button class="diff-btn" data-diff="dificil">🔥 Difícil (10s)</button>
+      <button class="diff-btn" data-diff="lenda">💀 Lenda (7s)</button>
+    </div>
+
+    <p class="intro-text">
+      Uma jornada interativa com <em>música</em>, <em>minijogo de Hangul</em>, 
+      <em>pintura tradicional coreana</em>, <em>conquistas</em> e muito mais!
+      <br><br>
+      🏆 <strong>4 Capítulos Temáticos:</strong> Gastronomia • K-Pop & Arte • Tradições • História
+    </p>
+
+    <button class="primary-btn" id="start-btn">🎬 COMEÇAR A JORNADA</button>
+  </div>
+
+  <!-- ====== JOGO ====== -->
+  <div id="game-area" class="screen hidden">
+    <div class="turn-indicator hidden" id="turn-indicator">🎯 Vez do Jogador 1</div>
+
+    <div class="chapter-panel" id="chapter-panel"></div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress" style="width: 0%"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">Pergunta</span>
+        <span class="stat-value" id="q-number">1/10</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label" id="score-label">Pontos</span>
+        <span class="stat-value" id="score">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Acertos</span>
+        <span class="stat-value" id="hits">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Streak</span>
+        <span class="stat-value" id="streak">0🔥</span>
+      </div>
+    </div>
+
+    <div class="timer-bar">
+      <div class="timer-fill" id="timer" style="width: 100%"></div>
+    </div>
+
+    <div id="question"></div>
+    <div class="hint-box" id="hint-box">
+      <div class="hint-title">💡 DICA</div>
+      <div id="hint-text"></div>
+    </div>
+    <div class="answers" id="answers"></div>
+    <div id="feedback"></div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" id="hint-btn">💡 Dica (-5pts)</button>
+      <button class="btn-secondary" id="skip-btn">⏭️ Pular</button>
+      <button class="btn-secondary" id="fifty-btn">50/50 (-10pts)</button>
+      <button class="primary-btn hidden" id="next-btn" style="padding: 12px 30px; font-size: 1em;">Próxima → 다음</button>
+    </div>
+  </div>
+
+  <!-- ====== TELA FINAL ====== -->
+  <div id="end-screen" class="screen hidden">
+    <div class="trophy" id="trophy">🏆</div>
+    <h2 id="end-title" style="color:var(--azul); font-family:'Black Han Sans',sans-serif; font-size:1.7em;"></h2>
+    <p class="final-score" id="final-score"></p>
+    <p id="end-message" style="color:#666; margin-bottom: 15px; font-size:1em; line-height:1.5;"></p>
+
+    <div class="final-stats">
+      <div class="final-stat">
+        <span class="final-stat-value" id="final-hits">0</span>
+        <span class="final-stat-label">Acertos</span>
+      </div>
+      <div class="final-stat">
+        <span class="final-stat-value" id="final-wrong">0</span>
+        <span class="final-stat-label">Erros</span>
+      </div>
+      <div class="final-stat">
+        <span class="final-stat-value" id="final-time">0s</span>
+        <span class="final-stat-label">Tempo</span>
+      </div>
+      <div class="final-stat">
+        <span class="final-stat-value" id="final-streak">0</span>
+        <span class="final-stat-label">Streak</span>
+      </div>
+    </div>
+
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 15px 0 8px; font-size: 1em; letter-spacing: 1px;">🏅 CONQUISTAS DESBLOQUEADAS</h3>
+    <div class="achievements-grid" id="achievements-grid"></div>
+
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 15px 0 8px; font-size: 1em; letter-spacing: 1px;">🏆 RANKING LOCAL</h3>
+    <div class="leaderboard" id="leaderboard"></div>
+
+    <div id="podium" class="hidden" style="margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #fdf6e3, #fff); border-radius: 16px; border: 2px solid var(--dourado);"></div>
+
+    <h3 style="color: var(--azul); font-family: 'Black Han Sans'; margin: 10px 0; font-size: 1em; letter-spacing: 1px;">📜 REVISÃO</h3>
+    <div class="history-box" id="history"></div>
+
+    <div class="btn-row" style="margin-top: 15px;">
+      <button class="primary-btn" id="restart-btn" style="padding: 14px 28px; font-size: 0.95em;">🔄 Jogar</button>
+      <button class="btn-secondary" id="hangul-btn">🇰🇷 Mini Hangul</button>
+      <button class="btn-secondary" id="paint-btn">🎨 Pintar</button>
+      <button class="btn-secondary" id="share-btn">📤 Enviar</button>
+      <button class="btn-secondary" id="home-btn">🏠 Início</button>
+    </div>
+  </div>
+</div>
+
+<div class="fighting-badge">화이팅! 💪</div>
+
+<script>
+// ==================== AMBIENTE ====================
+function createStars() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 100; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 3 + 's';
+    s.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    c.appendChild(s);
+  }
+}
+createStars();
+
+function createSakura() {
+  const c = document.getElementById('sakura');
+  const petals = ['🌸', '🌸', '🌸', '🌺', '💮', '🌸'];
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.className = 'sakura';
+    p.textContent = petals[Math.floor(Math.random() * petals.length)];
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (Math.random() * 8 + 8) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.fontSize = (Math.random() * 15 + 12) + 'px';
+    c.appendChild(p);
+  }
+}
+createSakura();
+
+// ==================== ÁUDIO ====================
+let audioCtx;
+let soundOn = true, musicOn = true, musicInterval;
+
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function playTone(freq, duration, type = 'sine', vol = 0.15) {
+  if (!soundOn) return;
+  try {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.start(); osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+const playCorrect = () => {
+  playTone(523.25, 0.12);
+  setTimeout(() => playTone(659.25, 0.12), 100);
+  setTimeout(() => playTone(783.99, 0.25), 200);
+  setTimeout(() => playTone(1046.5, 0.4), 300);
+};
+const playWrong = () => {
+  playTone(220, 0.18, 'sawtooth', 0.12);
+  setTimeout(() => playTone(165, 0.25, 'sawtooth', 0.12), 130);
+};
+const playClick = () => playTone(880, 0.05, 'square', 0.08);
+const playTick = () => playTone(1200, 0.03, 'square', 0.05);
+const playUnlock = () => {
+  [659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+    setTimeout(() => playTone(f, 0.3, 'triangle', 0.15), i * 100);
+  });
+};
+const playVictory = () => {
+  [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+    setTimeout(() => playTone(f, 0.35, 'sine', 0.15), i * 150);
+  });
+};
+
+function startMusic() {
+  if (!musicOn) return;
+  try {
+    initAudio();
+    const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
+    const pattern = [0, 2, 4, 5, 7, 9, 7, 5, 4, 2, 4, 2];
+    let idx = 0;
+    musicInterval = setInterval(() => {
+      if (!musicOn || !audioCtx) return;
+      try {
+        const note = scale[pattern[idx % pattern.length]];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = note;
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.035, audioCtx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+        osc.start(); osc.stop(audioCtx.currentTime + 1.2);
+        idx++;
+      } catch(e) {}
+    }, 800);
+  } catch(e) {}
+}
+function stopMusic() { if (musicInterval) { clearInterval(musicInterval); musicInterval = null; } }
+
+function speak(text, lang = 'ko-KR') {
+  if (!soundOn || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang; u.rate = 0.9; u.pitch = 1.1; u.volume = 0.7;
+  speechSynthesis.speak(u);
+}
+
+// ==================== PERGUNTAS POR CAPÍTULO ====================
+const chaptersData = [
+  {
+    name: 'Gastronomia', korName: '음식', emoji: '🍜', cssClass: 'chapter-1',
+    questions: [
+      { emoji: "🍜", q: "Qual é o prato coreano feito com repolho fermentado e apimentado?",
+        answers: ["Kimchi", "Sushi", "Bibimbap", "Ramen"], correct: 0,
+        hint: "É servido como acompanhamento em quase todas as refeições coreanas.",
+        fact: "O kimchi tem mais de 200 variedades diferentes!" },
+      { emoji: "🍚", q: "Qual prato é uma tigela de arroz com legumes, carne e ovo, servido com molho gochujang?",
+        answers: ["Bibimbap", "Japchae", "Tteokbokki", "Kimbap"], correct: 0,
+        hint: "O nome significa literalmente 'arroz misturado'.",
+        fact: "O bibimbap de Jeonju é considerado o mais tradicional!" },
+      { emoji: "🍢", q: "Qual prato é feito de bolinhos de arroz em molho picante?",
+        answers: ["Tteokbokki", "Kimbap", "Japchae", "Mandu"], correct: 0,
+        hint: "É o lanche de rua mais popular da Coreia!",
+        fact: "O tteokbokki surgiu como prato real na Dinastia Joseon." },
+      { emoji: "🥟", q: "Como se chamam os dumplings coreanos?",
+        answers: ["Gyoza", "Mandu", "Wonton", "Baozi"], correct: 1,
+        hint: "Podem ser cozidos no vapor, fritos ou em sopa.",
+        fact: "O mandu kimchi é a versão mais famosa!" },
+      { emoji: "🍲", q: "Qual é a famosa sopa coreana de kimchi com tofu e porco?",
+        answers: ["Kimchi Jjigae", "Miso Soup", "Ramen", "Sundubu"], correct: 0,
+        hint: "É cozido em panela de barro chamada ttukbaegi.",
+        fact: "É considerada um prato comfort food no inverno!" }
+    ]
+  },
+  {
+    name: 'K-Pop & Arte', korName: '예술', emoji: '🎵', cssClass: 'chapter-2',
+    questions: [
+      { emoji: "🎵", q: "Como se chama o gênero pop coreano que conquistou o mundo?",
+        answers: ["J-Pop", "C-Pop", "K-Pop", "Trot"], correct: 2,
+        hint: "BTS, BLACKPINK e TWICE são ícones.",
+        fact: "O K-Pop surgiu nos anos 90 com o grupo Seo Taiji and Boys!" },
+      { emoji: "🎭", q: "Como se chama o teatro tradicional coreano com máscaras?",
+        answers: ["Kabuki", "Talchum", "Noh", "Pansori"], correct: 1,
+        hint: "Era usado para satirizar a nobreza.",
+        fact: "O Talchum é Patrimônio Cultural Imaterial da UNESCO!" },
+      { emoji: "🎼", q: "Como se chama a narrativa musical coreana, contada por um só cantor?",
+        answers: ["K-Pop", "Pansori", "Trot", "Samulnori"], correct: 1,
+        hint: "Uma performance que pode durar até 8 horas!",
+        fact: "Pansori significa 'som do lugar onde as pessoas se reúnem'." },
+      { emoji: "🎨", q: "Como se chama a tradicional arte coreana de dobradura de papel?",
+        answers: ["Origami", "Jong-ie Jopgi", "Hanji", "Kkochggo"], correct: 2,
+        hint: "O papel tradicional coreano é famoso por sua resistência.",
+        fact: "O Hanji é feito de amoreira e pode durar mais de 1000 anos!" },
+      { emoji: "🎤", q: "Qual grupo de K-Pop foi o primeiro a se apresentar na ONU?",
+        answers: ["EXO", "BTS", "BLACKPINK", "TWICE"], correct: 1,
+        hint: "Eles têm um fandom chamado ARMY.",
+        fact: "O BTS discursou na ONU em 2018 e 2020!" }
+    ]
+  },
+  {
+    name: 'Tradições', korName: '전통', emoji: '🎎', cssClass: 'chapter-3',
+    questions: [
+      { emoji: "🙇", q: "Qual é a forma tradicional de cumprimentar na Coreia?",
+        answers: ["Aperto de mão", "Reverência (jeol)", "Abraço", "Beijo no rosto"], correct: 1,
+        hint: "A profundidade da inclinação indica o nível de respeito.",
+        fact: "Diz-se '안녕하세요' (Annyeonghaseyo) ao cumprimentar!" },
+      { emoji: "👘", q: "Como se chama a vestimenta tradicional coreana?",
+        answers: ["Kimono", "Hanbok", "Qipao", "Ao Dai"], correct: 1,
+        hint: "Possui cores vibrantes e é usada em ocasiões especiais.",
+        fact: "Existem hanboks específicos para cada estação do ano!" },
+      { emoji: "🎊", q: "Qual é o nome do Ano Novo Lunar coreano?",
+        answers: ["Tet", "Seollal", "Chuseok", "Dano"], correct: 1,
+        hint: "É uma das datas mais importantes da Coreia.",
+        fact: "Durante o Seollal, os coreanos fazem reverência aos mais velhos!" },
+      { emoji: "🌕", q: "Qual é o festival coreano de ação de graças?",
+        answers: ["Seollal", "Chuseok", "Daeboreum", "Dano"], correct: 1,
+        hint: "Celebrado no 15º dia do 8º mês lunar.",
+        fact: "No Chuseok, comem-se songpyeon (bolinhos de arroz em forma de meia-lua)!" },
+      { emoji: "🎂", q: "Qual idade todos os coreanos completam juntos no Ano Novo Lunar?",
+        answers: ["Idade real", "Não comemoram", "Todos ficam 1 ano mais velhos", "18 anos"], correct: 2,
+        hint: "Isso se chama 'idade coreana'.",
+        fact: "Em 2023, a Coreia aboliu o sistema de idade coreana!" }
+    ]
+  },
+  {
+    name: 'História', korName: '역사', emoji: '🏯', cssClass: 'chapter-4',
+    questions: [
+      { emoji: "🏯", q: "Qual é a capital da Coreia do Sul?",
+        answers: ["Busan", "Seul", "Pyongyang", "Tóquio"], correct: 1,
+        hint: "Significa literalmente 'capital' em coreano.",
+        fact: "Seul tem mais de 25 milhões de habitantes na região metropolitana!" },
+      { emoji: "✍️", q: "Como se chama o alfabeto coreano criado no século XV?",
+        answers: ["Kanji", "Hiragana", "Hangul", "Pinyin"], correct: 2,
+        hint: "Foi criado pelo Rei Sejong, o Grande.",
+        fact: "O Hangul é um dos sistemas de escrita mais científicos!" },
+      { emoji: "👑", q: "Qual rei coreano criou o alfabeto Hangul?",
+        answers: ["Sejong, o Grande", "Taejo", "Yeongjo", "Jeongjo"], correct: 0,
+        hint: "Ele governou durante a Dinastia Joseon.",
+        fact: "O Rei Sejong é considerado o maior rei da história coreana!" },
+      { emoji: "🥋", q: "Qual arte marcial é originária da Coreia?",
+        answers: ["Judô", "Kung Fu", "Taekwondo", "Karate"], correct: 2,
+        hint: "É esporte olímpico desde 2000.",
+        fact: "O Taekwondo tem mais de 70 milhões de praticantes!" },
+      { emoji: "🏛️", q: "Qual dinastia governou a Coreia por mais de 500 anos?",
+        answers: ["Goryeo", "Joseon", "Silla", "Baekje"], correct: 1,
+        hint: "Foi fundada em 1392.",
+        fact: "A Dinastia Joseon durou de 1392 a 1910!" }
+    ]
+  }
+];
+
+// ==================== CONQUISTAS ====================
+const achievementsList = [
+  { id: 'first', icon: '🌟', name: 'Primeira', desc: 'Primeira resposta correta' },
+  { id: 'streak5', icon: '🔥', name: 'Em Chamas', desc: '5 acertos seguidos' },
+  { id: 'streak10', icon: '⚡', name: 'Imparável', desc: '10 acertos seguidos' },
+  { id: 'perfect', icon: '👑', name: 'Perfeito', desc: '100% de acertos' },
+  { id: 'fast', icon: '⚡', name: 'Velocista', desc: 'Responder em < 3s' },
+  { id: 'no-hint', icon: '🎯', name: 'Sem Ajuda', desc: 'Ganhar sem usar dicas' },
+  { id: 'chapter1', icon: '🍜', name: 'Chef', desc: 'Completar cap. Gastronomia' },
+  { id: 'chapter2', icon: '🎵', name: 'Artista', desc: 'Completar cap. K-Pop & Arte' },
+  { id: 'chapter3', icon: '🎎', name: 'Tradicional', desc: 'Completar cap. Tradições' },
+  { id: 'chapter4', icon: '🏯', name: 'Historiador', desc: 'Completar cap. História' },
+  { id: 'hangul', icon: '한', name: 'Hangul Master', desc: 'Completar o mini jogo' },
+  { id: 'painter', icon: '🎨', name: 'Pintor', desc: 'Criar uma pintura' },
+  { id: 'share', icon: '📤', name: 'Divulgador', desc: 'Compartilhar resultado' },
+  { id: 'duo', icon: '👥', name: 'Amigos', desc: 'Jogar em 2 players' },
+  { id: 'marathon', icon: '🏃', name: 'Maratonista', desc: 'Jogar modo maratona' },
+  { id: 'fastest', icon: '💨', name: 'Relâmpago', desc: '10s ou menos por pergunta' },
+  { id: 'coin100', icon: '🪙', name: 'Rico', desc: '100 moedas acumuladas' },
+  { id: 'level5', icon: '✨', name: 'Nível 5', desc: 'Alcançar nível 5' },
+  { id: 'comeback', icon: '🔄', name: 'Virada', desc: 'Recuperar após 3 erros' },
+  { id: 'explorer', icon: '🧭', name: 'Explorador', desc: 'Jogar todos os modos' }
+];
+
+let unlockedAchievements = new Set();
+let coins = 0;
+let playerLevel = 1;
+let playerXP = 0;
+
+function showAchievement(ach) {
+  if (unlockedAchievements.has(ach.id)) return;
+  unlockedAchievements.add(ach.id);
+  playUnlock();
+  burstConfetti(30);
+
+  const popup = document.createElement('div');
+  popup.className = 'achievement-popup';
+  popup.innerHTML = `
+    <span class="icon">${ach.icon}</span>
+    <div>
+      <div style="font-size: 0.7em; opacity: 0.8;">CONQUISTA!</div>
+      <div>${ach.name}</div>
+      <div style="font-size: 0.65em; font-weight: 400; opacity: 0.7;">${ach.desc}</div>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 4000);
+}
+
+function checkAchievement(id) {
+  const ach = achievementsList.find(a => a.id === id);
+  if (ach && !unlockedAchievements.has(id)) showAchievement(ach);
+}
+
+// ==================== ESTADO DO JOGO ====================
+let questions = [];
+let currentQuestion = 0;
+let score = 0, hits = 0, streak = 0, bestStreak = 0;
+let answered = false, gameMode = 'solo', difficulty = 'facil';
+let timePerQuestion = 20, timeLeft = 20, timerInterval;
+let totalTime = 0, gameStartTime;
+let answerHistory = [], hintUsed = false;
+let currentPlayer = 1, player1Score = 0, player2Score = 0;
+let usedFifty = false, wrongCount = 0;
+let chaptersCompleted = new Set();
+
+// Elementos
+const startScreen = document.getElementById('start-screen');
+const gameArea = document.getElementById('game-area');
+const endScreen = document.getElementById('end-screen');
+const questionEl = document.getElementById('question');
+const answersEl = document.getElementById('answers');
+const feedbackEl = document.getElementById('feedback');
+const nextBtn = document.getElementById('next-btn');
+const scoreEl = document.getElementById('score');
+const hitsEl = document.getElementById('hits');
+const streakEl = document.getElementById('streak');
+const qNumberEl = document.getElementById('q-number');
+const progressEl = document.getElementById('progress');
+const timerEl = document.getElementById('timer');
+const hintBox = document.getElementById('hint-box');
+const hintText = document.getElementById('hint-text');
+const hintBtn = document.getElementById('hint-btn');
+const skipBtn = document.getElementById('skip-btn');
+const fiftyBtn = document.getElementById('fifty-btn');
+const turnIndicator = document.getElementById('turn-indicator');
+const scoreLabel = document.getElementById('score-label');
+const chapterPanel = document.getElementById('chapter-panel');
+const hudLevel = document.getElementById('hud-level');
+const hudCoins = document.getElementById('hud-coins');
+
+// ==================== NAVEGAÇÃO ====================
+function showScreen(screen) {
+  [startScreen, gameArea, endScreen].forEach(s => s.classList.add('hidden'));
+  screen.classList.remove('hidden');
+  screen.style.animation = 'fadeIn 0.6s';
+}
+
+function updateHUD() {
+  hudLevel.textContent = `✨ NÍVEL ${playerLevel}`;
+  hudCoins.textContent = `🪙 ${coins}`;
+}
+updateHUD();
+
+// ==================== EVENTOS INICIAIS ====================
+document.querySelectorAll('.mode-card').forEach(card => {
+  card.onclick = () => {
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    gameMode = card.dataset.mode;
+    playClick();
+  };
+});
+
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    difficulty = btn.dataset.diff;
+    timePerQuestion = difficulty === 'facil' ? 20 : difficulty === 'medio' ? 15 : difficulty === 'dificil' ? 10 : 7;
+    playClick();
+  };
+});
+
+// ==================== NARRAÇÃO ====================
+function showNarration(text, sub, duration = 2500) {
+  return new Promise(resolve => {
+    const o = document.createElement('div');
+    o.className = 'narration-overlay';
+    o.innerHTML = `<div class="narration-text">${text}</div><div class="narration-sub">${sub || ''}</div>`;
+    document.body.appendChild(o);
+    setTimeout(() => {
+      o.style.transition = 'opacity 0.5s';
+      o.style.opacity = '0';
+      setTimeout(() => { o.remove(); resolve(); }, 500);
+    }, duration);
+  });
+}
+
+// ==================== INICIAR JOGO ====================
+document.getElementById('start-btn').onclick = async () => {
+  initAudio();
+  playClick();
+  if (musicOn) startMusic();
+  speak('안녕하세요', 'ko-KR');
+
+  // Capítulos em sequência
+  await showNarration('환영합니다!', 'Bem-vindo(a) à Coreia!', 2000);
+
+  // Prepara as perguntas por capítulo
+  questions = [];
+  chaptersData.forEach((ch, chIdx) => {
+    const count = gameMode === 'maratona' ? ch.questions.length : Math.min(3, ch.questions.length);
+    const shuffled = [...ch.questions].sort(() => Math.random() - 0.5).slice(0, count);
+    shuffled.forEach(q => {
+      questions.push({ ...q, chapter: chIdx });
+    });
+  });
+  questions.sort(() => Math.random() - 0.5);
+
+  currentQuestion = 0;
+  score = 0; hits = 0; streak = 0; bestStreak = 0;
+  answerHistory = []; totalTime = 0;
+  currentPlayer = 1; player1Score = 0; player2Score = 0;
+  chaptersCompleted = new Set();
+  wrongCount = 0;
+  gameStartTime = Date.now();
+
+  if (gameMode === 'duo') {
+    turnIndicator.classList.remove('hidden');
+    updateTurnIndicator();
+    scoreLabel.textContent = 'P1 / P2';
+    checkAchievement('duo');
+  } else {
+    turnIndicator.classList.add('hidden');
+    scoreLabel.textContent = 'Pontos';
+  }
+  if (gameMode === 'maratona') checkAchievement('marathon');
+
+  showScreen(gameArea);
+  renderChapterPanel();
+  loadQuestion();
+};
+
+function renderChapterPanel() {
+  chapterPanel.innerHTML = '';
+  chaptersData.forEach((ch, i) => {
+    const b = document.createElement('div');
+    b.className = `chapter-badge ${ch.cssClass}`;
+    const current = questions[currentQuestion]?.chapter;
+    if (i === current) b.classList.add('active');
+    b.textContent = `${ch.emoji} ${ch.name}`;
+    chapterPanel.appendChild(b);
+  });
+}
+
+function updateTurnIndicator() {
+  turnIndicator.textContent = `🎯 Vez do Jogador ${currentPlayer} ${currentPlayer === 1 ? '🔴' : '🔵'}`;
+  turnIndicator.style.background = currentPlayer === 1
+    ? 'linear-gradient(135deg, var(--vermelho), #8b1a24)'
+    : 'linear-gradient(135deg, var(--azul), var(--roxo))';
+}
+
+// ==================== CARREGAR PERGUNTA ====================
+function loadQuestion() {
+  answered = false;
+  hintUsed = false;
+  usedFifty = false;
+  hintBox.classList.remove('show');
+  hintBtn.disabled = false;
+  skipBtn.disabled = false;
+  fiftyBtn.disabled = false;
+
+  const q = questions[currentQuestion];
+  questionEl.innerHTML = `<span class="emoji-wrap">${q.emoji}</span><br>${q.q}`;
+  qNumberEl.textContent = `${currentQuestion + 1}/${questions.length}`;
+  progressEl.style.width = `${(currentQuestion / questions.length) * 100}%`;
+  feedbackEl.textContent = '';
+  nextBtn.classList.add('hidden');
+
+  answersEl.innerHTML = '';
+  const keys = ['1', '2', '3', '4'];
+  q.answers.forEach((ans, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="key">${keys[i]}</span><span>${ans}</span>`;
+    btn.onclick = () => selectAnswer(i, btn);
+    answersEl.appendChild(btn);
+  });
+
+  renderChapterPanel();
+  startTimer();
+}
+
+// ==================== CRONÔMETRO ====================
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = timePerQuestion;
+  timerEl.style.width = '100%';
+  timerEl.classList.remove('danger');
+
+  timerInterval = setInterval(() => {
+    timeLeft -= 0.1;
+    const pct = (timeLeft / timePerQuestion) * 100;
+    timerEl.style.width = Math.max(0, pct) + '%';
+    if (timeLeft <= 5) {
+      timerEl.classList.add('danger');
+      if (Math.floor(timeLeft * 10) % 10 === 0) playTick();
+    }
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timeOut();
+    }
+  }, 100);
+}
+
+function stopTimer() { clearInterval(timerInterval); }
+
+function timeOut() {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll('.answer-btn');
+  buttons.forEach(b => b.disabled = true);
+  buttons[q.correct].classList.add('correct');
+
+  streak = 0; wrongCount++;
+  streakEl.textContent = '0🔥';
+  feedbackEl.innerHTML = `⏰ <span style="color:var(--vermelho)">Tempo esgotado! A resposta era: ${q.answers[q.correct]}</span>`;
+  playWrong();
+
+  answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: 'Tempo esgotado', ok: false, fact: q.fact, chapter: q.chapter });
+
+  if (gameMode === 'duo') handleDuoAnswer(false);
+  nextBtn.classList.remove('hidden');
+}
+
+// ==================== RESPONDER ====================
+function selectAnswer(index, btn) {
+  if (answered) return;
+  answered = true;
+  stopTimer();
+
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll('.answer-btn');
+  buttons.forEach(b => b.disabled = true);
+  hintBtn.disabled = true; skipBtn.disabled = true; fiftyBtn.disabled = true;
+
+  const timeBonus = Math.floor(timeLeft * 2);
+  const wasFast = (timePerQuestion - timeLeft) < 3;
+
+  if (index === q.correct) {
+    btn.classList.add('correct');
+    const points = 10 + timeBonus + (hintUsed ? -5 : 0) + (usedFifty ? -10 : 0);
+    score += points; hits++; streak++;
+    if (streak > bestStreak) bestStreak = streak;
+
+    // Moedas e XP
+    coins += Math.floor(points / 2);
+    playerXP += points;
+    while (playerXP >= 100) { playerXP -= 100; playerLevel++; }
+
+    scoreEl.textContent = score;
+    hitsEl.textContent = hits;
+    streakEl.textContent = streak + '🔥';
+    scoreEl.classList.add('bump');
+    setTimeout(() => scoreEl.classList.remove('bump'), 500);
+    updateHUD();
+
+    const bonusText = timeBonus > 0 ? ` (+${timeBonus} bônus!)` : '';
+    feedbackEl.innerHTML = `✅ <span style="color:#4caf50">정답! Correto! +${points} pontos${bonusText}</span>`;
+    playCorrect();
+    burstConfetti(35);
+    speak('정답', 'ko-KR');
+
+    // Conquistas
+    checkAchievement('first');
+    if (streak >= 5) checkAchievement('streak5');
+    if (streak >= 10) checkAchievement('streak10');
+    if (wasFast) checkAchievement('fast');
+    if (coins >= 100) checkAchievement('coin100');
+    if (playerLevel >= 5) checkAchievement('level5');
+    if (wrongCount >= 3) checkAchievement('comeback');
+
+    answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: q.answers[index], ok: true, fact: q.fact, chapter: q.chapter });
+
+    if (gameMode === 'duo') handleDuoAnswer(true);
+  } else {
+    btn.classList.add('wrong');
+    buttons[q.correct].classList.add('correct');
+    streak = 0; wrongCount++;
+    streakEl.textContent = '0🔥';
+    feedbackEl.innerHTML = `❌ <span style="color:var(--vermelho)">틀렸어요! A resposta era: ${q.answers[q.correct]}</span>`;
+    playWrong();
+    speak('땡', 'ko-KR');
+
+    answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: q.answers[index], ok: false, fact: q.fact, chapter: q.chapter });
+
+    if (gameMode === 'duo') handleDuoAnswer(false);
+  }
+
+  // Marca capítulo completo
+  const chapterIdx = q.chapter;
+  const chapterQs = questions.filter(x => x.chapter === chapterIdx);
+  const chapterAnswered = answerHistory.filter(x => x.chapter === chapterIdx);
+  if (chapterAnswered.length >= chapterQs.length) {
+    chaptersCompleted.add(chapterIdx);
+    checkAchievement('chapter' + (chapterIdx + 1));
+  }
+
+  setTimeout(() => {
+    feedbackEl.innerHTML += `<br><small style="color:#888; font-weight:400; font-style:italic;">💡 ${q.fact}</small>`;
+  }, 400);
+
+  nextBtn.classList.remove('hidden');
+}
+
+function handleDuoAnswer(correct) {
+  if (correct) {
+    if (currentPlayer === 1) player1Score++; else player2Score++;
+  }
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+}
+
+// ==================== PRÓXIMA ====================
+nextBtn.onclick = () => {
+  playClick();
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    if (gameMode === 'duo') updateTurnIndicator();
+    loadQuestion();
+  } else {
+    endGame();
+  }
+};
+
+// ==================== DICA / PULAR / 50-50 ====================
+hintBtn.onclick = () => {
+  if (answered || hintUsed) return;
+  hintUsed = true;
+  hintBtn.disabled = true;
+  hintText.textContent = questions[currentQuestion].hint;
+  hintBox.classList.add('show');
+  playClick();
+};
+
+skipBtn.onclick = () => {
+  if (answered) return;
+  answered = true;
+  stopTimer();
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll('.answer-btn');
+  buttons.forEach(b => b.disabled = true);
+  buttons[q.correct].classList.add('correct');
+  streak = 0; wrongCount++;
+  streakEl.textContent = '0🔥';
+  feedbackEl.innerHTML = `⏭️ <span style="color:#888">Pulou! A resposta era: ${q.answers[q.correct]}</span>`;
+  playClick();
+  answerHistory.push({ q: q.q, correct: q.answers[q.correct], chosen: 'Pulou', ok: false, fact: q.fact, chapter: q.chapter });
+  nextBtn.classList.remove('hidden');
+};
+
+fiftyBtn.onclick = () => {
+  if (answered || usedFifty) return;
+  usedFifty = true;
+  fiftyBtn.disabled = true;
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll('.answer-btn');
+  const wrongIdx = buttons.length ? [...Array(buttons.length).keys()].filter(i => i !== q.correct).sort(() => Math.random() - 0.5).slice(0, 2) : [];
+  wrongIdx.forEach(i => {
+    buttons[i].disabled = true;
+    buttons[i].style.opacity = '0.3';
+    buttons[i].style.textDecoration = 'line-through';
+  });
+  playClick();
+};
+
+// ==================== CONFETES ====================
+function burstConfetti(count) {
+  const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#ffb7c5', '#ffffff', '#6a1b9a', '#00a86b'];
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.width = (Math.random() * 8 + 6) + 'px';
+    c.style.height = c.style.width;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+
+function burstFireworks(count) {
+  const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#ffb7c5', '#ffffff', '#6a1b9a', '#00a86b', '#ff6b35'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight * 0.6;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      for (let j = 0; j < 20; j++) {
+        const f = document.createElement('div');
+        f.className = 'firework';
+        f.style.left = x + 'px';
+        f.style.top = y + 'px';
+        f.style.background = color;
+        f.style.boxShadow = `0 0 10px ${color}`;
+        const angle = (Math.PI * 2 * j) / 20;
+        const dist = 80 + Math.random() * 80;
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist;
+        f.animate([
+          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
+        ], { duration: 1200, easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)' });
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1300);
+      }
+    }, i * 150);
+  }
+}
+
+// ==================== FIM DE JOGO ====================
+async function endGame() {
+  stopTimer();
+  totalTime = Math.floor((Date.now() - gameStartTime) / 1000);
+  showScreen(endScreen);
+  playVictory();
+  burstFireworks(5);
+
+  const percent = (hits / questions.length) * 100;
+  let trophy, title, msg;
+
+  if (hits === questions.length) {
+    trophy = '👑';
+    title = '완벽해요! (Perfeito!)';
+    msg = 'Você é um verdadeiro mestre da cultura coreana! 대박!';
+    burstConfetti(250);
+    burstFireworks(10);
+    checkAchievement('perfect');
+    speak('완벽해요', 'ko-KR');
+  } else if (percent >= 70) {
+    trophy = '🥇';
+    title = '잘했어요! (Muito bem!)';
+    msg = 'Você conhece bastante sobre a Coreia! Continue explorando!';
+    burstConfetti(150);
+    speak('잘했어요', 'ko-KR');
+  } else if (percent >= 40) {
+    trophy = '🥈';
+    title = '괜찮아요! (Está ok!)';
+    msg = 'Bom começo! Assista um dorama ou ouça K-Pop!';
+    burstConfetti(80);
+  } else {
+    trophy = '📚';
+    title = '화이팅! (Força!)';
+    msg = 'Hora de mergulhar mais na cultura coreana!';
+    speak('화이팅', 'ko-KR');
+  }
+
+  if (!hintUsed) checkAchievement('no-hint');
+  if (playerLevel >= 5) checkAchievement('level5');
+
+  document.getElementById('trophy').textContent = trophy;
+  document.getElementById('end-title').textContent = title;
+  document.getElementById('end-message').textContent = msg;
+  document.getElementById('final-score').textContent = `${score} pontos`;
+  document.getElementById('final-hits').textContent = hits;
+  document.getElementById('final-wrong').textContent = questions.length - hits;
+  document.getElementById('final-time').textContent = totalTime + 's';
+  document.getElementById('final-streak').textContent = bestStreak;
+
+  // Pódio modo duo
+  const podium = document.getElementById('podium');
+  if (gameMode === 'duo') {
+    podium.classList.remove('hidden');
+    let pc = '<h3 style="font-family: Black Han Sans; color: var(--azul); margin-bottom: 12px; letter-spacing: 1px;">🏆 PÓDIO FINAL</h3>';
+    if (player1Score > player2Score) {
+      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🥇</span><br><strong>Jogador 1 venceu!</strong><br>${player1Score} x ${player2Score}</div>`;
+      burstConfetti(150);
+    } else if (player2Score > player1Score) {
+      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🥇</span><br><strong>Jogador 2 venceu!</strong><br>${player2Score} x ${player1Score}</div>`;
+      burstConfetti(150);
+    } else {
+      pc += `<div style="font-size: 1.2em;"><span style="font-size: 2.5em;">🤝</span><br><strong>Empate!</strong><br>${player1Score} x ${player2Score}</div>`;
+    }
+    podium.innerHTML = pc;
+  } else podium.classList.add('hidden');
+
+  // Conquistas
+  const ag = document.getElementById('achievements-grid');
+  ag.innerHTML = '';
+  achievementsList.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'achievement' + (unlockedAchievements.has(a.id) ? ' unlocked' : '');
+    div.innerHTML = `<span class="achievement-icon">${a.icon}</span><div class="achievement-name">${a.name}</div>`;
+    div.title = a.desc;
+    ag.appendChild(div);
+  });
+
+  // Histórico
+  const hEl = document.getElementById('history');
+  hEl.innerHTML = '';
+  answerHistory.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'history-item ' + (item.ok ? 'ok' : 'fail');
+    div.innerHTML = `
+      <strong>${i + 1}. ${item.q}</strong>
+      ${item.ok ? '✅' : '❌'} Sua resposta: <em>${item.chosen}</em>
+      ${!item.ok ? `<br>✔️ Correta: <strong>${item.correct}</strong>` : ''}
+      <br><small style="color:#888; font-style:italic;">💡 ${item.fact}</small>
+    `;
+    hEl.appendChild(div);
+  });
+
+  // Ranking local
+  saveScore(score, hits, questions.length);
+  renderLeaderboard();
+}
+
+// ==================== RANKING ====================
+function saveScore(sc, ht, total) {
+  try {
+    const scores = JSON.parse(localStorage.getItem('korea_scores') || '[]');
+    scores.push({ score: sc, hits: ht, total, date: new Date().toLocaleDateString('pt-BR') });
+    scores.sort((a, b) => b.score - a.score);
+    localStorage.setItem('korea_scores', JSON.stringify(scores.slice(0, 5)));
+  } catch(e) {}
+}
+
+function renderLeaderboard() {
+  const lb = document.getElementById('leaderboard');
+  try {
+    const scores = JSON.parse(localStorage.getItem('korea_scores') || '[]');
+    if (!scores.length) { lb.innerHTML = '<em style="color:#888">Sem pontuações ainda</em>'; return; }
+    lb.innerHTML = '<h4 style="color: var(--azul); font-family: Black Han Sans; margin-bottom: 8px;">🏆 Top 5 Pontuações</h4>' +
+      scores.map((s, i) => `
+        <div class="leaderboard-row ${i === 0 ? 'top-1' : ''}">
+          <span>${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + 'º'} ${s.date}</span>
+          <span><strong>${s.score}</strong> pts (${s.hits}/${s.total})</span>
+        </div>
+      `).join('');
+  } catch(e) { lb.innerHTML = ''; }
+}
+
+// ==================== BOTÕES FINAIS ====================
+document.getElementById('restart-btn').onclick = () => { playClick(); document.getElementById('start-btn').click(); };
+document.getElementById('home-btn').onclick = () => { playClick(); showScreen(startScreen); };
+
+document.getElementById('share-btn').onclick = () => {
+  playClick();
+  checkAchievement('share');
+  const percent = Math.round((hits / questions.length) * 100);
+  const text = `🇰🇷 Fiz ${score} pontos no "Descubra a Coreia"! 🌸
+Acertos: ${hits}/${questions.length} (${percent}%)
+Streak: ${bestStreak}🔥
+Moedas: 🪙 ${coins} | Nível: ${playerLevel}
+Conquistas: ${unlockedAchievements.size}/${achievementsList.length}
+Você consegue me superar? 🏆`;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>📤 Compartilhe!</h3>
+      <div style="background:white; padding:20px; border-radius:12px; border:2px dashed var(--dourado); font-size:0.9em; line-height:1.6; margin-bottom:20px; text-align:left; color:#333;">
+        ${text.replace(/\n/g, '<br>')}
+      </div>
+      <div class="btn-row">
+        <button class="primary-btn" id="copy-btn" style="padding:10px 20px; font-size:0.95em;">📋 Copiar</button>
+        <button class="btn-secondary" id="close-modal">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  document.getElementById('copy-btn').onclick = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('copy-btn').textContent = '✅ Copiado!';
+    });
+  };
+  document.getElementById('close-modal').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+};
+
+// ==================== MINI JOGO HANGUL ====================
+document.getElementById('hangul-btn').onclick = () => {
+  playClick();
+  openHangulGame();
+};
+
+function openHangulGame() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width:500px;">
+      <h3>🇰🇷 Mini Jogo de Hangul</h3>
+      <div class="hangul-intro">
+        <em>Monte a palavra coreana!</em>
+      </div>
+      <div id="hangul-goal" style="font-family: 'Nanum Myeongjo'; font-size: 1.3em; color: var(--azul); margin-bottom: 15px;"></div>
+      <div class="hangul-board" id="hangul-board"></div>
+      <div class="hangul-options" id="hangul-options"></div>
+      <div id="hangul-feedback" style="min-height:30px; margin: 12px 0; font-weight:700;"></div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="hangul-skip">🔀 Nova Palavra</button>
+        <button class="btn-secondary" id="hangul-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const words = [
+    { hangul: '김치', roman: 'Kimchi', desc: 'Prato apimentado coreano', emoji: '🍜' },
+    { hangul: '서울', roman: 'Seul', desc: 'Capital da Coreia', emoji: '🏯' },
+    { hangul: '사랑', roman: 'Sarang', desc: 'Amor', emoji: '❤️' },
+    { hangul: '친구', roman: 'Chingu', desc: 'Amigo', emoji: '👥' },
+    { hangul: '한국', roman: 'Hanguk', desc: 'Coreia', emoji: '🇰🇷' },
+    { hangul: '음악', roman: 'Eumak', desc: 'Música', emoji: '🎵' },
+    { hangul: '꽃', roman: 'Kkot', desc: 'Flor', emoji: '🌸' },
+    { hangul: '하늘', roman: 'Haneul', desc: 'Céu', emoji: '☁️' }
+  ];
+
+  let currentWord, currentProgress, usedLetters;
+
+  function newWord() {
+    currentWord = words[Math.floor(Math.random() * words.length)];
+    const chars = currentWord.hangul.split('');
+    currentProgress = [];
+    usedLetters = [];
+
+    const goal = document.getElementById('hangul-goal');
+    goal.innerHTML = `${currentWord.emoji} <strong>${currentWord.roman}</strong> — ${currentWord.desc}`;
+
+    const board = document.getElementById('hangul-board');
+    board.innerHTML = '';
+    chars.forEach(() => {
+      const t = document.createElement('div');
+      t.className = 'hangul-tile';
+      board.appendChild(t);
+    });
+
+    const options = document.getElementById('hangul-options');
+    options.innerHTML = '';
+    const shuffled = [...chars, ...chars].sort(() => Math.random() - 0.5);
+    // Garante chars únicos e suficiente
+    const available = [...new Set(chars)];
+    const distractors = ['가', '나', '다', '라', '마', '바', '사', '아', '자', '차'].filter(c => !chars.includes(c)).slice(0, 2);
+    const allOptions = [...chars, ...distractors].sort(() => Math.random() - 0.5);
+
+    allOptions.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'hangul-tile-btn';
+      b.textContent = c;
+      b.onclick = () => tryLetter(c, b);
+      options.appendChild(b);
+    });
+
+    document.getElementById('hangul-feedback').textContent = '';
+  }
+
+  function tryLetter(c, btn) {
+    const target = currentWord.hangul[currentProgress.length];
+    if (c === target) {
+      const tiles = document.querySelectorAll('.hangul-tile');
+      tiles[currentProgress.length].textContent = c;
+      tiles[currentProgress.length].classList.add('filled');
+      currentProgress.push(c);
+      btn.disabled = true;
+      btn.style.opacity = '0.3';
+      playTone(600 + currentProgress.length * 100, 0.15);
+      if (currentProgress.length === currentWord.hangul.length) {
+        document.getElementById('hangul-feedback').innerHTML = '🎉 <span style="color:#4caf50">Parabéns! Palavra completa!</span>';
+        playCorrect();
+        burstConfetti(50);
+        speak(currentWord.hangul, 'ko-KR');
+        checkAchievement('hangul');
+        setTimeout(newWord, 2000);
+      }
+    } else {
+      document.getElementById('hangul-feedback').innerHTML = '❌ <span style="color:var(--vermelho)">Tente outra letra!</span>';
+      playWrong();
+      btn.style.animation = 'wrongShake 0.5s';
+      setTimeout(() => btn.style.animation = '', 500);
+    }
+  }
+
+  newWord();
+
+  document.getElementById('hangul-skip').onclick = () => { playClick(); newWord(); };
+  document.getElementById('hangul-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== PINTURA TRADICIONAL ====================
+document.getElementById('paint-btn').onclick = () => {
+  playClick();
+  openPaintGame();
+};
+
+function openPaintGame() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width:600px;">
+      <h3>🎨 Pintura Tradicional Coreana</h3>
+      <p style="color:#666; font-size:0.9em; margin-bottom:12px;">Crie sua obra-prima inspirada na arte coreana!</p>
+      <canvas class="paint-canvas" id="paint-canvas" width="500" height="300"></canvas>
+      <div class="palette" id="palette"></div>
+      <div class="btn-row" style="margin-top:12px;">
+        <button class="btn-secondary" id="paint-clear">🗑️ Limpar</button>
+        <button class="btn-secondary" id="paint-stamp">🌸 Carimbo</button>
+        <button class="btn-secondary" id="paint-save">💾 Salvar</button>
+        <button class="btn-secondary" id="paint-close">Fechar</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const canvas = document.getElementById('paint-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdf6e3';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 4;
+
+  let painting = false;
+  let currentColor = '#cd2e3a';
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (cx - r.left) * (canvas.width / r.width),
+      y: (cy - r.top) * (canvas.height / r.height)
+    };
+  }
+
+  canvas.addEventListener('pointerdown', e => { painting = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('pointermove', e => {
+    if (!painting) return;
+    const p = getPos(e);
+    ctx.strokeStyle = currentColor;
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    if (Math.random() > 0.85) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = '✨';
+      s.style.left = e.clientX + 'px';
+      s.style.top = e.clientY + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 800);
+    }
+  });
+  canvas.addEventListener('pointerup', () => { painting = false; });
+  canvas.addEventListener('pointerleave', () => { painting = false; });
+
+  const colors = ['#cd2e3a', '#0047a0', '#d4af37', '#00a86b', '#6a1b9a', '#ff6b35', '#ffb7c5', '#000000'];
+  const paletteEl = document.getElementById('palette');
+  colors.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'color-swatch' + (c === currentColor ? ' active' : '');
+    sw.style.background = c;
+    sw.style.color = c;
+    sw.onclick = () => {
+      document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
+      sw.classList.add('active');
+      currentColor = c;
+      playClick();
+    };
+    paletteEl.appendChild(sw);
+  });
+
+  document.getElementById('paint-clear').onclick = () => {
+    ctx.fillStyle = '#fdf6e3';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    playClick();
+  };
+
+  document.getElementById('paint-stamp').onclick = () => {
+    // Carimba uma flor de cerejeira
+    const x = Math.random() * (canvas.width - 60) + 30;
+    const y = Math.random() * (canvas.height - 60) + 30;
+    ctx.font = '40px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🌸', x, y);
+    playCorrect();
+    burstConfetti(20);
+  };
+
+  document.getElementById('paint-save').onclick = () => {
+    const link = document.createElement('a');
+    link.download = 'minha-arte-coreana.png';
+    link.href = canvas.toDataURL();
+    link.click();
+    checkAchievement('painter');
+    playUnlock();
+  };
+
+  document.getElementById('paint-close').onclick = () => {
+    checkAchievement('painter');
+    modal.remove();
+  };
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ==================== CONTROLES ====================
+document.getElementById('sound-toggle').onclick = (e) => {
+  soundOn = !soundOn;
+  e.currentTarget.textContent = soundOn ? '🔊' : '🔇';
+  if (!soundOn && 'speechSynthesis' in window) speechSynthesis.cancel();
+};
+document.getElementById('music-toggle').onclick = (e) => {
+  musicOn = !musicOn;
+  e.currentTarget.textContent = musicOn ? '🎵' : '🔕';
+  if (musicOn) startMusic(); else stopMusic();
+};
+document.getElementById('fullscreen-toggle').onclick = () => {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+};
+
+// ==================== ATALHOS DE TECLADO ====================
+document.addEventListener('keydown', (e) => {
+  if (gameArea.classList.contains('hidden')) return;
+  if (['1', '2', '3', '4'].includes(e.key)) {
+    const btns = document.querySelectorAll('.answer-btn');
+    const idx = parseInt(e.key) - 1;
+    if (btns[idx] && !btns[idx].disabled) btns[idx].click();
+  }
+  if (e.key === 'Enter' && !nextBtn.classList.contains('hidden')) nextBtn.click();
+  if (e.key.toLowerCase() === 'h' && !hintBtn.disabled) hintBtn.click();
+  if (e.key.toLowerCase() === 'f' && !fiftyBtn.disabled) fiftyBtn.click();
+});
+</script>
+</body>
+</html>
