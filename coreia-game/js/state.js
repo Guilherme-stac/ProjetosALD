@@ -1,0 +1,43 @@
+// ==================== ESTADO GLOBAL ====================
+const GameState = {
+  coins: 20,
+  playerLevel: 1,
+  playerXP: 0,
+  skillPoints: 0,
+
+  // 💰 Controle de gasto por pergunta (poderes)
+  spentThisQuestion: 0,
+
+  unlockedAchievements: new Set(),
+  collectedCards: new Set(),
+  unlockedSkills: new Set(),
+  rpgAttributes: { forca: 3, inteligencia: 3, sorte: 3, carisma: 3 },
+  currentSeason: 'spring',
+  tutorialSeen: false,
+  selectedPet: null,
+  petLevel: 1,
+  petXP: 0,
+  petHunger: 100,
+  petHappiness: 100,
+  petEnergy: 100,
+  completedMissions: new Set(),
+  usedCodes: new Set(),
+  lastDaily: null,
+  lastMissions: null,
+  honoree: 'Ariza',
+  questions: [],
+  currentQuestion: 0,
+  score: 0, hits: 0, streak: 0, bestStreak: 0, maxCombo: 0,
+  answered: false, gameMode: 'solo', difficulty: 'medio',
+  timePerQuestion: 15, timeLeft: 15, timerInterval: null,
+  autoNextInterval: null,
+  autoNextTime: 10,
+  autoNextLeft: 10,
+  totalTime: 0, gameStartTime: 0,
+  answerHistory: [], hintUsed: false,
+  currentPlayer: 1, player1Score: 0, player2Score: 0,
+  usedFifty: false, usedFreeze: false, usedDouble: false, usedTime: false,
+  wrongCount: 0, chaptersCompleted: new Set(), karma: 50,
+  bossHP: 100, bossMaxHP: 100, timeAttackLeft: 60,
+  isFrozen: false, doublePoints: false
+};
